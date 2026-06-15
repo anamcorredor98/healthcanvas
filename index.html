@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthCanvas — Páginas web para médicos y consultorios</title>
+  <meta name="description" content="Diseño web especializado para médicos y consultorios. Hecho por una estudiante de medicina que también programa." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <svg width="36" height="36" viewBox="-85 -105 200 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 60,-80 A 90,90 0 1,0 60,80" fill="none" stroke="#1B4F72" stroke-width="14" stroke-linecap="round"/>
+            <line x1="-18" y1="-52" x2="-18" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+            <line x1="38" y1="-52" x2="38" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+            <polyline points="-18,0 -8,0 -3,-20 4,22 10,-12 17,12 22,4 38,4" fill="none" stroke="#A8D5BA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Health<strong>Canvas</strong></span>
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#portafolio">Portafolio</a></li>
+        <li><a href="#contacto" class="btn btn--nav">Cotizar</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__inner">
+      <p class="hero__eyebrow">Diseño web para el sector salud</p>
+      <h1 class="hero__title">Tu consultorio merece ser <em>confiable</em> desde el primer clic</h1>
+      <p class="hero__sub">Soy estudiante de medicina y desarrolladora web. Creo páginas para médicos que entienden a los pacientes — porque yo también lo soy.</p>
+      <div class="hero__actions">
+        <a href="#contacto" class="btn btn--primary">Quiero mi página web</a>
+        <a href="#portafolio" class="btn btn--ghost">Ver portafolio</a>
+      </div>
+    </div>
+    <div class="hero__pulse" aria-hidden="true">
+      <svg viewBox="0 0 600 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0,60 80,60 120,60 160,20 200,100 240,40 280,80 310,60 600,60" stroke="#A8D5BA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- DIFERENCIADOR -->
+  <section class="diferenciador">
+    <div class="container">
+      <p class="diferenciador__texto">La mayoría de desarrolladores web no saben qué es una consulta preconcepcional, un triaje o una historia clínica. <strong>Yo sí.</strong></p>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="servicios" id="servicios">
+    <div class="container">
+      <p class="section__eyebrow">Lo que ofrezco</p>
+      <h2 class="section__title">Planes para cada consultorio</h2>
+      <div class="servicios__grid">
+
+        <div class="plan">
+          <p class="plan__tag">Básico</p>
+          <h3 class="plan__nombre">Landing Page</h3>
+          <p class="plan__precio">$500.000 – $700.000 <span>COP</span></p>
+          <ul class="plan__lista">
+            <li>Página única profesional</li>
+            <li>Botón de WhatsApp directo</li>
+            <li>Mapa y ubicación</li>
+            <li>100% responsive (celular)</li>
+            <li>Entrega en 3–5 días</li>
+          </ul>
+          <a href="#contacto" class="btn btn--outline">Cotizar</a>
+        </div>
+
+        <div class="plan plan--destacado">
+          <p class="plan__tag">Más popular</p>
+          <h3 class="plan__nombre">Sitio Profesional</h3>
+          <p class="plan__precio">$900.000 – $1.400.000 <span>COP</span></p>
+          <ul class="plan__lista">
+            <li>Múltiples secciones</li>
+            <li>Blog o artículos descargables</li>
+            <li>Especialidades y servicios</li>
+            <li>Formulario de contacto</li>
+            <li>100% responsive</li>
+            <li>Entrega en 1–2 semanas</li>
+          </ul>
+          <a href="#contacto" class="btn btn--primary">Cotizar</a>
+        </div>
+
+        <div class="plan">
+          <p class="plan__tag">Premium</p>
+          <h3 class="plan__nombre">Sitio con Chatbot</h3>
+          <p class="plan__precio">$1.600.000 – $2.500.000 <span>COP</span></p>
+          <ul class="plan__lista">
+            <li>Todo el plan Profesional</li>
+            <li>Chatbot inteligente 24/7</li>
+            <li>Responde preguntas frecuentes</li>
+            <li>Guía al agendamiento de citas</li>
+            <li>Entrega en 2–3 semanas</li>
+          </ul>
+          <a href="#contacto" class="btn btn--outline">Cotizar</a>
+        </div>
+
+      </div>
+      <p class="servicios__nota">* El cliente cubre dominio y hosting (~$150.000 COP/año). Yo me encargo de todo el proceso.</p>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="sobre-mi" id="sobre-mi">
+    <div class="container sobre-mi__inner">
+      <div class="sobre-mi__texto">
+        <p class="section__eyebrow">Sobre mí</p>
+        <h2 class="section__title">Medicina + código = tu mejor aliada</h2>
+        <p>Soy Ana María, estudiante de medicina en la Universidad de La Sabana, Bogotá. Aprendí a programar de forma autodidacta y descubrí que tenía un superpoder: entiendo exactamente qué necesitan los pacientes cuando buscan un médico en internet — porque yo también soy paciente.</p>
+        <p>Mis páginas no solo se ven bien. Están pensadas para generar <strong>confianza clínica</strong>: los textos correctos, la información que un paciente busca, la estructura que reduce la ansiedad antes de una cita.</p>
+        <div class="sobre-mi__badges">
+          <span>HTML · CSS · JS</span>
+          <span>Chatbots</span>
+          <span>Responsive</span>
+          <span>Medicina</span>
+        </div>
+      </div>
+      <div class="sobre-mi__imagen">
+        <div class="sobre-mi__placeholder">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <circle cx="32" cy="24" r="14" stroke="#A8D5BA" stroke-width="2.5"/>
+            <path d="M8 56 C8 42 56 42 56 56" stroke="#A8D5BA" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <p>Tu foto aquí</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTAFOLIO -->
+  <section class="portafolio" id="portafolio">
+    <div class="container">
+      <p class="section__eyebrow">Portafolio</p>
+      <h2 class="section__title">Trabajo real, código real</h2>
+      <div class="portafolio__grid">
+        <div class="proyecto">
+          <div class="proyecto__mockup">
+            <div class="proyecto__mockup-bar">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="proyecto__mockup-screen">
+                <img src="img/preconcepcional.png" alt="Plataforma de consulta preconcepcional" />
+            </div>
+            </div>
+          <div class="proyecto__info">
+            <h3>Plataforma de Consulta Preconcepcional</h3>
+            <p>Plataforma médica completa con chatbot integrado, artículos descargables y diseño 100% responsive. Desarrollada para un proyecto académico de medicina.</p>
+            <div class="proyecto__tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Chatbot</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="container contacto__inner">
+      <p class="section__eyebrow">Hablemos</p>
+      <h2 class="section__title">¿Lista para tener tu página?</h2>
+      <p class="contacto__sub">Cuéntame sobre tu consultorio y te envío una propuesta sin compromiso en menos de 24 horas.</p>
+      <div class="contacto__opciones">
+        <a href="https://wa.me/573167904921?text=Hola%20Ana%20Mar%C3%ADa%2C%20vi%20tu%20p%C3%A1gina%20y%20me%20interesa%20cotizar%20una%20p%C3%A1gina%20web%20para%20mi%20consultorio" class="btn btn--whatsapp" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Escribir por WhatsApp
+        </a>
+        <a href="mailto:hola@healthcanvas.fyi" class="btn btn--outline">
+          hola@healthcanvas.fyi
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© 2026 HealthCanvas · Bogotá, Colombia</p>
+      <a href="https://instagram.com/healthcanvas.co" target="_blank">@healthcanvas.co</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
