@@ -433,3 +433,23 @@
   color: var(--gris-texto);
   line-height: 1.6;
 }
+/* Elementos incluidos en el plan */
+.cotizador__opcion.is-incluido {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.cotizador__opcion.is-incluido .cotizador__opcion-card {
+  border-style: dashed;
+  position: relative;
+}
+
+.badge-incluido {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: #A8D5BA;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}

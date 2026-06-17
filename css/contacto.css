@@ -198,3 +198,25 @@
   overflow: hidden;
   box-shadow: var(--sombra);
 }
+.ct-ubicacion {
+  margin-top: 8px;
+  padding: 20px;
+  background: var(--gris-suave);
+  border-radius: 12px;
+}
+.ct-ubicacion__texto {
+  font-size: 0.9rem;
+  color: var(--gris-texto);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.ct-ubicacion__texto strong {
+  color: var(--azul);
+}
+.ct-ubicacion__mapa {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ct-ubicacion__mapa iframe {
+  display: block;
+}

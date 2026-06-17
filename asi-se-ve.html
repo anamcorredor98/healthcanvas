@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Así se ve — HealthCanvas</title>
+  <meta name="description" content="Ejemplos reales de lo que incluye cada plan: carruseles, galerías, chatbots, logos, tarjetas, QR y más." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/asi-se-ve.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <svg width="36" height="36" viewBox="-85 -105 200 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 60,-80 A 90,90 0 1,0 60,80" fill="none" stroke="#1B4F72" stroke-width="14" stroke-linecap="round"/>
+          <line x1="-18" y1="-52" x2="-18" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+          <line x1="38" y1="-52" x2="38" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+          <polyline points="-18,0 -8,0 -3,-20 4,22 10,-12 17,12 22,4 38,4" fill="none" stroke="#A8D5BA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Health<strong>Canvas</strong></span>
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="servicios.html" class="btn btn--nav">Servicios</a></li>
+        <li><a href="index.html#sobre-mi">Sobre mí</a></li>
+        <li><a href="index.html#portafolio">Portafolio</a></li>
+        <li><a href="asi-se-ve.html">Así se ve</a></li>
+        <li><a href="por-que.html">¿Por qué?</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="asv-hero">
+    <div class="container">
+      <p class="section__eyebrow">Ejemplos reales</p>
+      <h1 class="section__title">Lo que puedo hacer<br/>por ti</h1>
+      <p class="asv-hero__sub">Cada elemento que ves aquí ya existe en proyectos reales — no son mockups genéricos de internet, son ejemplos de mi propio trabajo, listos para adaptarse a tu consultorio.</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: CARRUSEL + GALERÍA -->
+<section class="asv-seccion" id="carrusel-galeria">
+  <div class="container">
+    <div class="asv-par">
+
+      <div class="asv-item">
+        <p class="asv-item__titulo">Carrusel de imágenes</p>
+        <p class="asv-item__desc">Creado para Garritas. Rotación automática cada 4 segundos, navegación por puntos, y pausa al pasar el cursor por encima.</p>
+        <div class="proyecto__mockup">
+          <div class="proyecto__mockup-bar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="proyecto__mockup-screen proyecto__mockup-screen--fijo asv-carrusel-wrap">
+
+            <div class="asv-hero-carousel" id="asvHeroCarousel">
+              <div class="asv-carousel-track">
+                <div class="asv-carousel-slide active">
+                  <img src="img/logo.png" alt="Garritas logo"/>
+                </div>
+                <div class="asv-carousel-slide">
+                  <img src="img/carusel2.png" alt="Paseos divertidos y seguros"/>
+                </div>
+                <div class="asv-carousel-slide">
+                  <img src="img/carusel3.png" alt="Tu peludito merece lo mejor"/>
+                </div>
+                <div class="asv-carousel-slide">
+                  <img src="img/carusel4.png" alt="Helados naturales para perros"/>
+                </div>
+              </div>
+              <div class="asv-carousel-dots">
+                <button class="asv-carousel-dot active" data-index="0" aria-label="Imagen 1"></button>
+                <button class="asv-carousel-dot" data-index="1" aria-label="Imagen 2"></button>
+                <button class="asv-carousel-dot" data-index="2" aria-label="Imagen 3"></button>
+                <button class="asv-carousel-dot" data-index="3" aria-label="Imagen 4"></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="asv-item asv-item--galeria">
+        <p class="asv-item__titulo">Galería de videos</p>
+        <p class="asv-item__desc">Creada para Garritas. Videos en loop infinito, sin sonido, que se autoreproducen sin necesidad de un solo clic.</p>
+        <div class="proyecto__mockup">
+          <div class="proyecto__mockup-bar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="proyecto__mockup-screen proyecto__mockup-screen--fijo asv-galeria-wrap">
+
+            <div class="asv-videos-grid">
+              <div class="asv-video-card">
+                <video src="video/helado1.mp4" autoplay loop muted playsinline></video>
+              </div>
+              <div class="asv-video-card">
+                <video src="video/helado2.mp4" autoplay loop muted playsinline></video>
+              </div>
+              <div class="asv-video-card">
+                <video src="video/helado3.mp4" autoplay loop muted playsinline></video>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+  <!-- Próximas secciones: chatbots, logos, QR, tarjetas + posts -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© 2026 HealthCanvas · Bogotá, Colombia</p>
+      <a href="https://instagram.com/healthcanvas.co" target="_blank">@healthcanvas.co</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/asi-se-ve.js"></script>
+</body>
+</html>
+</body>
+</html>

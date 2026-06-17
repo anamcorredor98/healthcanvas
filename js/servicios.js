@@ -12,8 +12,81 @@ const resumenLista     = document.getElementById('resumenLista');
 const resumenTotal     = document.getElementById('resumenTotal');
 const btnWhatsapp      = document.getElementById('btnWhatsapp');
 
+// ── Mapa de incluidos por plan ──────────────────────────────────────────────
+const INCLUIDOS = {
+  'Landing Page Basic': [],
+  'Landing Page Pro': [
+    'Formulario de contacto',
+    'Animaciones de scroll',
+    'Sección testimonios',
+    'Diseño personalizado',
+  ],
+  'Sitio Profesional Basic': [
+    'Formulario de contacto',
+    'Animaciones de scroll',
+    'Sección testimonios',
+    'Diseño personalizado',
+  ],
+  'Sitio Profesional Pro': [
+    'Formulario de contacto',
+    'Diseño personalizado',
+    'Especialidades detalladas',
+    'PDFs descargables',
+    'Galería fotos/videos estilo Instagram',
+    'Integración citas básica',
+    'SEO básico',
+    'Buscador de palabras',
+  ],
+  'Sitio con Chatbot Basic': [
+    'Formulario de contacto',
+    'Animaciones de scroll',
+    'Sección testimonios',
+    'Diseño personalizado',
+  ],
+  'Sitio con Chatbot Pro': [
+    'Formulario de contacto',
+    'Diseño personalizado',
+    'Especialidades detalladas',
+    'PDFs descargables',
+    'Galería fotos/videos estilo Instagram',
+    'Integración citas básica',
+    'SEO básico',
+    'Buscador de palabras',
+    'Upgrade chatbot con IA',
+    'Integración agendamiento',
+  ],
+};
+
 function formatCOP(valor) {
   return '$' + valor.toLocaleString('es-CO');
+}
+
+// ── Deshabilitar / habilitar elementos sueltos según plan ───────────────────
+function actualizarElementosSueltos(planValue) {
+  const incluidos = INCLUIDOS[planValue] || [];
+
+  extraInputs.forEach(input => {
+    const card = input.closest('.cotizador__opcion');
+    const esIncluido = incluidos.includes(input.value);
+
+    if (esIncluido) {
+      input.checked = false;
+      input.disabled = true;
+      card.classList.add('is-incluido');
+      // Añadir badge si no existe
+      if (!card.querySelector('.badge-incluido')) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-incluido';
+        badge.textContent = '✓ Incluido en tu plan';
+        card.querySelector('.cotizador__opcion-card').appendChild(badge);
+      }
+    } else {
+      input.disabled = false;
+      card.classList.remove('is-incluido');
+      const badge = card.querySelector('.badge-incluido');
+      if (badge) badge.remove();
+    }
+  });
 }
 
 function actualizarCotizacion() {
@@ -23,6 +96,8 @@ function actualizarCotizacion() {
     resumenContenido.style.display = 'none';
     return;
   }
+
+  actualizarElementosSueltos(planSeleccionado.value);
 
   resumenVacio.style.display = 'none';
   resumenContenido.style.display = 'block';
@@ -35,9 +110,9 @@ function actualizarCotizacion() {
   items.push({ nombre: planSeleccionado.value, precio: planPrecio });
   total += planPrecio;
 
-  // Extras (checkboxes)
+  // Extras (checkboxes) — solo los habilitados y marcados
   extraInputs.forEach(input => {
-    if (input.checked) {
+    if (input.checked && !input.disabled) {
       const precio = parseInt(input.dataset.precio);
       items.push({ nombre: input.value, precio });
       total += precio;
