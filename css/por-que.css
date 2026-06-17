@@ -1,0 +1,103 @@
+/* ===========================
+   POR QUÉ — por-que.css
+   =========================== */
+
+.pq-hero {
+  padding: 120px 0 60px;
+  background: var(--gris-fondo);
+  border-bottom: 1px solid var(--gris-suave);
+}
+.pq-hero__sub {
+  font-size: 1.1rem;
+  color: var(--gris-texto);
+  max-width: 600px;
+  margin-top: 16px;
+  line-height: 1.75;
+}
+
+/* Razones */
+.pq-razones {
+  padding: 80px 0;
+  background: var(--blanco);
+}
+.pq-razon {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--gris-suave);
+}
+.pq-razon:last-child { border-bottom: none; }
+.pq-razon--inverso {
+  background: var(--gris-fondo);
+  margin: 0 -24px;
+  padding: 48px 24px;
+  border-bottom: none;
+  border-top: 1px solid var(--gris-suave);
+}
+.pq-razon__icono {
+  font-size: 2.5rem;
+  text-align: center;
+  padding-top: 4px;
+}
+.pq-razon__titulo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--azul);
+  margin-bottom: 16px;
+}
+.pq-razon__texto p {
+  color: var(--gris-texto);
+  font-size: 0.97rem;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.pq-razon__dato {
+  background: var(--blanco);
+  border-left: 3px solid var(--menta-oscuro);
+  padding: 12px 16px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.87rem;
+  color: var(--gris-texto);
+  margin-top: 16px;
+}
+.pq-razon--inverso .pq-razon__dato {
+  background: var(--gris-suave);
+}
+.pq-razon__dato strong { color: var(--azul); }
+
+/* CTA */
+.pq-cta {
+  padding: 80px 0;
+  background: var(--azul);
+}
+.pq-cta__inner { text-align: center; }
+.pq-cta .section__title { color: var(--blanco); }
+.pq-cta .pq-hero__sub { color: rgba(255,255,255,0.75); margin: 0 auto 32px; }
+.pq-cta__btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pq-cta .btn--outline {
+  color: var(--blanco);
+  border-color: rgba(255,255,255,0.4);
+}
+.pq-cta .btn--outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--blanco);
+}
+
+@media (max-width: 768px) {
+  .pq-razon {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .pq-razon__icono { text-align: left; }
+  .pq-razon--inverso {
+    margin: 0 -20px;
+    padding: 40px 20px;
+  }
+}

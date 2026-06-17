@@ -1,0 +1,200 @@
+/* ===========================
+   CONTACTO — contacto.css
+   =========================== */
+
+.ct-hero {
+  padding: 120px 0 60px;
+  background: var(--gris-fondo);
+  border-bottom: 1px solid var(--gris-suave);
+}
+.ct-hero__sub {
+  font-size: 1.05rem;
+  color: var(--gris-texto);
+  max-width: 500px;
+  margin-top: 16px;
+  line-height: 1.75;
+}
+
+/* Main grid */
+.ct-main { padding: 80px 0; background: var(--blanco); }
+.ct-main__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+/* Canales */
+.ct-canales__titulo {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--azul);
+  margin-bottom: 24px;
+}
+.ct-canal {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gris-suave);
+  margin-bottom: 12px;
+  transition: all 0.2s;
+  color: var(--negro);
+}
+.ct-canal:hover {
+  border-color: var(--azul);
+  transform: translateX(4px);
+  box-shadow: var(--sombra);
+}
+.ct-canal__icono {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--blanco);
+}
+.ct-canal__icono--whatsapp { background: #25D366; }
+.ct-canal__icono--email { background: var(--azul); }
+.ct-canal__icono--instagram {
+  background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
+}
+.ct-canal__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ct-canal__info strong {
+  font-size: 0.95rem;
+  color: var(--negro);
+}
+.ct-canal__info span {
+  font-size: 0.82rem;
+  color: var(--gris-texto);
+}
+.ct-canal__arrow {
+  color: var(--gris-texto);
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+}
+.ct-canal:hover .ct-canal__arrow { transform: translateX(4px); }
+
+/* Formulario */
+.ct-form__titulo {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+.ct-form__sub {
+  font-size: 0.9rem;
+  color: var(--gris-texto);
+  margin-bottom: 28px;
+}
+.ct-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.ct-form__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ct-form__grupo--full { grid-column: 1 / -1; }
+.ct-form__grupo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--azul);
+}
+.ct-form__grupo input,
+.ct-form__grupo select,
+.ct-form__grupo textarea {
+  padding: 12px 14px;
+  border: 1.5px solid var(--gris-suave);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--negro);
+  background: var(--blanco);
+  transition: border-color 0.2s;
+  resize: none;
+}
+.ct-form__grupo input:focus,
+.ct-form__grupo select:focus,
+.ct-form__grupo textarea:focus {
+  outline: none;
+  border-color: var(--azul);
+}
+.ct-form__submit {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+.ct-form__nota {
+  grid-column: 1 / -1;
+  font-size: 0.88rem;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  text-align: center;
+}
+.ct-form__nota--ok {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.ct-form__nota--error {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* FAQ */
+.ct-faq {
+  padding: 80px 0;
+  background: var(--gris-fondo);
+}
+.ct-faq__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+.ct-faq__item {
+  background: var(--blanco);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--sombra);
+}
+.ct-faq__item h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--azul);
+  margin-bottom: 10px;
+}
+.ct-faq__item p {
+  font-size: 0.88rem;
+  color: var(--gris-texto);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .ct-main__inner { grid-template-columns: 1fr; gap: 48px; }
+  .ct-form { grid-template-columns: 1fr; }
+  .ct-form__grupo--full { grid-column: 1; }
+  .ct-form__submit { grid-column: 1; }
+  .ct-faq__grid { grid-template-columns: 1fr; }
+}
+/* Calendly */
+.ct-calendly {
+  padding: 80px 0;
+  background: var(--gris-fondo);
+  border-top: 1px solid var(--gris-suave);
+}
+.ct-calendly__widget {
+  margin-top: 40px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
