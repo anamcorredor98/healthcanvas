@@ -162,11 +162,67 @@
   aspect-ratio: 9/16;
 }
 
+#chatbots .asv-par {
+  grid-template-columns: 1fr 1fr;
+}
+
+.asv-item__nota {
+  font-size: 0.85rem;
+  color: var(--menta-oscuro);
+  font-weight: 600;
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* =============================================
+   CHATBOTS — iframe interactivo (a diferencia del
+   carrusel/galería, aquí SÍ permitimos scroll y
+   clics reales del usuario, sin pointer-events:none)
+   ============================================= */
+.proyecto__mockup-screen--fijo.asv-chatbot-wrap {
+  height: 600px;
+}
+
+.asv-iframe-chatbot {
+  width: 100%;
+  height: 100%;
+  border: none;
+  /* sin pointer-events:none — el usuario puede scrollear
+     y usar el chatbot real dentro del iframe */
+}
+
+/* Placeholder visual para el chatbot de IA de HealthCanvas,
+   pendiente de conectar a la API de Claude */
+.asv-chatbot-placeholder {
+  background: linear-gradient(135deg, var(--gris-fondo), var(--gris-suave));
+}
+.asv-chatbot-placeholder__inner {
+  text-align: center;
+  padding: 32px;
+  max-width: 280px;
+}
+.asv-chatbot-placeholder__icono {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+.asv-chatbot-placeholder__titulo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--azul);
+  margin-bottom: 10px;
+}
+.asv-chatbot-placeholder__texto {
+  font-size: 0.85rem;
+  color: var(--gris-texto);
+  line-height: 1.6;
+}
+
 @media (max-width: 768px) {
   .asv-hero {
     padding: 120px 24px 40px;
   }
-  .asv-par {
+  .asv-par,
+  #chatbots .asv-par {
     grid-template-columns: 1fr;
     gap: 40px;
   }
@@ -178,5 +234,8 @@
   }
   .asv-videos-grid {
     gap: 8px;
+  }
+  .proyecto__mockup-screen--fijo.asv-chatbot-wrap {
+    height: 650px;
   }
 }
