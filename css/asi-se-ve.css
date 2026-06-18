@@ -4,9 +4,9 @@
 
 /* HERO */
 .asv-hero {
-  padding: 140px 24px 60px;
-  max-width: 1100px;
-  margin: 0 auto;
+  padding: 140px 0 60px;
+  position: relative;
+  overflow: hidden;
 }
 .asv-hero__sub {
   font-size: 1.05rem;
@@ -14,10 +14,33 @@
   max-width: 600px;
   line-height: 1.75;
 }
+.asv-hero__pulse {
+  position: absolute;
+  bottom: 0;
+  right: 100px;
+  width: 48%;
+  max-width: 800px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (max-width: 1100px) {
+  .asv-hero__pulse {
+    display: none;
+  }
+}
 
 /* SECCIÓN GENÉRICA */
 .asv-seccion {
   padding: 48px 0 96px;
+}
+
+/* Fondos alternados de sección */
+.asv-bg--blanco {
+  background: var(--blanco);
+}
+.asv-bg--gris {
+  background: var(--gris-fondo);
 }
 
 /* PAR SIDE-BY-SIDE */
@@ -30,9 +53,13 @@
 
 .asv-item__titulo {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: var(--azul);
   margin-bottom: 16px;
+}
+
+.asv-item__titulo--centrado {
+  text-align: center;
 }
 
 .asv-item .proyecto__mockup {
@@ -44,6 +71,12 @@
   color: var(--gris-texto);
   line-height: 1.6;
   margin-bottom: 24px;
+}
+
+.asv-item__desc--centrado {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 40px;
 }
 
 /* Contenedores fijos del mockup — ahora con contenido nativo, no iframe */
@@ -215,6 +248,113 @@
   font-size: 0.85rem;
   color: var(--gris-texto);
   line-height: 1.6;
+}
+
+/* =============================================
+   DIVIDERS — separadores de sección con frase,
+   alto impacto: fondo azul oscuro + texto contraste
+   ============================================= */
+.asv-divider {
+  padding: 24px 24px;
+  text-align: center;
+  background: var(--azul);
+}
+
+.asv-divider p {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.6vw, 2.3rem);
+  color: var(--blanco);
+  max-width: 760px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+
+.asv-divider__resaltado {
+  color: var(--menta);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .asv-divider {
+    padding: 28px 24px;
+  }
+}
+
+/* =============================================
+   LOGOS — franja deslizante (marquee) continua
+   ============================================= */
+.asv-seccion--logos {
+  padding: 80px 0;
+}
+
+.asv-logos-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  /* difumina los bordes para que el loop no se vea cortado */
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+.asv-logos-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: max-content;
+  animation: asvMarquee 30s linear infinite;
+}
+
+.asv-logos-marquee:hover .asv-logos-track {
+  animation-play-state: paused;
+}
+
+@keyframes asvMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.asv-logo-card {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--blanco);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  height: 260px;
+  width: 260px;
+}
+
+.asv-logo-card img {
+  height: 120%;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .asv-seccion--logos {
+    padding: 56px 0;
+  }
+  .asv-logos-track {
+    gap: 32px;
+    animation-duration: 20s;
+  }
+  .asv-logo-card {
+    height: 180px;
+    width: 180px;
+    padding: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asv-logos-track {
+    animation: none;
+  }
+  .asv-logos-marquee {
+    overflow-x: auto;
+  }
 }
 
 @media (max-width: 768px) {
