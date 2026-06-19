@@ -181,7 +181,13 @@
             <label for="mensaje">Cuéntame sobre tu consultorio</label>
             <textarea id="mensaje" name="mensaje" rows="4" placeholder="¿Cuántos pacientes atiendes? ¿Tienes logo? ¿Qué quieres que tu página transmita?"></textarea>
           </div>
-          <button type="submit" class="btn btn--primary ct-form__submit">
+          <div class="ct-form__grupo ct-form__grupo--full ct-form__consentimiento">
+            <label class="ct-form__check">
+              <input type="checkbox" id="consentimiento" name="consentimiento" required />
+              <span>He leído y acepto la <a href="politica-privacidad.html" target="_blank">Política de Tratamiento de Datos</a> y los <a href="terminos.html" target="_blank">Términos y Condiciones</a> de HealthCanvas.</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary ct-form__submit" id="ctFormSubmit">
             Enviar mensaje
           </button>
           <p class="ct-form__nota" id="ctFormNota" style="display:none"></p>
@@ -195,7 +201,11 @@
   <footer class="footer">
     <div class="container footer__inner">
       <p>© 2026 HealthCanvas · Bogotá, Colombia</p>
-      <a href="https://instagram.com/healthcanvas.co" target="_blank">@healthcanvas.co</a>
+      <div class="footer__links">
+        <a href="terminos.html">Términos</a>
+        <a href="politica-privacidad.html">Política de Privacidad</a>
+        <a href="https://instagram.com/healthcanvas.co" target="_blank">@healthcanvas.co</a>
+      </div>
     </div>
   </footer>
 

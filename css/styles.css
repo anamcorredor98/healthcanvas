@@ -228,6 +228,7 @@ ul { list-style: none; }
 .footer { padding: 24px; border-top: 1px solid var(--gris-suave); }
 .footer__inner { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--gris-texto); }
 .footer__inner a:hover { color: var(--azul); }
+.footer__links { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 
 @media (max-width: 768px) {
   .nav__links {
@@ -260,6 +261,7 @@ ul { list-style: none; }
   .proyecto__info { padding: 32px 24px; }
 
   .footer__inner { flex-direction: column; gap: 8px; text-align: center; }
+  .footer__links { justify-content: center; }
 
   .portafolio__banner {
     padding: 32px 24px;
