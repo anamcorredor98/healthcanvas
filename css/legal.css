@@ -92,6 +92,48 @@
 }
 .lg-articulo a:hover { color: var(--azul-claro); }
 
+/* Resumen humano + toggle de texto legal completo */
+.lg-articulo__resumen {
+  font-size: 0.95rem;
+  color: var(--negro);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.lg-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--azul);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.lg-toggle:hover { color: var(--azul-claro); }
+.lg-toggle__icono {
+  display: inline-block;
+  transition: transform 0.2s;
+  font-size: 0.7rem;
+}
+.lg-toggle[aria-expanded="true"] .lg-toggle__icono {
+  transform: rotate(180deg);
+}
+.lg-articulo__completo {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--gris-suave);
+}
+.lg-articulo__completo[hidden] { display: none; }
+.lg-articulo__completo p {
+  font-size: 0.88rem;
+  color: var(--gris-texto);
+  line-height: 1.75;
+}
+
 .lg-nota-final {
   margin-top: 8px;
   font-size: 0.85rem;
