@@ -128,6 +128,8 @@ ul { list-style: none; }
 .plan__lista { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .plan__lista li { font-size: 0.9rem; color: var(--gris-texto); padding-left: 20px; position: relative; }
 .plan__lista li::before { content: '✓'; position: absolute; left: 0; color: var(--menta-oscuro); font-weight: 700; }
+.plan__lista li.li--no::before { content: '✕'; color: #E74C3C; }
+.plan__lista li.li--neutral::before { content: '•'; color: var(--gris-texto); font-weight: 400; }
 .servicios__nota { margin-top: 16px; font-size: 0.85rem; color: var(--gris-texto); text-align: center; }
 .servicios__nota a { color: var(--azul); text-decoration: underline; text-decoration-color: var(--menta); }
 

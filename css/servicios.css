@@ -18,6 +18,65 @@
 /* Planes */
 .sv-planes { padding: 80px 0; background: var(--blanco); }
 
+/* Tabla comparativa */
+.sv-comparador { margin-top: 40px; }
+.sv-comparador__toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--azul);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto 24px;
+}
+.sv-comparador__toggle:hover { color: var(--azul-claro); }
+.sv-comparador__icono { display: inline-block; transition: transform 0.2s; font-size: 0.75rem; }
+.sv-comparador__tabla { overflow-x: auto; }
+.sv-comparador__tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--blanco);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+.sv-comparador__tabla th,
+.sv-comparador__tabla td {
+  padding: 14px 18px;
+  text-align: center;
+  border-bottom: 1px solid var(--gris-suave);
+  font-size: 0.88rem;
+}
+.sv-comparador__tabla th {
+  background: var(--gris-fondo);
+  color: var(--azul);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.95rem;
+}
+.sv-comparador__tabla td:first-child,
+.sv-comparador__tabla th:first-child {
+  text-align: left;
+  color: var(--gris-texto);
+  font-weight: 500;
+}
+.sv-comparador__tabla td.ok { color: var(--menta-oscuro); font-weight: 700; font-size: 1.05rem; }
+.sv-comparador__tabla td.no { color: #E74C3C; font-weight: 700; font-size: 1.05rem; }
+.sv-comparador__tabla tr:last-child td { border-bottom: none; }
+
+.sv-comparador__nota {
+  font-size: 0.78rem;
+  color: var(--gris-texto);
+  opacity: 0.85;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
 /* Add-ons */
 .sv-addons { padding: 80px 0; background: var(--gris-fondo); }
 .addons__grid {
@@ -172,12 +231,13 @@
   .cotizador__opciones { flex-direction: column; }
   .cotizador__opcion-card { min-width: unset; }
   .addons__grid { grid-template-columns: 1fr 1fr; }
+  .sv-comparador__tabla { font-size: 0.8rem; }
 }
 
 @media (max-width: 480px) {
   .addons__grid { grid-template-columns: 1fr; }
 }
-/* Badges Basic / Pro en las tarjetas de plan */
+/* Badges Básica / Pro en las tarjetas de plan */
 .plan__niveles {
   display: flex;
   gap: 8px;

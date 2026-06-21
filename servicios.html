@@ -42,80 +42,138 @@
     <section class="sv-hero">
       <div class="container">
         <p class="section__eyebrow">Planes y precios</p>
-        <h1 class="section__title">Encuentra el plan ideal<br/>para tu consultorio</h1>
-        <p class="sv-hero__sub">Todos los planes incluyen diseño responsive, optimización para Google y soporte post-entrega. Cada plan tiene versión Basic y Pro — y puedes personalizar lo que necesitas.</p>
+        <h1 class="section__title">Encuentra el plan ideal<br/>para ti</h1>
+        <p class="sv-hero__sub">Todos los planes incluyen diseño adaptable a cualquier dispositivo, boton de WhatsApp y soporte post-entrega.<span calss="lg-asterisco">*</span> </p>
       </div>
     </section>
 
     <!-- PLANES -->
     <section class="sv-planes" id="planes">
       <div class="container">
+        <p>Cada plan tiene una versión Básica y una versión Pro — y puedes personalizar con los elementos que tú necesites.</p>
         <div class="servicios__grid">
 
           <div class="plan">
-            <p class="plan__tag">Básico</p>
-            <h3 class="plan__nombre">Landing Page</h3>
-            <p class="plan__precio">$500.000 – $800.000 <span>COP · 1–2 semanas</span></p>
+            <p class="plan__tag">Estándar</p>
+            <h3 class="plan__nombre">Sitio Esencial</h3>
+            <div class="plan__niveles">
+              <span class="plan__nivel">Básico</span>
+              <span class="plan__nivel">Pro</span>
+            </div>
+            <p class="plan__precio">$500.000 – $800.000 <span>COP</span></p>
             <ul class="plan__lista">
               <li>Página única profesional</li>
               <li>Botón de WhatsApp directo</li>
               <li>Mapa y ubicación</li>
               <li>Fotos del cliente</li>
-              <li>100% responsive</li>
+              <li>Adaptable a cualquier dispositivo</li>
+              <li class="li--no">Dominio y hosting no incluidos<span class="lg-asterisco">*</span></li>
+              <li class="li--neutral">Entrega estimada: 2–3 semanas<span class="lg-asterisco">*</span></li>
             </ul>
-            <div class="plan__niveles">
-              <span class="plan__nivel">Basic</span>
-              <span class="plan__nivel plan__nivel--pro">Pro</span>
-            </div>
             <a href="landing-page.html" class="btn btn--outline">Ver detalle →</a>
           </div>
 
-          <div class="plan plan--destacado">
-            <p class="plan__tag">Más popular</p>
+          <div class="plan">
+            <p class="plan__tag"> Avanzado </p>
             <h3 class="plan__nombre">Sitio Profesional</h3>
-            <p class="plan__precio">$900.000 – $1.500.000 <span>COP · 2–4 semanas</span></p>
+            <div class="plan__niveles">
+              <span class="plan__nivel">Básico</span>
+              <span class="plan__nivel">Pro</span>
+            </div>
+            <p class="plan__precio">$900.000 – $1.500.000 <span>COP</span></p>
             <ul class="plan__lista">
               <li>Múltiples páginas</li>
-              <li>Blog básico</li>
+              <li>PDFs descargables</li>
               <li>Formulario de contacto</li>
               <li>Diseño personalizado</li>
-              <li>100% responsive</li>
+              <li>Adaptable a cualquier dispositivo</li>
+              <li class="li--no">Dominio y hosting no incluidos<span class="lg-asterisco">*</span></li>
+              <li class="li--neutral">Entrega estimada: 3–5 semanas<span class="lg-asterisco">*</span></li>
             </ul>
-            <div class="plan__niveles">
-              <span class="plan__nivel">Basic</span>
-              <span class="plan__nivel plan__nivel--pro">Pro</span>
-            </div>
-            <a href="sitio-profesional.html" class="btn btn--primary">Ver detalle →</a>
+            <a href="sitio-profesional.html" class="btn btn--outline">Ver detalle →</a>
           </div>
 
           <div class="plan">
             <p class="plan__tag">Premium</p>
             <h3 class="plan__nombre">Sitio con Chatbot</h3>
-            <p class="plan__precio">$1.600.000 – $2.500.000 <span>COP · 4–6 semanas</span></p>
+            <div class="plan__niveles">
+              <span class="plan__nivel">Básico</span>
+              <span class="plan__nivel">Pro</span>
+            </div>
+            <p class="plan__precio">$1.600.000 – $2.500.000 <span>COP</span></p>
             <ul class="plan__lista">
               <li>Todo el Sitio Profesional</li>
-              <li>Chatbot inteligente 24/7</li>
+              <li>Chatbot interactivo<span class="lg-asterisco">*</span></li>
+              <li>Entredado en <span><strong>tu</strong></span> sitio web</li>
               <li>Responde preguntas frecuentes</li>
-              <li>Guía al agendamiento de citas</li>
-              <li>100% responsive</li>
+              <li>Adaptable a cualquier dispositivo</li>
+              <li class="li--no">Dominio y hosting no incluidos<span class="lg-asterisco">*</span></li>
+              <li class="li--neutral">Entrega estimada: 5–7 semanas<span class="lg-asterisco">*</span></li>
             </ul>
-            <div class="plan__niveles">
-              <span class="plan__nivel">Basic</span>
-              <span class="plan__nivel plan__nivel--pro">Pro</span>
-            </div>
             <a href="sitio-chatbot.html" class="btn btn--outline">Ver detalle →</a>
           </div>
 
         </div>
-        <p class="servicios__nota">* Si decides subir de plan, solo pagas el diferencial entre lo que tienes y el nuevo plan.</p>
+
+        <!-- TABLA COMPARATIVA -->
+        <div class="sv-comparador">
+  <button class="sv-comparador__toggle" id="comparadorToggle" aria-expanded="false">
+    <span class="sv-comparador__icono">▾</span> Ver comparativo completo de planes
+  </button>
+  <div class="sv-comparador__tabla" id="comparadorTabla" hidden>
+    <table>
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Esencial Básica</th>
+          <th>Esencial Pro</th>
+          <th>Profesional Básica</th>
+          <th>Profesional Pro</th>
+          <th>Chatbot Básica</th>
+          <th>Chatbot Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Botón de WhatsApp directo</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Adaptable a cualquier dispositivo</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Mapa y ubicación</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Fotos del cliente</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Formulario de contacto</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Animaciones de desplazamiento</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Sección testimonios</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Diseño personalizado</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Sitio multipágina</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Página única profesional</td><td class="ok">✓</td><td class="ok">✓</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td></tr>
+        <tr><td>PDFs descargables</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Especialidades detalladas</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="no">✕</td><td class="ok">✓</td></tr>
+        <tr><td>Galería fotos/videos Instagram</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="no">✕</td><td class="ok">✓</td></tr>
+        <tr><td>Agendamiento con Calendly</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="no">✕</td><td class="ok">✓</td></tr>
+        <tr><td>Optimización para motores de búsqueda</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="no">✕</td><td class="ok">✓</td></tr>
+        <tr><td>Buscador de palabras</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="no">✕</td><td class="ok">✓</td></tr>
+        <tr><td>Chatbot interactivo</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Chatbot predeterminado</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Responde preguntas frecuentes</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Guía al agendamiento de citas</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Chatbot con IA</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td></tr>
+        <tr><td>Asistente de agendamiento con IA</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td></tr>
+        <tr><td>Sección de preguntas frecuentes♱</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+        <tr><td>Dominio y hosting</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td></tr>
+      </tbody>
+    </table>
+    <p class="sv-comparador__nota">♱ En los planes con chatbot, esta necesidad ya está cubierta por el asistente virtual.</p>
+    <p class="sv-comparador__nota">Los planes son paquetes fijos: si no necesitas alguna función incluida, el precio no se reduce. Si buscas algo más ajustado, usa los elementos sueltos del paso 2 del cotizador para armar algo a tu medida.</p>
+  </div>
+</div>
+
+        <p class="servicios__nota">Si decides cambiar a un plan superior al que ya tienes, te damos un 20% de descuento de cliente existente — sobre el valor total de tu cotización.</p>
       </div>
     </section>
 
-    <!-- ADD-ONS -->
+    <!-- COMPLEMENTOS -->
     <section class="sv-addons">
       <div class="container">
         <p class="section__eyebrow">Complementos</p>
-        <h2 class="section__title">Add-ons para cualquier plan</h2>
+        <h2 class="section__title">Complementos para cualquier plan</h2>
         <p class="sv-hero__sub">Agrégalos a tu cotización en el paso siguiente.</p>
         <div class="addons__grid">
           <div class="addon__card">
@@ -127,14 +185,14 @@
           <div class="addon__card">
             <span class="addon__icon">📸</span>
             <h4>Post inauguración</h4>
-            <p>Diseño profesional para anunciar tu nueva página en Instagram. Basic o Pro según el impacto que quieras.</p>
-            <p class="addon__precio">$50.000 – $80.000</p>
+            <p>Diseño profesional para anunciar tu nueva página en Instagram. Básica o Pro según el impacto que quieras.</p>
+            <p class="addon__precio">$50.000 – $100.000</p>
           </div>
           <div class="addon__card">
             <span class="addon__icon">✏️</span>
-            <h4>Logo profesional</h4>
-            <p>3 opciones con diseñador. Incluye versión para web y redes sociales.</p>
-            <p class="addon__precio">$150.000</p>
+            <h4>Logo</h4>
+            <p>Logo simple diseñado por HealthCanvas, o logo profesional con un diseñador colaborador (cotización directa según su tarifa).<span class="lg-asterisco">*</span></p>
+            <p class="addon__precio">Desde $150.000</p>
           </div>
           <div class="addon__card">
             <span class="addon__icon">💳</span>
@@ -145,7 +203,7 @@
           <div class="addon__card">
             <span class="addon__icon">🌐</span>
             <h4>Gestión dominio y hosting</h4>
-            <p>Me encargo de todo el proceso de configuración. El dominio lo pagas tú directo en Porkbun — el precio varía según el dominio que elijas.</p>
+            <p>Me encargo de todo el proceso de configuración. El dominio lo pagas tú directo en Porkbun — el precio varía según el dominio que elijas.<span class="lg-asterisco">*</span></p>
             <p class="addon__precio">$50.000 gestión</p>
           </div>
           <div class="addon__card">
@@ -169,7 +227,7 @@
       <div class="container">
         <p class="section__eyebrow">Cotizador</p>
         <h2 class="section__title">Arma tu cotización</h2>
-        <p class="sv-hero__sub">Selecciona tu plan, agrega extras y add-ons. Al final te generamos un mensaje listo para enviar por WhatsApp.</p>
+        <p class="sv-hero__sub">Selecciona tu plan, agrega extras y complementos. Al final te generamos un mensaje listo para enviar por WhatsApp.</p>
 
         <div class="cotizador__inner">
 
@@ -178,23 +236,23 @@
             <h3 class="cotizador__paso-titulo">1. Elige tu plan base</h3>
             <div class="cotizador__opciones">
               <label class="cotizador__opcion">
-                <input type="radio" name="plan" value="Landing Page Basic" data-precio="500000" />
+                <input type="radio" name="plan" value="Sitio Esencial Básica" data-precio="500000" />
                 <div class="cotizador__opcion-card">
-                  <strong>Landing Page Basic</strong>
+                  <strong>Sitio Esencial Básica</strong>
                   <span>$500.000</span>
                 </div>
               </label>
               <label class="cotizador__opcion">
-                <input type="radio" name="plan" value="Landing Page Pro" data-precio="800000" />
+                <input type="radio" name="plan" value="Sitio Esencial Pro" data-precio="800000" />
                 <div class="cotizador__opcion-card">
-                  <strong>Landing Page Pro</strong>
+                  <strong>Sitio Esencial Pro</strong>
                   <span>$800.000</span>
                 </div>
               </label>
               <label class="cotizador__opcion">
-                <input type="radio" name="plan" value="Sitio Profesional Basic" data-precio="900000" />
+                <input type="radio" name="plan" value="Sitio Profesional Básica" data-precio="900000" />
                 <div class="cotizador__opcion-card">
-                  <strong>Sitio Profesional Basic</strong>
+                  <strong>Sitio Profesional Básica</strong>
                   <span>$900.000</span>
                 </div>
               </label>
@@ -206,9 +264,9 @@
                 </div>
               </label>
               <label class="cotizador__opcion">
-                <input type="radio" name="plan" value="Sitio con Chatbot Basic" data-precio="1600000" />
+                <input type="radio" name="plan" value="Sitio con Chatbot Básica" data-precio="1600000" />
                 <div class="cotizador__opcion-card">
-                  <strong>Chatbot Basic</strong>
+                  <strong>Chatbot Básica</strong>
                   <span>$1.600.000</span>
                 </div>
               </label>
@@ -235,9 +293,9 @@
                 </div>
               </label>
               <label class="cotizador__opcion">
-                <input type="checkbox" value="Animaciones de scroll" data-precio="50000" />
+                <input type="checkbox" value="Animaciones de desplazamiento" data-precio="50000" />
                 <div class="cotizador__opcion-card">
-                  <strong>Animaciones de scroll</strong>
+                  <strong>Animaciones de desplazamiento</strong>
                   <span>$50.000</span>
                 </div>
               </label>
@@ -245,6 +303,13 @@
                 <input type="checkbox" value="Sección testimonios" data-precio="100000" />
                 <div class="cotizador__opcion-card">
                   <strong>Sección testimonios</strong>
+                  <span>$100.000</span>
+                </div>
+              </label>
+              <label class="cotizador__opcion">
+                <input type="checkbox" value="Sección de preguntas frecuentes" data-precio="100000" />
+                <div class="cotizador__opcion-card">
+                  <strong>Sección de preguntas frecuentes</strong>
                   <span>$100.000</span>
                 </div>
               </label>
@@ -284,16 +349,16 @@
                 </div>
               </label>
               <label class="cotizador__opcion">
-                <input type="checkbox" value="Integración citas básica" data-precio="150000" />
+                <input type="checkbox" value="Agendamiento con Calendly" data-precio="150000" />
                 <div class="cotizador__opcion-card">
-                  <strong>Integración citas</strong>
+                  <strong>Agendamiento con Calendly</strong>
                   <span>$150.000</span>
                 </div>
               </label>
               <label class="cotizador__opcion">
-                <input type="checkbox" value="SEO básico" data-precio="120000" />
+                <input type="checkbox" value="Optimización para motores de búsqueda" data-precio="120000" />
                 <div class="cotizador__opcion-card">
-                  <strong>SEO básico</strong>
+                  <strong>Optimización para motores de búsqueda</strong>
                   <span>$120.000</span>
                 </div>
               </label>
@@ -312,18 +377,18 @@
                 </div>
               </label>
               <label class="cotizador__opcion">
-                <input type="checkbox" value="Integración agendamiento" data-precio="200000" />
+                <input type="checkbox" value="Asistente de agendamiento con IA" data-precio="200000" />
                 <div class="cotizador__opcion-card">
-                  <strong>Integración agendamiento</strong>
+                  <strong>Asistente de agendamiento con IA</strong>
                   <span>$200.000</span>
                 </div>
               </label>
             </div>
           </div>
 
-          <!-- Paso 3: Add-ons con toggle -->
+          <!-- Paso 3: Complementos con toggle -->
           <div class="cotizador__paso">
-            <h3 class="cotizador__paso-titulo">3. Add-ons (opcional)</h3>
+            <h3 class="cotizador__paso-titulo">3. Complementos (opcional)</h3>
             <div class="cotizador__opciones">
 
               <!-- QR — precio fijo -->
@@ -335,14 +400,31 @@
                 </div>
               </label>
 
-              <!-- Logo — precio fijo -->
-              <label class="cotizador__opcion">
-                <input type="checkbox" value="Logo profesional" data-precio="150000" />
-                <div class="cotizador__opcion-card">
-                  <strong>Logo profesional</strong>
-                  <span>$150.000</span>
+              <!-- Logo — toggle simple vs. diseñador -->
+              <div class="cotizador__opcion-toggle" id="toggleLogo">
+                <div class="cotizador__opcion-card cotizador__opcion-card--toggle" id="logoHeader">
+                  <strong>Logo</strong>
+                  <span>Desde $150.000 ▾</span>
                 </div>
-              </label>
+                <div class="cotizador__toggle-opciones" id="logoOpciones" style="display:none">
+                  <label class="cotizador__opcion">
+                    <input type="radio" name="logo" value="Logo simple (HealthCanvas)" data-precio="150000" />
+                    <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                      <strong>Simple</strong>
+                      <span>$150.000</span>
+                      <small>Diseñado por HealthCanvas, no por un especialista</small>
+                    </div>
+                  </label>
+                  <label class="cotizador__opcion">
+                    <input type="radio" name="logo" value="Logo profesional (diseñador colaborador)" data-precio="0" />
+                    <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                      <strong>Profesional</strong>
+                      <span>Cotización directa</span>
+                      <small>Con un diseñador colaborador, según su tarifa</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
 
               <!-- Dominio — precio fijo -->
               <label class="cotizador__opcion">
@@ -352,7 +434,8 @@
                   <span>$50.000 + dominio a tu cargo</span>
                 </div>
               </label>
-<!-- Tarjeta — toggle -->
+
+              <!-- Tarjeta — toggle -->
               <div class="cotizador__opcion-toggle" id="toggleTarjeta">
                 <div class="cotizador__opcion-card cotizador__opcion-card--toggle" id="tarjetaHeader">
                   <strong>Tarjeta de presentación</strong>
@@ -386,9 +469,9 @@
                 </div>
                 <div class="cotizador__toggle-opciones" id="postOpciones" style="display:none">
                   <label class="cotizador__opcion">
-                    <input type="radio" name="post" value="Post inauguración Basic" data-precio="50000" />
+                    <input type="radio" name="post" value="Post inauguración Básica" data-precio="50000" />
                     <div class="cotizador__opcion-card cotizador__opcion-card--sub">
-                      <strong>Basic</strong>
+                      <strong>Básica</strong>
                       <span>$50.000</span>
                       <small>Diseño sencillo anunciando tu nueva página</small>
                     </div>
@@ -419,7 +502,7 @@
                 <span>Estimado total</span>
                 <strong id="resumenTotal"></strong>
               </div>
-              <p class="cotizador__nota">* El valor final se confirma en la consulta. Los rangos usan el valor medio para el estimado.</p>
+              <p class="cotizador__nota">* El valor final se confirma en la consulta. Los rangos usan el valor medio para el estimado. El logo profesional con diseñador se cotiza directamente y no se suma al total mostrado aquí.</p>
               <a href="#" id="btnWhatsapp" class="btn btn--whatsapp" target="_blank">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 Enviar cotización por WhatsApp
@@ -428,6 +511,9 @@
           </div>
 
         </div>
+
+        <p class="lg-mini-nota">* Leer términos y condiciones completos</p>
+
       </div>
     </section>
 

@@ -6,6 +6,7 @@ const planInputs       = document.querySelectorAll('input[name="plan"]');
 const extraInputs      = document.querySelectorAll('input[type="checkbox"]');
 const tarjetaInputs    = document.querySelectorAll('input[name="tarjeta"]');
 const postInputs       = document.querySelectorAll('input[name="post"]');
+const logoInputs       = document.querySelectorAll('input[name="logo"]');
 const resumenVacio     = document.querySelector('.cotizador__resumen-vacio');
 const resumenContenido = document.getElementById('resumenContenido');
 const resumenLista     = document.getElementById('resumenLista');
@@ -14,16 +15,16 @@ const btnWhatsapp      = document.getElementById('btnWhatsapp');
 
 // ── Mapa de incluidos por plan ──────────────────────────────────────────────
 const INCLUIDOS = {
-  'Landing Page Basic': [],
-  'Landing Page Pro': [
+  'Sitio Esencial Básica': [],
+  'Sitio Esencial Pro': [
     'Formulario de contacto',
-    'Animaciones de scroll',
+    'Animaciones de desplazamiento',
     'Sección testimonios',
     'Diseño personalizado',
   ],
-  'Sitio Profesional Basic': [
+  'Sitio Profesional Básica': [
     'Formulario de contacto',
-    'Animaciones de scroll',
+    'Animaciones de desplazamiento',
     'Sección testimonios',
     'Diseño personalizado',
   ],
@@ -33,15 +34,17 @@ const INCLUIDOS = {
     'Especialidades detalladas',
     'PDFs descargables',
     'Galería fotos/videos estilo Instagram',
-    'Integración citas básica',
-    'SEO básico',
+    'Agendamiento con Calendly',
+    'Optimización para motores de búsqueda',
     'Buscador de palabras',
+    'Animaciones de desplazamiento'
   ],
-  'Sitio con Chatbot Basic': [
+  'Sitio con Chatbot Básica': [
     'Formulario de contacto',
-    'Animaciones de scroll',
+    'Animaciones de desplazamiento',
     'Sección testimonios',
     'Diseño personalizado',
+    'Sección de preguntas frecuentes',
   ],
   'Sitio con Chatbot Pro': [
     'Formulario de contacto',
@@ -49,15 +52,18 @@ const INCLUIDOS = {
     'Especialidades detalladas',
     'PDFs descargables',
     'Galería fotos/videos estilo Instagram',
-    'Integración citas básica',
-    'SEO básico',
+    'Agendamiento con Calendly',
+    'Optimización para motores de búsqueda',
     'Buscador de palabras',
     'Upgrade chatbot con IA',
-    'Integración agendamiento',
+    'Asistente de agendamiento con IA',
+    'Sección de preguntas frecuentes',
+    'Animaciones de desplazamiento'
   ],
 };
 
 function formatCOP(valor) {
+  if (valor === 0) return 'Cotización directa';
   return '$' + valor.toLocaleString('es-CO');
 }
 
@@ -135,6 +141,14 @@ function actualizarCotizacion() {
     total += precio;
   }
 
+  // Logo (toggle radio) — el logo de diseñador (precio 0) no se suma al total
+  const logoSeleccionado = document.querySelector('input[name="logo"]:checked');
+  if (logoSeleccionado) {
+    const precio = parseInt(logoSeleccionado.dataset.precio);
+    items.push({ nombre: logoSeleccionado.value, precio });
+    total += precio;
+  }
+
   // Renderizar
   resumenLista.innerHTML = items.map(item => `
     <li>
@@ -143,7 +157,7 @@ function actualizarCotizacion() {
     </li>
   `).join('');
 
-  resumenTotal.textContent = formatCOP(total) + ' est.';
+  resumenTotal.textContent = formatCOP(total) + (total > 0 ? ' est.' : '');
 
   // WhatsApp
   const lineas = items
@@ -159,7 +173,7 @@ function actualizarCotizacion() {
   btnWhatsapp.href = `https://wa.me/573167904921?text=${mensaje}`;
 }
 
-// Toggles tarjeta y post
+// Toggles tarjeta, post y logo
 document.getElementById('tarjetaHeader').addEventListener('click', () => {
   const opciones = document.getElementById('tarjetaOpciones');
   const header   = document.getElementById('tarjetaHeader');
@@ -176,11 +190,33 @@ document.getElementById('postHeader').addEventListener('click', () => {
   header.classList.toggle('is-open', !abierto);
 });
 
+document.getElementById('logoHeader').addEventListener('click', () => {
+  const opciones = document.getElementById('logoOpciones');
+  const header   = document.getElementById('logoHeader');
+  const abierto  = opciones.style.display === 'flex';
+  opciones.style.display = abierto ? 'none' : 'flex';
+  header.classList.toggle('is-open', !abierto);
+});
+
+// Toggle de la tabla comparativa de planes
+const comparadorToggle = document.getElementById('comparadorToggle');
+const comparadorTabla  = document.getElementById('comparadorTabla');
+if (comparadorToggle && comparadorTabla) {
+  comparadorToggle.addEventListener('click', () => {
+    const expanded = comparadorToggle.getAttribute('aria-expanded') === 'true';
+    comparadorToggle.setAttribute('aria-expanded', String(!expanded));
+    comparadorTabla.hidden = expanded;
+    const icono = comparadorToggle.querySelector('.sv-comparador__icono');
+    if (icono) icono.style.transform = expanded ? 'rotate(0deg)' : 'rotate(180deg)';
+  });
+}
+
 // Escuchar todos los cambios
 planInputs.forEach(i    => i.addEventListener('change', actualizarCotizacion));
 extraInputs.forEach(i   => i.addEventListener('change', actualizarCotizacion));
 tarjetaInputs.forEach(i => i.addEventListener('change', actualizarCotizacion));
 postInputs.forEach(i    => i.addEventListener('change', actualizarCotizacion));
+logoInputs.forEach(i    => i.addEventListener('change', actualizarCotizacion));
 
 // Preseleccionar plan desde URL ?plan=X
 const params    = new URLSearchParams(window.location.search);
