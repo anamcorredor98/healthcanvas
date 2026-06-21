@@ -4,6 +4,7 @@
 
 :root {
   --azul: #1B4F72;
+  --azul-oscuro: #123A54;
   --azul-claro: #2E86C1;
   --menta: #A8D5BA;
   --menta-oscuro: #6aab89;
@@ -123,10 +124,12 @@ ul { list-style: none; }
 .plan__nombre { font-family: var(--font-display); font-size: 1.5rem; color: var(--azul); }
 .plan__precio { font-size: 1.2rem; font-weight: 600; color: var(--negro); }
 .plan__precio span { font-size: 0.8rem; font-weight: 400; color: var(--gris-texto); }
+.plan__descripcion { font-size: 0.95rem; color: var(--gris-texto); line-height: 1.6; }
 .plan__lista { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .plan__lista li { font-size: 0.9rem; color: var(--gris-texto); padding-left: 20px; position: relative; }
 .plan__lista li::before { content: '✓'; position: absolute; left: 0; color: var(--menta-oscuro); font-weight: 700; }
-.servicios__nota { margin-top: 32px; font-size: 0.85rem; color: var(--gris-texto); text-align: center; }
+.servicios__nota { margin-top: 16px; font-size: 0.85rem; color: var(--gris-texto); text-align: center; }
+.servicios__nota a { color: var(--azul); text-decoration: underline; text-decoration-color: var(--menta); }
 
 /* SOBRE MÍ */
 .sobre-mi { padding: 96px 0; }
@@ -225,10 +228,30 @@ ul { list-style: none; }
 .contacto .btn--outline:hover { background: rgba(255,255,255,0.1); border-color: var(--blanco); }
 
 /* FOOTER */
-.footer { padding: 24px; border-top: 1px solid var(--gris-suave); }
-.footer__inner { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--gris-texto); }
-.footer__inner a:hover { color: var(--azul); }
+.footer { padding: 24px; background: var(--azul-oscuro); border-top: none; }
+.footer__inner { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: rgba(255,255,255,0.85); }
+.footer__inner a { color: rgba(255,255,255,0.85); }
+.footer__inner a:hover { color: var(--menta); }
 .footer__links { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.footer__legal-nota { font-size: 0.75rem; color: rgba(255,255,255,0.7); text-align: center; margin-top: 8px; }
+.footer__legal-nota a { color: rgba(255,255,255,0.7); text-decoration: underline; }
+.footer__legal-nota a:hover { color: var(--blanco); }
+
+/* Nota legal suavizada (no-link) y asterisco pegado al texto */
+.lg-mini-nota {
+  font-size: 0.8rem;
+  color: var(--gris-texto);
+  text-align: center;
+  margin: 32px 0;
+  opacity: 0.8;
+}
+.lg-asterisco {
+  font-size: 0.7rem;
+  color: var(--gris-texto);
+  opacity: 0.8;
+  vertical-align: super;
+  margin-left: 1px;
+}
 
 @media (max-width: 768px) {
   .nav__links {
