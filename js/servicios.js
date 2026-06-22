@@ -44,6 +44,7 @@ const INCLUIDOS = {
     'Sección testimonios',
     'Diseño personalizado',
     'Sección de preguntas frecuentes',
+    'Chatbot básico',
   ],
   'Sitio con Chatbot Pro': [
     'Formulario de contacto',
@@ -53,11 +54,19 @@ const INCLUIDOS = {
     'Agendamiento con Calendly',
     'Optimización para motores de búsqueda',
     'Buscador de palabras',
-    'Upgrade chatbot con IA',
+    'Chatbot básico',
+    'Chatbot con IA',
     'Asistente de agendamiento con IA',
     'Sección de preguntas frecuentes',
     'Animaciones de desplazamiento',
   ],
+};
+
+// ── Mapa de dependencias: qué necesita tener el cliente antes de poder
+//    agregar cada elemento (cuando no viene incluido de fábrica en su plan) ──
+const REQUISITOS = {
+  'Chatbot con IA': ['Chatbot básico'],
+  'Asistente de agendamiento con IA': ['Agendamiento con Calendly', 'Chatbot básico', 'Chatbot con IA'],
 };
 
 function formatCOP(valor) {
@@ -65,30 +74,48 @@ function formatCOP(valor) {
   return '$' + valor.toLocaleString('es-CO');
 }
 
-// ── Deshabilitar / habilitar elementos sueltos según plan ───────────────────
+// ── Deshabilitar / habilitar elementos sueltos según plan y dependencias ────
 function actualizarElementosSueltos(planValue) {
   const incluidos = INCLUIDOS[planValue] || [];
 
+  // ¿Este valor ya está disponible (incluido en el plan, o marcado y habilitado)?
+  function estaDisponible(valor) {
+    if (incluidos.includes(valor)) return true;
+    const input = Array.from(extraInputs).find(i => i.value === valor);
+    return input ? input.checked : false;
+  }
+
   extraInputs.forEach(input => {
     const card = input.closest('.cotizador__opcion');
+    const opcionCard = card.querySelector('.cotizador__opcion-card');
+
+    // Limpiar estado visual previo
+    const badgeViejo = opcionCard.querySelector('.badge-incluido, .badge-requisito');
+    if (badgeViejo) badgeViejo.remove();
+    card.classList.remove('is-incluido', 'is-bloqueado');
+
     const esIncluido = incluidos.includes(input.value);
+    const requisitos = REQUISITOS[input.value] || [];
+    const faltantes = requisitos.filter(req => !estaDisponible(req));
 
     if (esIncluido) {
       input.checked = false;
       input.disabled = true;
       card.classList.add('is-incluido');
-      // Añadir badge si no existe
-      if (!card.querySelector('.badge-incluido')) {
-        const badge = document.createElement('span');
-        badge.className = 'badge-incluido';
-        badge.textContent = '✓ Incluido en tu plan';
-        card.querySelector('.cotizador__opcion-card').appendChild(badge);
-      }
+      const badge = document.createElement('span');
+      badge.className = 'badge-incluido';
+      badge.textContent = '✓ Incluido en tu plan';
+      opcionCard.appendChild(badge);
+    } else if (faltantes.length > 0) {
+      input.checked = false;
+      input.disabled = true;
+      card.classList.add('is-bloqueado');
+      const badge = document.createElement('span');
+      badge.className = 'badge-requisito';
+      badge.textContent = `Agrega: ${faltantes.join(', ')}`;
+      opcionCard.appendChild(badge);
     } else {
       input.disabled = false;
-      card.classList.remove('is-incluido');
-      const badge = card.querySelector('.badge-incluido');
-      if (badge) badge.remove();
     }
   });
 }
@@ -163,10 +190,10 @@ function actualizarCotizacion() {
     .join('%0A');
 
   const mensaje =
-    `Hola Ana María, vi tu página HealthCanvas y me interesa cotizar lo siguiente:%0A%0A` +
+    `Hola Ana, vi tu página HealthCanvas y me interesa cotizar lo siguiente:%0A%0A` +
     `${lineas}%0A%0A` +
     `Total estimado: ${formatCOP(total)}%0A%0A` +
-    `Quedo atento/a a tu respuesta 🙂`;
+    `Quedo atento/a para continuar con el proceso. ¡Gracias!`;
 
   btnWhatsapp.href = `https://wa.me/573167904921?text=${mensaje}`;
 }

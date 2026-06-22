@@ -518,3 +518,22 @@
   font-weight: 600;
   letter-spacing: 0.03em;
 }
+
+/* Elementos bloqueados por requisito faltante (dependencia entre elementos sueltos) */
+.cotizador__opcion.is-bloqueado {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.cotizador__opcion.is-bloqueado .cotizador__opcion-card {
+  border-style: dotted;
+}
+.badge-requisito {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: #C77B17;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
