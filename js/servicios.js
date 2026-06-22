@@ -33,11 +33,10 @@ const INCLUIDOS = {
     'Diseño personalizado',
     'Especialidades detalladas',
     'PDFs descargables',
-    'Galería fotos/videos estilo Instagram',
     'Agendamiento con Calendly',
     'Optimización para motores de búsqueda',
     'Buscador de palabras',
-    'Animaciones de desplazamiento'
+    'Animaciones de desplazamiento',
   ],
   'Sitio con Chatbot Básica': [
     'Formulario de contacto',
@@ -51,14 +50,13 @@ const INCLUIDOS = {
     'Diseño personalizado',
     'Especialidades detalladas',
     'PDFs descargables',
-    'Galería fotos/videos estilo Instagram',
     'Agendamiento con Calendly',
     'Optimización para motores de búsqueda',
     'Buscador de palabras',
     'Upgrade chatbot con IA',
     'Asistente de agendamiento con IA',
     'Sección de preguntas frecuentes',
-    'Animaciones de desplazamiento'
+    'Animaciones de desplazamiento',
   ],
 };
 
