@@ -356,6 +356,79 @@
     overflow-x: auto;
   }
 }
+.asv-seccion--qr {
+  padding: 80px 0;
+}
+
+.asv-qr-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  /* difumina los bordes para que el loop no se vea cortado */
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+.asv-qr-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: max-content;
+  animation: asvMarquee 30s linear infinite;
+}
+.asv-qr-marquee:hover .asv-qr-track {
+  animation-play-state: paused;
+}
+ 
+@keyframes asvMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.asv-qr-card {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--blanco);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  height: 260px;
+  width: 260px;
+}
+
+.asv-qr-card img {
+  height: 120%;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .asv-seccion--qr {
+    padding: 56px 0;
+  }
+  .asv-qr-track {
+    gap: 32px;
+    animation-duration: 20s;
+  }
+  .asv-qr-card {
+    height: 180px;
+    width: 180px;
+    padding: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asv-qr-track {
+    animation: none;
+  }
+  .asv-qr-marquee {
+    overflow-x: auto;
+  }
+}
+
 
 @media (max-width: 768px) {
   .asv-hero {
