@@ -4,7 +4,7 @@
 
 /* HERO */
 .asv-hero {
-  padding: 140px 0 60px;
+  padding: 140px 0 140px;
   position: relative;
   overflow: hidden;
 }
@@ -379,10 +379,19 @@
 .asv-qr-marquee:hover .asv-qr-track {
   animation-play-state: paused;
 }
- 
+
+.asv-qr-track--reversa {
+  animation-name: asvMarqueeReversa;
+}
+
 @keyframes asvMarquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
+}
+
+@keyframes asvMarqueeReversa {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
 }
 
 .asv-qr-card {

@@ -4,9 +4,25 @@
    =========================== */
 
 .lg-hero {
-  padding: 120px 0 50px;
+  padding: 120px 0 110px;
   background: var(--gris-fondo);
   border-bottom: 1px solid var(--gris-suave);
+  position: relative;
+  overflow: hidden;
+}
+.lg-hero__pulse {
+  position: absolute;
+  bottom: 0;
+  right: 100px;
+  width: 48%;
+  max-width: 800px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+@media (max-width: 1100px) {
+  .lg-hero__pulse {
+    display: none;
+  }
 }
 .lg-hero__sub {
   font-size: 1rem;
@@ -28,7 +44,6 @@
 }
 
 .lg-articulo {
-  max-width: 740px;
   margin: 0 0 40px;
   padding-bottom: 32px;
   border-bottom: 1px solid var(--gris-suave);
@@ -148,7 +163,6 @@
   border-radius: var(--radius);
   padding: 24px 28px;
   margin-bottom: 48px;
-  max-width: 740px;
 }
 .lg-indice__titulo {
   font-size: 0.78rem;
