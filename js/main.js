@@ -88,11 +88,11 @@ if (funcToggle && funcPanel) {
 const planDetalleInputs = document.querySelectorAll('input[name="planDetalle"]');
 if (planDetalleInputs.length) {
   const INCLUIDOS = {
-    'Sitio Esencial Básica': [],
+    'Sitio Esencial Básico': [],
     'Sitio Esencial Pro': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado'],
-    'Sitio Profesional Básica': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado'],
+    'Sitio Profesional Básico': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado'],
     'Sitio Profesional Pro': ['Formulario de contacto', 'Diseño personalizado', 'Especialidades detalladas', 'PDFs descargables', 'Agendamiento con Calendly', 'Optimización para motores de búsqueda', 'Buscador de palabras', 'Animaciones de desplazamiento'],
-    'Sitio con Chatbot Básica': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado', 'Sección de preguntas frecuentes', 'Chatbot básico', 'Especialidades detalladas', 'Agendamiento con Calendly'],
+    'Sitio con Chatbot Básico': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado', 'Sección de preguntas frecuentes', 'Chatbot básico', 'Especialidades detalladas', 'Agendamiento con Calendly'],
     'Sitio con Chatbot Pro': ['Formulario de contacto', 'Diseño personalizado', 'Especialidades detalladas', 'PDFs descargables', 'Agendamiento con Calendly', 'Optimización para motores de búsqueda', 'Buscador de palabras', 'Chatbot básico', 'Chatbot con IA', 'Asistente de agendamiento con IA', 'Sección de preguntas frecuentes', 'Animaciones de desplazamiento'],
   };
 

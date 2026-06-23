@@ -15,18 +15,19 @@ const btnWhatsapp      = document.getElementById('btnWhatsapp');
 
 // ── Mapa de incluidos por plan ──────────────────────────────────────────────
 const INCLUIDOS = {
-  'Sitio Esencial Básica': [],
+  'Sitio Esencial Básico': [],
   'Sitio Esencial Pro': [
     'Formulario de contacto',
     'Animaciones de desplazamiento',
     'Sección testimonios',
     'Diseño personalizado',
   ],
-  'Sitio Profesional Básica': [
+  'Sitio Profesional Básico': [
     'Formulario de contacto',
     'Animaciones de desplazamiento',
     'Sección testimonios',
     'Diseño personalizado',
+    'PDFs descargables',
   ],
   'Sitio Profesional Pro': [
     'Formulario de contacto',
@@ -38,7 +39,7 @@ const INCLUIDOS = {
     'Buscador de palabras',
     'Animaciones de desplazamiento',
   ],
-  'Sitio con Chatbot Básica': [
+  'Sitio con Chatbot Básico': [
     'Formulario de contacto',
     'Animaciones de desplazamiento',
     'Sección testimonios',
@@ -47,6 +48,7 @@ const INCLUIDOS = {
     'Chatbot básico',
     'Especialidades detalladas',
     'Agendamiento con Calendly',
+    'PDFs descargables',
   ],
   'Sitio con Chatbot Pro': [
     'Formulario de contacto',

@@ -283,7 +283,7 @@
 @media (max-width: 480px) {
   .addons__grid { grid-template-columns: 1fr; }
 }
-/* Badges Básica / Pro en las tarjetas de plan */
+/* Badges Básico / Pro en las tarjetas de plan */
 .plan__niveles {
   display: flex;
   gap: 8px;
