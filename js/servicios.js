@@ -45,6 +45,8 @@ const INCLUIDOS = {
     'Diseño personalizado',
     'Sección de preguntas frecuentes',
     'Chatbot básico',
+    'Especialidades detalladas',
+    'Agendamiento con Calendly',
   ],
   'Sitio con Chatbot Pro': [
     'Formulario de contacto',
@@ -251,8 +253,21 @@ if (planParam) {
   if (match) {
     match.checked = true;
     actualizarCotizacion();
-    setTimeout(() => {
-      document.getElementById('cotizador')?.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
   }
+}
+
+// Preseleccionar elementos sueltos desde URL ?addons=X,Y
+const addonsParam = params.get('addons');
+if (addonsParam) {
+  addonsParam.split(',').forEach(valor => {
+    const cb = document.querySelector(`input[type="checkbox"][value="${valor}"]`);
+    if (cb) cb.checked = true;
+  });
+  actualizarCotizacion();
+}
+
+if (planParam || addonsParam) {
+  setTimeout(() => {
+    document.getElementById('cotizador')?.scrollIntoView({ behavior: 'smooth' });
+  }, 300);
 }

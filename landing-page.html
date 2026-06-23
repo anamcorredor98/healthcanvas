@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Landing Page — HealthCanvas</title>
-  <meta name="description" content="Detalle del plan Landing Page. Basic y Pro para tu consultorio médico." />
+  <title>Sitio Esencial — HealthCanvas</title>
+  <meta name="description" content="Detalle del plan Sitio Esencial. Básica y Pro para tu consultorio médico." />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/servicios.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -42,9 +42,9 @@
     <section class="sv-hero">
       <div class="container">
         <a href="servicios.html" class="detalle__back">← Volver a planes</a>
-        <p class="section__eyebrow">Landing Page · 1–2 semanas</p>
+        <p class="section__eyebrow">Sitio Esencial · 2–3 semanas</p>
         <h1 class="section__title">Tu consultorio,<br/>presente desde el primer clic</h1>
-        <p class="sv-hero__sub">Una página única, profesional y optimizada. Todo lo que un paciente necesita encontrar — en un solo lugar.</p>
+        <p class="sv-hero__sub">Una página única y profesional. Todo lo que un paciente necesita encontrar — en un solo lugar.</p>
         <p class="detalle__precio">$500.000 – $800.000 <span>COP</span></p>
       </div>
       <div class="sv-hero__pulse" aria-hidden="true">
@@ -58,92 +58,164 @@
     <section class="detalle__comparador">
       <div class="container">
         <p class="section__eyebrow">Elige tu nivel</p>
-        <h2 class="section__title">Basic o Pro — tú decides</h2>
+        <h2 class="section__title">Básica o Pro — tú decides</h2>
 
         <div class="detalle__grid">
 
           <!-- BASIC -->
-          <div class="detalle__plan">
-            <div class="detalle__plan-header">
-              <span class="detalle__plan-tag">Basic</span>
-              <h3 class="detalle__plan-nombre">Landing Page Basic</h3>
-              <p class="detalle__plan-precio">$500.000</p>
-              <p class="detalle__plan-tiempo">Entrega en 1–2 semanas</p>
+          <label class="detalle__plan-option">
+            <input type="radio" name="planDetalle" value="Sitio Esencial Básica" />
+            <div class="detalle__plan">
+              <div class="detalle__plan-header">
+                <span class="detalle__plan-tag">Básica</span>
+                <h3 class="detalle__plan-nombre">Sitio Esencial Básica</h3>
+                <p class="detalle__plan-precio">$500.000</p>
+                <p class="detalle__plan-tiempo">Entrega en 2–3 semanas</p>
+              </div>
+              <ul class="detalle__lista">
+                <li>Página única profesional</li>
+                <li>Hasta 5 secciones fijas</li>
+                <li>Botón de WhatsApp directo</li>
+                <li>Mapa y ubicación del consultorio</li>
+                <li>Fotos proporcionadas por el cliente</li>
+                <li>Adaptable a cualquier dispositivo</li>
+              </ul>
             </div>
-            <ul class="detalle__lista">
-              <li>Página única profesional</li>
-              <li>Hasta 5 secciones fijas</li>
-              <li>Botón de WhatsApp directo</li>
-              <li>Mapa y ubicación del consultorio</li>
-              <li>Fotos proporcionadas por el cliente</li>
-              <li>100% responsive (celular y tablet)</li>
-              <li>Dominio y hosting no incluidos</li>
-            </ul>
-            <a href="servicios.html?plan=Landing Page Basic#cotizador" class="btn btn--outline">
-              Cotizar este plan
-            </a>
-          </div>
+          </label>
 
           <!-- PRO -->
-          <div class="detalle__plan detalle__plan--pro">
-            <div class="detalle__plan-header">
-              <span class="detalle__plan-tag detalle__plan-tag--pro">Pro</span>
-              <h3 class="detalle__plan-nombre">Landing Page Pro</h3>
-              <p class="detalle__plan-precio">$800.000</p>
-              <p class="detalle__plan-tiempo">Entrega en 1–2 semanas</p>
+          <label class="detalle__plan-option">
+            <input type="radio" name="planDetalle" value="Sitio Esencial Pro" />
+            <div class="detalle__plan">
+              <div class="detalle__plan-header">
+                <span class="detalle__plan-tag">Pro</span>
+                <h3 class="detalle__plan-nombre">Sitio Esencial Pro</h3>
+                <p class="detalle__plan-precio">$800.000</p>
+                <p class="detalle__plan-tiempo">Entrega en 2–3 semanas</p>
+              </div>
+              <ul class="detalle__lista">
+                <li>Todo lo del plan Básica</li>
+                <li>Formulario de contacto</li>
+                <li>Animaciones de desplazamiento</li>
+                <li>Sección de testimonios</li>
+                <li>Diseño más personalizado</li>
+                <li>Paleta de colores y tipografía a medida</li>
+                <li>Adaptable a cualquier dispositivo</li>
+              </ul>
             </div>
-            <ul class="detalle__lista">
-              <li>Todo lo del plan Basic</li>
-              <li>Formulario de contacto</li>
-              <li>Animaciones de scroll</li>
-              <li>Sección de testimonios</li>
-              <li>Diseño más personalizado</li>
-              <li>Paleta de colores y tipografía a medida</li>
-              <li>100% responsive (celular y tablet)</li>
-            </ul>
-            <a href="servicios.html?plan=Landing Page Pro#cotizador" class="btn btn--primary">
-              Cotizar este plan
-            </a>
-          </div>
+          </label>
 
         </div>
 
+        <p class="lg-mini-nota">El dominio y hosting se adquieren por separado. Si no quieres preocuparte por la configuración, puedes agregar este complemento en el tercer paso del cotizador y yo me encargo del proceso contigo. Los costos del dominio y hosting seguirán siendo cubiertos directamente por ti y administrados desde tu propia cuenta.<span class="lg-asterisco">*</span></p>
+
+        <!-- TOGGLE EXPLICATIVO DE FUNCIONALIDADES -->
+        <div class="detalle__func">
+          <button class="sv-comparador__toggle" id="funcToggle" aria-expanded="false">
+            <span class="sv-comparador__icono">▾</span> Conoce cada funcionalidad de tu plan
+          </button>
+          <div class="detalle__func-lista" id="funcPanel" hidden>
+
+            <div class="detalle__func-item">
+              <strong>Página única profesional</strong>
+              <p>Todo tu sitio web organizado en una sola página, para que tus pacientes encuentren la información importante sin navegar entre múltiples pestañas.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Hasta 5 secciones fijas</strong>
+              <p>Espacios dedicados para organizar tu contenido. Por ejemplo: inicio, sobre ti, servicios, ubicación y contacto.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Botón de WhatsApp directo</strong>
+              <p>Un botón de contacto que permite a tus pacientes escribirte directamente por WhatsApp sin necesidad de buscar tu número. Puede ubicarse de distintas formas según las necesidades de tu sitio, como un botón fijo, una burbuja de contacto o un llamado a la acción dentro de una sección específica.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Mapa y ubicación del consultorio</strong>
+              <p>Un mapa interactivo con la ubicación exacta de tu consultorio para facilitar la llegada de nuevos pacientes.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Fotos proporcionadas por el cliente</strong>
+              <p>Utilizamos las fotografías que tú nos compartas, como imágenes del consultorio, equipo de trabajo o instalaciones.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Adaptable a cualquier dispositivo</strong>
+              <p>Tu sitio se verá y funcionará correctamente en celulares, computadores y tablets.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Formulario de contacto (Pro)<span class="lg-asterisco">**</span></strong>
+              <p>Permite que los pacientes te compartan sus datos de contacto y la información que necesites para facilitar el primer contacto.</p>
+            </div> 
+            <div class="detalle__func-item">
+              <strong>Animaciones de desplazamiento (Pro)</strong>
+              <p>Pequeños efectos visuales que aparecen al navegar por la página, aportando una experiencia más moderna y fluida. Sin ellos, el cambio entre una sección y otra se percibe de forma más directa.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Sección de testimonios (Pro)</strong>
+              <p>Un espacio para mostrar experiencias y opiniones de pacientes, ayudando a generar mayor confianza en quienes visitan tu sitio.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Diseño más personalizado (Pro)</strong>
+              <p>Mayor nivel de personalización visual para que tu página refleje mejor la identidad de tu consultorio o marca.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Paleta de colores y tipografía a medida (Pro)</strong>
+              <p>Selección personalizada de colores y tipografías para que tu sitio tenga una identidad visual más coherente y profesional.</p>
+            </div>
+
+          </div>
+        </div>
+</section>
         <!-- ELEMENTOS SUELTOS -->
         <div class="detalle__sueltos">
           <p class="section__eyebrow">¿Quieres algo del Pro sin pagar el plan completo?</p>
-          <h3 class="detalle__sueltos-titulo">Agrégalo al Basic por separado</h3>
+          <h3 class="detalle__sueltos-titulo">Agrega funcionalidades del plan Pro por separado</h3>
           <div class="detalle__sueltos-grid">
-            <div class="detalle__suelta">
-              <strong>Formulario de contacto</strong>
-              <span>$70.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>Animaciones de scroll</strong>
-              <span>$50.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>Sección testimonios</strong>
-              <span>$100.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>Diseño personalizado</strong>
-              <span>$150.000</span>
-            </div>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Formulario de contacto" />
+              <div class="detalle__suelta">
+                <strong>Formulario de contacto</strong>
+                <span>$70.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Animaciones de desplazamiento" />
+              <div class="detalle__suelta">
+                <strong>Animaciones de desplazamiento</strong>
+                <span>$50.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Sección testimonios" />
+              <div class="detalle__suelta">
+                <strong>Sección testimonios</strong>
+                <span>$100.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Diseño personalizado" />
+              <div class="detalle__suelta">
+                <strong>Diseño personalizado</strong>
+                <span>$150.000</span>
+              </div>
+            </label>
           </div>
-          <p class="servicios__nota">* Estos elementos los seleccionas en el cotizador al elegir tu plan.</p>
+          <div class="detalle__continuar">
+            <button type="button" id="continuarCotizador" class="btn btn--primary">
+              Continuar al cotizador
+            </button>
+          </div>
         </div>
 
-      </div>
-    </section>
+    <p class="lg-mini-nota">* Leer términos y condiciones completos</p>
+    <p class="lg-mini-nota">** Leer política de privacidad completa</p>
 
     <!-- CTA -->
     <section class="detalle__cta">
       <div class="container detalle__cta-inner">
-        <h2 class="section__title">¿Listo para tener presencia digital?</h2>
-        <p class="sv-hero__sub">Cuéntame sobre tu consultorio y te envío una propuesta en menos de 24 horas.</p>
+        <h2 class="section__title">¿Listo para dar el siguiente paso?</h2>
+        <p class="sv-hero__sub">Cuéntame qué quieres transmitir o utiliza el cotizador para explorar las opciones disponibles y encontrar la versión que mejor se adapte a ti.</p>
         <div class="detalle__cta-btns">
           <a href="servicios.html#cotizador" class="btn btn--primary">Ir al cotizador</a>
-          <a href="https://wa.me/573167904921?text=Hola%20Ana%20María%2C%20me%20interesa%20el%20plan%20Landing%20Page" class="btn btn--whatsapp" target="_blank">
+          <a href="https://wa.me/573167904921?text=Hola%20Ana%20María%2C%20me%20interesa%20el%20plan%20Sitio%20Esencial" class="btn btn--whatsapp" target="_blank">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Escribir por WhatsApp
           </a>

@@ -70,3 +70,73 @@ document.addEventListener('DOMContentLoaded', () => {
   style.textContent = '.visible { opacity: 1 !important; transform: translateY(0) !important; }';
   document.head.appendChild(style);
 });
+
+// --- Toggle "Conoce cada funcionalidad de tu plan" (páginas de detalle) ---
+const funcToggle = document.getElementById('funcToggle');
+const funcPanel  = document.getElementById('funcPanel');
+if (funcToggle && funcPanel) {
+  funcToggle.addEventListener('click', () => {
+    const expanded = funcToggle.getAttribute('aria-expanded') === 'true';
+    funcToggle.setAttribute('aria-expanded', String(!expanded));
+    funcPanel.hidden = expanded;
+    const icono = funcToggle.querySelector('.sv-comparador__icono');
+    if (icono) icono.style.transform = expanded ? 'rotate(0deg)' : 'rotate(180deg)';
+  });
+}
+
+// --- "Incluido en tu plan" para elementos sueltos (páginas de detalle) ---
+const planDetalleInputs = document.querySelectorAll('input[name="planDetalle"]');
+if (planDetalleInputs.length) {
+  const INCLUIDOS = {
+    'Sitio Esencial Básica': [],
+    'Sitio Esencial Pro': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado'],
+    'Sitio Profesional Básica': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado'],
+    'Sitio Profesional Pro': ['Formulario de contacto', 'Diseño personalizado', 'Especialidades detalladas', 'PDFs descargables', 'Agendamiento con Calendly', 'Optimización para motores de búsqueda', 'Buscador de palabras', 'Animaciones de desplazamiento'],
+    'Sitio con Chatbot Básica': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección testimonios', 'Diseño personalizado', 'Sección de preguntas frecuentes', 'Chatbot básico', 'Especialidades detalladas', 'Agendamiento con Calendly'],
+    'Sitio con Chatbot Pro': ['Formulario de contacto', 'Diseño personalizado', 'Especialidades detalladas', 'PDFs descargables', 'Agendamiento con Calendly', 'Optimización para motores de búsqueda', 'Buscador de palabras', 'Chatbot básico', 'Chatbot con IA', 'Asistente de agendamiento con IA', 'Sección de preguntas frecuentes', 'Animaciones de desplazamiento'],
+  };
+
+  function actualizarSueltosDetalle() {
+    const plan = document.querySelector('input[name="planDetalle"]:checked');
+    const incluidos = plan ? (INCLUIDOS[plan.value] || []) : [];
+
+    document.querySelectorAll('.detalle__suelta-option').forEach(option => {
+      const input = option.querySelector('input');
+      const card = option.querySelector('.detalle__suelta');
+      const precio = card.querySelector('span');
+      const badgeViejo = card.querySelector('.badge-incluido');
+      if (badgeViejo) badgeViejo.remove();
+      option.classList.remove('is-incluido');
+
+      if (incluidos.includes(input.value)) {
+        input.checked = false;
+        input.disabled = true;
+        option.classList.add('is-incluido');
+        if (precio) precio.style.display = 'none';
+        const badge = document.createElement('span');
+        badge.className = 'badge-incluido';
+        badge.textContent = '✓ Incluido en tu plan';
+        card.appendChild(badge);
+      } else {
+        input.disabled = false;
+        if (precio) precio.style.display = '';
+      }
+    });
+  }
+
+  planDetalleInputs.forEach(i => i.addEventListener('change', actualizarSueltosDetalle));
+  actualizarSueltosDetalle();
+}
+
+// --- "Continuar al cotizador" (páginas de detalle) ---
+const continuarCotizador = document.getElementById('continuarCotizador');
+if (continuarCotizador) {
+  continuarCotizador.addEventListener('click', () => {
+    const plan   = document.querySelector('input[name="planDetalle"]:checked');
+    const addons = Array.from(document.querySelectorAll('.detalle__suelta-option input:checked')).map(i => i.value);
+    const params = new URLSearchParams();
+    if (plan) params.set('plan', plan.value);
+    if (addons.length) params.set('addons', addons.join(','));
+    window.location.href = `servicios.html?${params.toString()}#cotizador`;
+  });
+}

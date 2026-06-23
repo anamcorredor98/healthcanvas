@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sitio con Chatbot — HealthCanvas</title>
-  <meta name="description" content="Detalle del plan Sitio con Chatbot. Basic y Pro con IA real para tu consultorio médico." />
+  <meta name="description" content="Detalle del plan Sitio con Chatbot. Básica y Pro con asistente virtual para tu consultorio médico." />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/servicios.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -25,7 +25,7 @@
       <button class="nav__toggle" id="navToggle" aria-label="Abrir menú">
         <span></span><span></span><span></span>
       </button>
-      <ul class="nav__links" id="navLinks">
+        <ul class="nav__links" id="navLinks">
         <li><a href="servicios.html" class="btn btn--nav">Servicios</a></li>
         <li><a href="index.html#sobre-mi">Sobre mí</a></li>
         <li><a href="index.html#portafolio">Portafolio</a></li>
@@ -38,13 +38,14 @@
 
   <main>
 
+    <!-- HERO -->
     <section class="sv-hero">
       <div class="container">
         <a href="servicios.html" class="detalle__back">← Volver a planes</a>
-        <p class="section__eyebrow">Sitio con Chatbot · 4–6 semanas</p>
-        <h1 class="section__title">Tu consultorio disponible<br/>las 24 horas, los 7 días</h1>
-        <p class="sv-hero__sub">Un sitio profesional completo con un asistente inteligente que responde a tus pacientes cuando tú no puedes — guiándolos a agendar, resolver dudas y contactarte.</p>
-        <p class="detalle__precio">$1.600.000 – $2.500.000 <span>COP</span></p>
+        <p class="section__eyebrow">Sitio con Chatbot · 5–7 semanas</p>
+        <h1 class="section__title">Un asistente que responde por ti,<br/>incluso cuando no estás</h1>
+        <p class="sv-hero__sub">Un sitio profesional con un asistente virtual que responde preguntas frecuentes, ayuda a tus pacientes a encontrar información importante y facilita el primer contacto contigo.</p>
+        <p class="detalle__precio">$1.600.000 – $2.900.000 <span>COP</span></p>
       </div>
       <div class="sv-hero__pulse" aria-hidden="true">
         <svg viewBox="0 0 600 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,120 +54,209 @@
       </div>
     </section>
 
+    <!-- COMPARADOR BASIC VS PRO -->
     <section class="detalle__comparador">
       <div class="container">
         <p class="section__eyebrow">Elige tu nivel</p>
-        <h2 class="section__title">Basic o Pro — tú decides</h2>
+        <h2 class="section__title">Básica o Pro — tú decides</h2>
 
         <div class="detalle__grid">
 
           <!-- BASIC -->
-          <div class="detalle__plan">
-            <div class="detalle__plan-header">
-              <span class="detalle__plan-tag">Basic</span>
-              <h3 class="detalle__plan-nombre">Chatbot Basic</h3>
-              <p class="detalle__plan-precio">$1.600.000</p>
-              <p class="detalle__plan-tiempo">Entrega en 4–6 semanas</p>
+          <label class="detalle__plan-option">
+            <input type="radio" name="planDetalle" value="Sitio con Chatbot Básica" />
+            <div class="detalle__plan">
+              <div class="detalle__plan-header">
+                <span class="detalle__plan-tag">Básica</span>
+                <h3 class="detalle__plan-nombre">Sitio con Chatbot Básica</h3>
+                <p class="detalle__plan-precio">$1.600.000</p>
+                <p class="detalle__plan-tiempo">Entrega en 5–7 semanas</p>
+              </div>
+              <ul class="detalle__lista">
+                <li>Todo lo del plan Sitio Profesional Básica</li>
+                <li>Especialidades detalladas</li>
+                <li>Agendamiento con Calendly</li>
+                <li>Chatbot básico</li>
+                <li>Chatbot interactivo</li>
+                <li>Responde preguntas frecuentes</li>
+                <li>Guía al agendamiento de citas</li>
+                <li>Adaptable a cualquier dispositivo</li>
+              </ul>
             </div>
-            <ul class="detalle__lista">
-              <li>Todo el Sitio Profesional Basic</li>
-              <li>Chatbot por palabras clave</li>
-              <li>Responde preguntas frecuentes predefinidas</li>
-              <li>Guía al paciente a WhatsApp o citas</li>
-              <li>Sin costo de API — funciona sin IA externa</li>
-              <li>Personalizable con tus preguntas y respuestas</li>
-              <li>100% responsive</li>
-            </ul>
-            <a href="servicios.html?plan=Sitio con Chatbot Basic#cotizador" class="btn btn--outline">
-              Cotizar este plan
-            </a>
-          </div>
+          </label>
 
           <!-- PRO -->
-          <div class="detalle__plan detalle__plan--pro">
-            <div class="detalle__plan-header">
-              <span class="detalle__plan-tag detalle__plan-tag--pro">Pro</span>
-              <h3 class="detalle__plan-nombre">Chatbot Pro</h3>
-              <p class="detalle__plan-precio">$2.500.000</p>
-              <p class="detalle__plan-tiempo">Entrega en 4–6 semanas</p>
+          <label class="detalle__plan-option">
+            <input type="radio" name="planDetalle" value="Sitio con Chatbot Pro" />
+            <div class="detalle__plan">
+              <div class="detalle__plan-header">
+                <span class="detalle__plan-tag">Pro</span>
+                <h3 class="detalle__plan-nombre">Sitio con Chatbot Pro</h3>
+                <p class="detalle__plan-precio">$2.900.000</p>
+                <p class="detalle__plan-tiempo">Entrega en 5–7 semanas</p>
+              </div>
+              <ul class="detalle__lista">
+                <li>Todo lo del plan Básica</li>
+                <li>Optimización para motores de búsqueda<span class="lg-asterisco">*</span></li>
+                <li>Buscador de palabras</li>
+                <li>Chatbot con IA<span class="lg-asterisco">*</span></li>
+                <li>Asistente de agendamiento con IA<span class="lg-asterisco">*</span></li>
+                <li>Adaptable a cualquier dispositivo</li>
+              </ul>
             </div>
-            <ul class="detalle__lista">
-              <li>Todo el Sitio Profesional Pro</li>
-              <li>Chatbot con IA real (Claude API)</li>
-              <li>Entiende preguntas en lenguaje natural</li>
-              <li>Entrenado con la info de tu consultorio</li>
-              <li>Guía al agendamiento de citas</li>
-              <li>Integración con agendamiento</li>
-              <li>Incluye costo API primer mes</li>
-              <li>100% responsive</li>
-            </ul>
-            <a href="servicios.html?plan=Sitio con Chatbot Pro#cotizador" class="btn btn--primary">
-              Cotizar este plan
-            </a>
-          </div>
+          </label>
 
         </div>
 
-        <!-- DIFERENCIA ENTRE BASIC Y PRO -->
-        <div class="detalle__sueltos detalle__explicacion">
-          <p class="section__eyebrow">¿Cuál es la diferencia real?</p>
-          <h3 class="detalle__sueltos-titulo">Chatbot por palabras clave vs. IA real</h3>
-          <div class="detalle__sueltos-grid">
-            <div class="detalle__suelta detalle__suelta--col">
-              <strong>Basic — Palabras clave</strong>
-              <p>El paciente escribe "cita" y el bot responde con el link de agendamiento. Funciona bien para preguntas predecibles y frecuentes. Sin costo mensual de API.</p>
-            </div>
-            <div class="detalle__suelta detalle__suelta--col">
-              <strong>Pro — IA real</strong>
-              <p>El paciente pregunta "¿Atienden a niños con alergias?" y el bot entiende y responde con información real de tu consultorio. Conversación natural, sin límites de palabras clave.</p>
-            </div>
-          </div>
-          <p class="servicios__nota">* El plan Pro incluye el costo de la API el primer mes. A partir del segundo mes, el costo de la API lo asume el cliente directamente (~$5–20 USD/mes según el volumen de consultas).</p>
-        </div>
+        <p class="lg-mini-nota">El dominio y hosting se adquieren por separado. Si no quieres preocuparte por la configuración, puedes agregar este complemento en el tercer paso del cotizador y yo me encargo del proceso contigo. Los costos del dominio y hosting seguirán siendo cubiertos directamente por ti y administrados desde tu propia cuenta.<span class="lg-asterisco">*</span></p>
 
-        <!-- ELEMENTOS SUELTOS -->
-        <div class="detalle__sueltos" style="margin-top: 24px;">
-          <p class="section__eyebrow">¿Quieres algo del Pro sin pagar el plan completo?</p>
-          <h3 class="detalle__sueltos-titulo">Agrégalo al Basic por separado</h3>
-          <div class="detalle__sueltos-grid">
-            <div class="detalle__suelta">
-              <strong>Upgrade chatbot con IA</strong>
-              <span>$500.000 + API</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>Integración agendamiento</strong>
-              <span>$200.000</span>
-            </div>
-            <div class="detalle__suelta">
+        <!-- TOGGLE EXPLICATIVO DE FUNCIONALIDADES -->
+        <div class="detalle__func">
+          <button class="sv-comparador__toggle" id="funcToggle" aria-expanded="false">
+            <span class="sv-comparador__icono">▾</span> Conoce cada funcionalidad de tu plan
+          </button>
+          <div class="detalle__func-lista" id="funcPanel" hidden>
+
+            <div class="detalle__func-item">
               <strong>Especialidades detalladas</strong>
-              <span>$100.000</span>
+              <p>Espacios dedicados para explicar en mayor profundidad cada servicio o especialidad, ayudando a resolver dudas frecuentes y generar confianza antes del primer contacto.</p>
             </div>
-            <div class="detalle__suelta">
+            <div class="detalle__func-item">
+              <strong>Agendamiento con Calendly</strong>
+              <p>Integra un sistema de reservas para que los pacientes puedan solicitar citas de forma más organizada según tu disponibilidad.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Chatbot básico</strong>
+              <p>Un asistente integrado en tu sitio web que ayuda a responder preguntas frecuentes utilizando respuestas previamente configuradas para tu consultorio.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Chatbot interactivo</strong>
+              <p>Permite que los pacientes interactúen directamente con tu página mediante una ventana de conversación sencilla y fácil de usar.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Responde preguntas frecuentes</strong>
+              <p>Puede responder consultas comunes sobre horarios, ubicación, servicios, formas de contacto u otra información que decidas incluir.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Guía al agendamiento de citas</strong>
+              <p>Ayuda a dirigir a los pacientes hacia los canales de contacto o sistemas de reserva que tengas configurados, facilitando el proceso para solicitar una cita.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Chatbot con IA<span class="lg-asterisco">*</span> (Pro)</strong>
+              <p>Un asistente virtual entrenado con la información de tu sitio web, capaz de responder preguntas de forma más flexible y natural utilizando inteligencia artificial. Debido a la naturaleza probabilística de estas herramientas, las respuestas generadas pueden contener errores o imprecisiones.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Asistente de agendamiento con IA<span class="lg-asterisco">*</span> (Pro)</strong>
+              <p>Además de responder preguntas, puede orientar a los pacientes durante el proceso de contacto o solicitud de citas utilizando la información disponible en tu sitio web.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Optimización para motores de búsqueda (Pro)<span class="lg-asterisco">*</span></strong>
+              <p>Incluye optimización de títulos, descripciones, estructura del sitio y configuración básica para que los buscadores puedan indexar correctamente tu página. También incluye recomendaciones iniciales para mejorar la visibilidad de tu sitio. No garantiza posiciones específicas ni resultados comerciales determinados.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Buscador de palabras (Pro)</strong>
+              <p>Permite encontrar rápidamente contenido dentro de tu sitio web mediante palabras clave, especialmente útil en páginas con múltiples secciones, servicios, artículos o recursos descargables.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Múltiples páginas organizadas</strong>
+              <p>Permite dividir el contenido en varias páginas independientes (por ejemplo: inicio, sobre ti, servicios, blog y contacto), facilitando la navegación y la organización de la información.</p>
+            </div>
+            <div class="detalle__func-item">
               <strong>PDFs descargables</strong>
-              <span>$100.000</span>
+              <p>Permite compartir guías, recomendaciones, recursos educativos u otros documentos descargables directamente desde tu sitio web.</p>
             </div>
-            <div class="detalle__suelta">
-              <strong>SEO básico</strong>
-              <span>$120.000</span>
+            <div class="detalle__func-item">
+              <strong>Botón de WhatsApp directo</strong>
+              <p>Un botón de contacto que permite a tus pacientes escribirte directamente por WhatsApp sin necesidad de buscar tu número. Puede ubicarse de distintas formas según las necesidades de tu sitio, como un botón fijo, una burbuja de contacto o un llamado a la acción dentro de una sección específica.</p>
             </div>
-            <div class="detalle__suelta">
-              <strong>Buscador de palabras</strong>
-              <span>$150.000</span>
+            <div class="detalle__func-item">
+              <strong>Mapa y ubicación del consultorio</strong>
+              <p>Un mapa interactivo con la ubicación exacta de tu consultorio para facilitar la llegada de nuevos pacientes.</p>
             </div>
+            <div class="detalle__func-item">
+              <strong>Fotos proporcionadas por el cliente</strong>
+              <p>Utilizamos las fotografías que tú nos compartas, como imágenes del consultorio, equipo de trabajo o instalaciones.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Adaptable a cualquier dispositivo</strong>
+              <p>Tu sitio se verá y funcionará correctamente en celulares, computadores y tablets.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Formulario de contacto<span class="lg-asterisco">**</span></strong>
+              <p>Permite que los pacientes te compartan sus datos de contacto y la información que necesites para facilitar el primer contacto.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Animaciones de desplazamiento</strong>
+              <p>Pequeños efectos visuales que aparecen al navegar por la página, aportando una experiencia más moderna y fluida. Sin ellos, el cambio entre una sección y otra se percibe de forma más directa.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Sección de testimonios</strong>
+              <p>Un espacio para mostrar experiencias y opiniones de pacientes, ayudando a generar mayor confianza en quienes visitan tu sitio.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Diseño más personalizado</strong>
+              <p>Mayor nivel de personalización visual para que tu página refleje mejor la identidad de tu consultorio o marca.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Paleta de colores y tipografía a medida</strong>
+              <p>Selección personalizada de colores y tipografías para que tu sitio tenga una identidad visual más coherente y profesional.</p>
+            </div>
+
           </div>
-          <p class="servicios__nota">* Estos elementos los seleccionas en el cotizador al elegir tu plan.</p>
+        </div>
+</section>
+        <!-- ELEMENTOS SUELTOS -->
+        <div class="detalle__sueltos">
+          <p class="section__eyebrow">¿Quieres algo del Pro sin pagar el plan completo?</p>
+          <h3 class="detalle__sueltos-titulo">Agrega funcionalidades del plan Pro por separado</h3>
+          <div class="detalle__sueltos-grid">
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Optimización para motores de búsqueda" />
+              <div class="detalle__suelta">
+                <strong>Optimización para motores de búsqueda<span class="lg-asterisco">*</span></strong>
+                <span>$150.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Buscador de palabras" />
+              <div class="detalle__suelta">
+                <strong>Buscador de palabras</strong>
+                <span>$250.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Chatbot con IA" />
+              <div class="detalle__suelta">
+                <strong>Chatbot con IA<span class="lg-asterisco">*</span></strong>
+                <span>$500.000 + API</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Asistente de agendamiento con IA" />
+              <div class="detalle__suelta">
+                <strong>Asistente de agendamiento con IA<span class="lg-asterisco">*</span></strong>
+                <span>$200.000</span>
+              </div>
+            </label>
+          </div>
+          <div class="detalle__continuar">
+            <button type="button" id="continuarCotizador" class="btn btn--primary">
+              Continuar al cotizador
+            </button>
+          </div>
         </div>
 
-      </div>
-    </section>
+    <p class="lg-mini-nota">* Leer términos y condiciones completos</p>
+    <p class="lg-mini-nota">** Leer política de privacidad completa</p>
 
+    <!-- CTA -->
     <section class="detalle__cta">
       <div class="container detalle__cta-inner">
-        <h2 class="section__title">¿Listo para un consultorio<br/>que trabaja mientras duermes?</h2>
-        <p class="sv-hero__sub">Cuéntame sobre tu especialidad y te armo una propuesta con el chatbot entrenado para tu consultorio.</p>
+        <h2 class="section__title">¿Listo para dar el siguiente paso?</h2>
+        <p class="sv-hero__sub">Cuéntame qué quieres transmitir o utiliza el cotizador para explorar las opciones disponibles y encontrar la versión que mejor se adapte a ti.</p>
         <div class="detalle__cta-btns">
           <a href="servicios.html#cotizador" class="btn btn--primary">Ir al cotizador</a>
-          <a href="https://wa.me/573167904921?text=Hola%20Ana%20María%2C%20me%20interesa%20el%20plan%20con%20Chatbot" class="btn btn--whatsapp" target="_blank">
+          <a href="https://wa.me/573167904921?text=Hola%20Ana%20María%2C%20me%20interesa%20el%20plan%20Sitio%20con%20Chatbot" class="btn btn--whatsapp" target="_blank">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Escribir por WhatsApp
           </a>

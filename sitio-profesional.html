@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sitio Profesional — HealthCanvas</title>
-  <meta name="description" content="Detalle del plan Sitio Profesional. Basic y Pro para tu consultorio médico." />
+  <meta name="description" content="Detalle del plan Sitio Profesional. Básica y Pro para tu consultorio médico." />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/servicios.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -25,7 +25,7 @@
       <button class="nav__toggle" id="navToggle" aria-label="Abrir menú">
         <span></span><span></span><span></span>
       </button>
-      <ul class="nav__links" id="navLinks">
+        <ul class="nav__links" id="navLinks">
         <li><a href="servicios.html" class="btn btn--nav">Servicios</a></li>
         <li><a href="index.html#sobre-mi">Sobre mí</a></li>
         <li><a href="index.html#portafolio">Portafolio</a></li>
@@ -38,12 +38,13 @@
 
   <main>
 
+    <!-- HERO -->
     <section class="sv-hero">
       <div class="container">
         <a href="servicios.html" class="detalle__back">← Volver a planes</a>
-        <p class="section__eyebrow">Sitio Profesional · 2–4 semanas</p>
+        <p class="section__eyebrow">Sitio Profesional · 3–5 semanas</p>
         <h1 class="section__title">Un sitio completo,<br/>pensado para tu especialidad</h1>
-        <p class="sv-hero__sub">Múltiples páginas, contenido clínico organizado y todas las herramientas que un consultorio moderno necesita para generar confianza desde el primer clic.</p>
+        <p class="sv-hero__sub">Múltiples páginas, información organizada y todas las herramientas que un consultorio moderno necesita para generar confianza desde el primer clic.</p>
         <p class="detalle__precio">$900.000 – $1.500.000 <span>COP</span></p>
       </div>
       <div class="sv-hero__pulse" aria-hidden="true">
@@ -53,100 +54,182 @@
       </div>
     </section>
 
+    <!-- COMPARADOR BASIC VS PRO -->
     <section class="detalle__comparador">
       <div class="container">
         <p class="section__eyebrow">Elige tu nivel</p>
-        <h2 class="section__title">Basic o Pro — tú decides</h2>
+        <h2 class="section__title">Básica o Pro — tú decides</h2>
 
         <div class="detalle__grid">
 
           <!-- BASIC -->
-          <div class="detalle__plan">
-            <div class="detalle__plan-header">
-              <span class="detalle__plan-tag">Basic</span>
-              <h3 class="detalle__plan-nombre">Sitio Profesional Basic</h3>
-              <p class="detalle__plan-precio">$900.000</p>
-              <p class="detalle__plan-tiempo">Entrega en 2–4 semanas</p>
+          <label class="detalle__plan-option">
+            <input type="radio" name="planDetalle" value="Sitio Profesional Básica" />
+            <div class="detalle__plan">
+              <div class="detalle__plan-header">
+                <span class="detalle__plan-tag">Básica</span>
+                <h3 class="detalle__plan-nombre">Sitio Profesional Básica</h3>
+                <p class="detalle__plan-precio">$900.000</p>
+                <p class="detalle__plan-tiempo">Entrega en 3–5 semanas</p>
+              </div>
+              <ul class="detalle__lista">
+                <li>Todo lo del plan Sitio Esencial Básica</li>
+                <li>Múltiples páginas organizadas</li>
+                <li>Animaciones de desplazamiento</li>
+                <li>Formulario de contacto</li>
+                <li>Sección de testimonios</li>
+                <li>Diseño personalizado</li>
+                <li>PDFs descargables</li>
+                <li>Adaptable a cualquier dispositivo</li>
+              </ul>
             </div>
-            <ul class="detalle__lista">
-              <li>Múltiples páginas organizadas</li>
-              <li>Blog básico con artículos</li>
-              <li>Formulario de contacto</li>
-              <li>Diseño personalizado con tu identidad</li>
-              <li>Botón de WhatsApp directo</li>
-              <li>Mapa y ubicación del consultorio</li>
-              <li>100% responsive</li>
-            </ul>
-            <a href="servicios.html?plan=Sitio Profesional Basic#cotizador" class="btn btn--outline">
-              Cotizar este plan
-            </a>
-          </div>
+          </label>
 
           <!-- PRO -->
-          <div class="detalle__plan detalle__plan--pro">
-            <div class="detalle__plan-header">
-              <span class="detalle__plan-tag detalle__plan-tag--pro">Pro</span>
-              <h3 class="detalle__plan-nombre">Sitio Profesional Pro</h3>
-              <p class="detalle__plan-precio">$1.500.000</p>
-              <p class="detalle__plan-tiempo">Entrega en 2–4 semanas</p>
+          <label class="detalle__plan-option">
+            <input type="radio" name="planDetalle" value="Sitio Profesional Pro" />
+            <div class="detalle__plan">
+              <div class="detalle__plan-header">
+                <span class="detalle__plan-tag">Pro</span>
+                <h3 class="detalle__plan-nombre">Sitio Profesional Pro</h3>
+                <p class="detalle__plan-precio">$1.500.000</p>
+                <p class="detalle__plan-tiempo">Entrega en 3–5 semanas</p>
+              </div>
+              <ul class="detalle__lista">
+                <li>Todo lo del plan Básica</li>
+                <li>Especialidades detalladas</li>
+                <li>Agendamiento con Calendly</li>
+                <li>Optimización para motores de búsqueda<span class="lg-asterisco">*</span></li>
+                <li>Buscador de palabras</li>
+                <li>Adaptable a cualquier dispositivo</li>
+              </ul>
             </div>
-            <ul class="detalle__lista">
-              <li>Todo lo del plan Basic</li>
-              <li>Especialidades detalladas por sección</li>
-              <li>PDFs descargables para pacientes</li>
-              <li>Galería de fotos del consultorio</li>
-              <li>Integración básica de citas</li>
-              <li>SEO básico — Google te encuentra</li>
-              <li>Buscador de palabras en el sitio</li>
-              <li>100% responsive</li>
-            </ul>
-            <a href="servicios.html?plan=Sitio Profesional Pro#cotizador" class="btn btn--primary">
-              Cotizar este plan
-            </a>
-          </div>
+          </label>
 
         </div>
 
+        <p class="lg-mini-nota">El dominio y hosting se adquieren por separado. Si no quieres preocuparte por la configuración, puedes agregar este complemento en el tercer paso del cotizador y yo me encargo del proceso contigo. Los costos del dominio y hosting seguirán siendo cubiertos directamente por ti y administrados desde tu propia cuenta.<span class="lg-asterisco">*</span></p>
+
+        <!-- TOGGLE EXPLICATIVO DE FUNCIONALIDADES -->
+        <div class="detalle__func">
+          <button class="sv-comparador__toggle" id="funcToggle" aria-expanded="false">
+            <span class="sv-comparador__icono">▾</span> Conoce cada funcionalidad de tu plan
+          </button>
+          <div class="detalle__func-lista" id="funcPanel" hidden>
+
+            <div class="detalle__func-item">
+              <strong>Múltiples páginas organizadas</strong>
+              <p>Permite dividir el contenido en varias páginas independientes (por ejemplo: inicio, sobre ti, servicios, blog y contacto), facilitando la navegación y la organización de la información.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>PDFs descargables</strong>
+              <p>Permite compartir guías, recomendaciones, recursos educativos u otros documentos descargables directamente desde tu sitio web.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Especialidades detalladas (Pro)</strong>
+              <p>Espacios dedicados para explicar en mayor profundidad cada servicio o especialidad, ayudando a resolver dudas frecuentes y generar confianza antes del primer contacto.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Agendamiento con Calendly (Pro)<span class="lg-asterisco">*</span></strong>
+              <p>Integra un sistema de reservas para que los pacientes puedan solicitar citas de forma más organizada según tu disponibilidad.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Optimización para motores de búsqueda (Pro)<span class="lg-asterisco">*</span></strong>
+              <p>Incluye optimización de títulos, descripciones, estructura del sitio y configuración básica para que los buscadores puedan indexar correctamente tu página. También incluye recomendaciones iniciales para mejorar la visibilidad de tu sitio. No garantiza posiciones específicas ni resultados comerciales determinados.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Buscador de palabras (Pro)</strong>
+              <p>Permite encontrar rápidamente contenido dentro de tu sitio web mediante palabras clave, especialmente útil en páginas con múltiples secciones, servicios, artículos o recursos descargables.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Botón de WhatsApp directo</strong>
+              <p>Un botón de contacto que permite a tus pacientes escribirte directamente por WhatsApp sin necesidad de buscar tu número. Puede ubicarse de distintas formas según las necesidades de tu sitio, como un botón fijo, una burbuja de contacto o un llamado a la acción dentro de una sección específica.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Mapa y ubicación del consultorio</strong>
+              <p>Un mapa interactivo con la ubicación exacta de tu consultorio para facilitar la llegada de nuevos pacientes.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Fotos proporcionadas por el cliente</strong>
+              <p>Utilizamos las fotografías que tú nos compartas, como imágenes del consultorio, equipo de trabajo o instalaciones.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Adaptable a cualquier dispositivo</strong>
+              <p>Tu sitio se verá y funcionará correctamente en celulares, computadores y tablets.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Formulario de contacto<span class="lg-asterisco">**</span></strong>
+              <p>Permite que los pacientes te compartan sus datos de contacto y la información que necesites para facilitar el primer contacto.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Animaciones de desplazamiento</strong>
+              <p>Pequeños efectos visuales que aparecen al navegar por la página, aportando una experiencia más moderna y fluida. Sin ellos, el cambio entre una sección y otra se percibe de forma más directa.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Sección de testimonios</strong>
+              <p>Un espacio para mostrar experiencias y opiniones de pacientes, ayudando a generar mayor confianza en quienes visitan tu sitio.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Diseño más personalizado</strong>
+              <p>Mayor nivel de personalización visual para que tu página refleje mejor la identidad de tu consultorio o marca.</p>
+            </div>
+            <div class="detalle__func-item">
+              <strong>Paleta de colores y tipografía a medida</strong>
+              <p>Selección personalizada de colores y tipografías para que tu sitio tenga una identidad visual más coherente y profesional.</p>
+            </div>
+
+          </div>
+        </div>
+</section>
         <!-- ELEMENTOS SUELTOS -->
         <div class="detalle__sueltos">
           <p class="section__eyebrow">¿Quieres algo del Pro sin pagar el plan completo?</p>
-          <h3 class="detalle__sueltos-titulo">Agrégalo al Basic por separado</h3>
+          <h3 class="detalle__sueltos-titulo">Agrega funcionalidades del plan Pro por separado</h3>
           <div class="detalle__sueltos-grid">
-            <div class="detalle__suelta">
-              <strong>Especialidades detalladas</strong>
-              <span>$100.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>PDFs descargables</strong>
-              <span>$100.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>Galería de fotos</strong>
-              <span>$100.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>Integración citas básica</strong>
-              <span>$150.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>SEO básico</strong>
-              <span>$120.000</span>
-            </div>
-            <div class="detalle__suelta">
-              <strong>Buscador de palabras</strong>
-              <span>$150.000</span>
-            </div>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Especialidades detalladas" />
+              <div class="detalle__suelta">
+                <strong>Especialidades detalladas</strong>
+                <span>$100.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Agendamiento con Calendly" />
+              <div class="detalle__suelta">
+                <strong>Agendamiento con Calendly</strong>
+                <span>$150.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Optimización para motores de búsqueda" />
+              <div class="detalle__suelta">
+                <strong>Optimización para motores de búsqueda<span class="lg-asterisco">*</span></strong>
+                <span>$150.000</span>
+              </div>
+            </label>
+            <label class="detalle__suelta-option">
+              <input type="checkbox" value="Buscador de palabras" />
+              <div class="detalle__suelta">
+                <strong>Buscador de palabras</strong>
+                <span>$250.000</span>
+              </div>
+            </label>
           </div>
-          <p class="servicios__nota">* Estos elementos los seleccionas en el cotizador al elegir tu plan.</p>
+          <div class="detalle__continuar">
+            <button type="button" id="continuarCotizador" class="btn btn--primary">
+              Continuar al cotizador
+            </button>
+          </div>
         </div>
 
-      </div>
-    </section>
+    <p class="lg-mini-nota">* Leer términos y condiciones completos</p>
+    <p class="lg-mini-nota">** Leer política de privacidad completa</p>
 
+    <!-- CTA -->
     <section class="detalle__cta">
       <div class="container detalle__cta-inner">
-        <h2 class="section__title">¿Tu consultorio listo para crecer?</h2>
-        <p class="sv-hero__sub">Cuéntame sobre tu especialidad y tus pacientes — te envío una propuesta en menos de 24 horas.</p>
+        <h2 class="section__title">¿Listo para dar el siguiente paso?</h2>
+        <p class="sv-hero__sub">Cuéntame qué quieres transmitir o utiliza el cotizador para explorar las opciones disponibles y encontrar la versión que mejor se adapte a ti.</p>
         <div class="detalle__cta-btns">
           <a href="servicios.html#cotizador" class="btn btn--primary">Ir al cotizador</a>
           <a href="https://wa.me/573167904921?text=Hola%20Ana%20María%2C%20me%20interesa%20el%20plan%20Sitio%20Profesional" class="btn btn--whatsapp" target="_blank">

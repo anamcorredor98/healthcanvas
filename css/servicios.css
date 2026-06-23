@@ -92,6 +92,31 @@
   margin-top: 16px;
   line-height: 1.6;
 }
+
+/* Toggle explicativo de funcionalidades (páginas de detalle) */
+.detalle__func {
+  margin-top: 32px;
+}
+.detalle__func-lista {
+  margin-top: 20px;
+}
+.detalle__func-lista:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.detalle__func-item strong {
+  display: block;
+  color: var(--azul);
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+.detalle__func-item p {
+  font-size: 0.88rem;
+  color: var(--gris-texto);
+  line-height: 1.65;
+  margin: 0;
+}
 .sv-comparador__intro {
   font-size: 0.92rem;
   color: var(--gris-texto);
@@ -366,15 +391,6 @@
   transform: translateY(-4px);
   box-shadow: var(--sombra);
 }
-.detalle__plan--pro {
-  border-color: var(--azul);
-  background: var(--blanco);
-}
-
-.detalle__plan-header {
-  padding: 32px 28px 24px;
-  border-bottom: 1px solid var(--gris-suave);
-}
 .detalle__plan-tag {
   font-size: 0.75rem;
   font-weight: 700;
@@ -387,7 +403,20 @@
   display: inline-block;
   margin-bottom: 12px;
 }
-.detalle__plan-tag--pro {
+
+.detalle__plan-header {
+  padding: 32px 28px 24px;
+  border-bottom: 1px solid var(--gris-suave);
+}
+
+/* Selección real de plan (radio oculto) — ambos planes se ven iguales hasta que se elige uno */
+.detalle__plan-option { display: block; cursor: pointer; }
+.detalle__plan-option input { display: none; }
+.detalle__plan-option input:checked + .detalle__plan {
+  border-color: var(--azul);
+  background: #EBF3FA;
+}
+.detalle__plan-option input:checked + .detalle__plan .detalle__plan-tag {
   background: var(--azul);
   color: var(--blanco);
 }
@@ -458,10 +487,10 @@
   border-radius: var(--radius);
   padding: 16px 20px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
   border: 1px solid var(--gris-suave);
-  gap: 12px;
 }
 .detalle__suelta strong {
   font-size: 0.88rem;
@@ -474,6 +503,28 @@
   white-space: nowrap;
 }
 
+/* Selección real de sueltos (checkbox oculto) */
+.detalle__suelta-option { display: block; cursor: pointer; }
+.detalle__suelta-option input { display: none; }
+.detalle__suelta-option input:checked + .detalle__suelta {
+  border-color: var(--azul);
+  background: #EBF3FA;
+}
+.detalle__suelta-option.is-incluido {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.detalle__suelta-option.is-incluido .detalle__suelta {
+  border-style: dashed;
+}
+
+.detalle__continuar {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
 /* CTA final */
 .detalle__cta {
   padding: 80px 0;
@@ -482,6 +533,7 @@
 .detalle__cta .section__title { color: var(--blanco); }
 .detalle__cta .sv-hero__sub { color: rgba(255,255,255,0.75); }
 .detalle__cta-inner { text-align: center; }
+.detalle__cta-inner .sv-hero__sub { margin-left: auto; margin-right: auto; }
 .detalle__cta-btns {
   display: flex;
   gap: 14px;
