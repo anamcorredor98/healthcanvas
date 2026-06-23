@@ -31,7 +31,7 @@ const sections = document.querySelectorAll('section[id]');
 const navItems = document.querySelectorAll('.nav__links a[href^="#"]');
 
 const observerOptions = {
-  rootMargin: '-40% 0px -55% 0px'
+  rootMargin: '-10% 0px -35% 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
