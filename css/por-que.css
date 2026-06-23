@@ -3,7 +3,7 @@
    =========================== */
 
 .pq-hero {
-  padding: 140px 0 140px;
+  padding: 140px 0 100px;
   background: var(--gris-fondo);
   border-bottom: 1px solid var(--gris-suave);
   position: relative;

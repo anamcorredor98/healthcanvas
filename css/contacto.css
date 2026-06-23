@@ -3,8 +3,8 @@
    =========================== */
 
 .ct-hero {
-  padding: 120px 0 60px;
-  background: var(--gris-fondo);
+  padding: 140px 0 95px;
+  background: var(--blanco);
   border-bottom: 1px solid var(--gris-suave);
   position: relative;
   overflow: hidden;
@@ -14,7 +14,7 @@
   bottom: 0;
   right: 100px;
   width: 48%;
-  max-width: 800px;
+  max-width: 700px;
   opacity: 0.5;
   pointer-events: none;
 }
@@ -26,13 +26,13 @@
 .ct-hero__sub {
   font-size: 1.05rem;
   color: var(--gris-texto);
-  max-width: 500px;
+  max-width: 600px;
   margin-top: 16px;
   line-height: 1.75;
 }
 
 /* Main grid */
-.ct-main { padding: 80px 0; background: var(--blanco); }
+.ct-main { padding: 80px 0; background: var(--gris-fondo); }
 .ct-main__inner {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
@@ -57,6 +57,7 @@
   margin-bottom: 12px;
   transition: all 0.2s;
   color: var(--negro);
+  background: var(--blanco);
 }
 .ct-canal:hover {
   border-color: var(--azul);
@@ -205,11 +206,11 @@
 /* Calendly */
 .ct-calendly {
   padding: 80px 0;
-  background: var(--gris-fondo);
   border-top: 1px solid var(--gris-suave);
 }
 .ct-calendly__widget {
   margin-top: 40px;
+  background: var(--gris-suave);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--sombra);
