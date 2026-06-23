@@ -461,3 +461,24 @@
     height: 650px;
   }
 }
+.asv__cta {
+  padding: 80px 0;
+  background: var(--azul);
+}
+.asv__cta .section__title { color: var(--blanco); }
+.asv__cta .sv-hero__sub { color: rgba(255,255,255,0.75); }
+.asv__cta-inner { text-align: center; }
+.asv__cta-inner .sv-hero__sub { margin-left: auto; margin-right: auto; }
+.asv__cta-btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .asv__grid { grid-template-columns: 1fr; }
+  .asv__sueltos { padding: 24px; }
+  .asv__sueltos-grid { grid-template-columns: 1fr; }
+}
