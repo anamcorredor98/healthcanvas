@@ -61,6 +61,7 @@ const INCLUIDOS = {
     'Asistente de agendamiento con IA',
     'Sección de preguntas frecuentes',
     'Animaciones de desplazamiento',
+    'Sección testimonios',
   ],
 };
 
