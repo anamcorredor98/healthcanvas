@@ -197,6 +197,9 @@ ul { list-style: none; }
   color: var(--azul);
   line-height: 1.7;
 }
+.portafolio__banner-texto .btn {
+  margin-top: 20px;
+}
 .portafolio__banner .btn--primary {
   background: var(--azul);
   border-color: var(--azul);
@@ -255,7 +258,7 @@ ul { list-style: none; }
   margin-left: 1px;
 }
 
-@media (max-width: 810px) {
+@media (max-width: 1024px) {
   .nav__links {
     display: none;
     position: fixed;
