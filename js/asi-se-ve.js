@@ -1,10 +1,12 @@
 // ============================================
 // ASÍ SE VE — asi-se-ve.js
-// Carrusel copiado de Garritas, namespaced
+// Carrusel + Videos + Tarjetas
 // ============================================
+
+// ===== CARRUSEL =====
 (function() {
   const carousel = document.getElementById('asvHeroCarousel');
-  if (!carousel) return; // solo corre si la sección existe en esta página
+  if (!carousel) return;
 
   const slides = carousel.querySelectorAll('.asv-carousel-slide');
   const dots   = carousel.querySelectorAll('.asv-carousel-dot');
@@ -32,6 +34,7 @@
   function startAuto() { timer = setInterval(next, DELAY); }
   function stopAuto()  { clearInterval(timer); }
 
+  // Click en dots
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       stopAuto();
@@ -40,19 +43,38 @@
     });
   });
 
+  // Hover desktop
   carousel.addEventListener('mouseenter', () => { isPaused = true; stopAuto(); });
   carousel.addEventListener('mouseleave', () => { isPaused = false; startAuto(); });
 
+  // Touch mobile — pausar cuando el dedo está encima
+  carousel.addEventListener('touchstart', () => { isPaused = true; stopAuto(); });
+  carousel.addEventListener('touchend', () => { isPaused = false; startAuto(); });
+
   startAuto();
 })();
-// ============================================
-// TARJETAS DE PRESENTACIÓN — Flip 3D + Auto-rotate
-// ============================================
+
+// ===== VIDEOS — Autoplay en todas las plataformas =====
+(function() {
+  const videos = document.querySelectorAll('.asv-video-card video');
+  
+  videos.forEach(video => {
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.play().catch(err => {
+      console.log('Autoplay bloqueado:', err);
+    });
+  });
+})();
+
+// ===== TARJETAS — Flip 3D + Auto-rotate =====
 (function() {
   const containers = document.querySelectorAll('.asv-tarjeta-flip-container');
   if (!containers.length) return;
 
-  const ROTATION_INTERVAL = 5000; // 5 segundos
+  const ROTATION_INTERVAL = 5000;
   const rotationTimers = {};
 
   function toggleFlip(container) {
@@ -62,7 +84,6 @@
   function startAutoRotate(container) {
     const id = container.dataset.tarjeta;
     
-    // Limpiar timer anterior si existe
     if (rotationTimers[id]) {
       clearInterval(rotationTimers[id]);
     }
@@ -79,20 +100,17 @@
       clearInterval(rotationTimers[id]);
     }
 
-    // Reiniciar después de 2 segundos (da tiempo al usuario de ver el flip)
     setTimeout(() => {
       startAutoRotate(container);
     }, 2000);
   }
 
   containers.forEach(container => {
-    // Click para voltear manualmente
     container.addEventListener('click', () => {
       toggleFlip(container);
       resetAutoRotate(container);
     });
 
-    // Iniciar rotación automática
     startAutoRotate(container);
   });
 })();
