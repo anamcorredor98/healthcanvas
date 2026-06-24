@@ -338,12 +338,12 @@
     padding: 56px 0;
   }
   .asv-logos-track {
-    gap: 32px;
-    animation-duration: 20s;
+    gap: 16px;
+    animation-duration: 25s;
   }
   .asv-logo-card {
-    height: 180px;
-    width: 180px;
+    height: 140px;
+    width: 140px;
     padding: 6px;
   }
 }
@@ -419,12 +419,12 @@
     padding: 56px 0;
   }
   .asv-qr-track {
-    gap: 32px;
-    animation-duration: 20s;
+    gap: 16px;
+    animation-duration: 25s;
   }
   .asv-qr-card {
-    height: 180px;
-    width: 180px;
+    height: 140px;
+    width: 140px;
     padding: 6px;
   }
 }
@@ -458,7 +458,7 @@
     gap: 8px;
   }
   .proyecto__mockup-screen--fijo.asv-chatbot-wrap {
-    height: 650px;
+    height: 550px;
   }
 }
 .asv__cta {
@@ -674,5 +674,13 @@
 
   .asv-tarjeta-par {
     margin-bottom: 56px;
+  }
+
+  .asv-tarjeta-par--inverso .asv-tarjeta-visual {
+    order: 1;
+  }
+
+  .asv-tarjeta-par--inverso .asv-tarjeta-desc {
+    order: 2;
   }
 }
