@@ -81,7 +81,7 @@ function formatCOP(valor) {
 
 // ── Deshabilitar / habilitar elementos sueltos según plan y dependencias ────
 function actualizarElementosSueltos(planValue) {
-  const incluidos = INCLUIDOS[planValue] || [];
+  const incluidos = planValue ? (INCLUIDOS[planValue] || []) : [];
 
   // ¿Este valor ya está disponible (incluido en el plan, o marcado y habilitado)?
   function estaDisponible(valor) {
@@ -127,24 +127,23 @@ function actualizarElementosSueltos(planValue) {
 
 function actualizarCotizacion() {
   const planSeleccionado = document.querySelector('input[name="plan"]:checked');
-  if (!planSeleccionado) {
-    resumenVacio.style.display = 'block';
-    resumenContenido.style.display = 'none';
-    return;
+
+  // Actualizar estados de elementos (incluso sin plan)
+  if (planSeleccionado) {
+    actualizarElementosSueltos(planSeleccionado.value);
+  } else {
+    actualizarElementosSueltos(null);
   }
-
-  actualizarElementosSueltos(planSeleccionado.value);
-
-  resumenVacio.style.display = 'none';
-  resumenContenido.style.display = 'block';
 
   const items = [];
   let total = 0;
 
-  // Plan base
-  const planPrecio = parseInt(planSeleccionado.dataset.precio);
-  items.push({ nombre: planSeleccionado.value, precio: planPrecio });
-  total += planPrecio;
+  // Plan base (opcional)
+  if (planSeleccionado) {
+    const planPrecio = parseInt(planSeleccionado.dataset.precio);
+    items.push({ nombre: planSeleccionado.value, precio: planPrecio });
+    total += planPrecio;
+  }
 
   // Extras (checkboxes) — solo los habilitados y marcados
   extraInputs.forEach(input => {
@@ -179,7 +178,17 @@ function actualizarCotizacion() {
     total += precio;
   }
 
+  // Mostrar/ocultar resumen según si hay algún item
+  if (items.length === 0) {
+    resumenVacio.style.display = 'block';
+    resumenContenido.style.display = 'none';
+    return;
+  }
+
   // Renderizar
+  resumenVacio.style.display = 'none';
+  resumenContenido.style.display = 'block';
+
   resumenLista.innerHTML = items.map(item => `
     <li>
       <span>${item.nombre}</span>
