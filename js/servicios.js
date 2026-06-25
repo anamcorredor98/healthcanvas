@@ -283,3 +283,33 @@ if (planParam || addonsParam) {
     document.getElementById('cotizador')?.scrollIntoView({ behavior: 'smooth' });
   }, 300);
 }
+
+// ── Botón "Agregar al carrito" ──────────────────────────────────────────────
+const btnCarrito = document.getElementById('btnCarrito');
+if (btnCarrito) {
+  btnCarrito.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const planSeleccionado = document.querySelector('input[name="plan"]:checked');
+    const addonSeleccionados = Array.from(extraInputs)
+      .filter(input => input.checked && !input.disabled)
+      .map(input => encodeURIComponent(input.value));
+
+    let url = 'tienda.html';
+    const parametros = [];
+
+    if (planSeleccionado) {
+      parametros.push(`plan=${encodeURIComponent(planSeleccionado.value)}`);
+    }
+
+    if (addonSeleccionados.length > 0) {
+      parametros.push(`addons=${addonSeleccionados.join(',')}`);
+    }
+
+    if (parametros.length > 0) {
+      url += '?' + parametros.join('&');
+    }
+
+    window.location.href = url;
+  });
+}
