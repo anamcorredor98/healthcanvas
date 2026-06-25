@@ -1,0 +1,47 @@
+/* ===========================
+   ICONOS — iconos.css
+   =========================== */
+
+/* ── CARRITO DE NAVEGACIÓN ──────────────────────────────────────────────── */
+
+.nav__carrito {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav__carrito:hover {
+  color: var(--menta);
+}
+
+/* Badge del carrito (burbujita con número de ítems) */
+.nav__carrito-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  background: var(--menta);
+  color: var(--blanco);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.nav__carrito-badge:hover {
+  box-shadow: 0 2px 8px rgba(168, 213, 186, 0.3);
+}
+
+/* ── PRÓXIMOS ÍCONOS ────────────────────────────────────────────────────── */
+
+/* Espacio reservado para nuevos íconos CSS */
