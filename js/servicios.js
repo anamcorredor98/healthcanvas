@@ -19,13 +19,13 @@ const INCLUIDOS = {
   'Sitio Esencial Pro': [
     'Formulario de contacto',
     'Animaciones de desplazamiento',
-    'Sección testimonios',
+    'Sección de testimonios',
     'Diseño personalizado',
   ],
   'Sitio Profesional Básico': [
     'Formulario de contacto',
     'Animaciones de desplazamiento',
-    'Sección testimonios',
+    'Sección de testimonios',
     'Diseño personalizado',
     'PDFs descargables',
   ],
@@ -42,7 +42,7 @@ const INCLUIDOS = {
   'Sitio con Chatbot Básico': [
     'Formulario de contacto',
     'Animaciones de desplazamiento',
-    'Sección testimonios',
+    'Sección de testimonios',
     'Diseño personalizado',
     'Sección de preguntas frecuentes',
     'Chatbot básico',
@@ -63,7 +63,7 @@ const INCLUIDOS = {
     'Asistente de agendamiento con IA',
     'Sección de preguntas frecuentes',
     'Animaciones de desplazamiento',
-    'Sección testimonios',
+    'Sección de testimonios',
   ],
 };
 
@@ -237,19 +237,6 @@ document.getElementById('logoHeader').addEventListener('click', () => {
   header.classList.toggle('is-open', !abierto);
 });
 
-// Toggle de la tabla comparativa de planes
-const comparadorToggle = document.getElementById('comparadorToggle');
-const comparadorTabla  = document.getElementById('comparadorTabla');
-if (comparadorToggle && comparadorTabla) {
-  comparadorToggle.addEventListener('click', () => {
-    const expanded = comparadorToggle.getAttribute('aria-expanded') === 'true';
-    comparadorToggle.setAttribute('aria-expanded', String(!expanded));
-    comparadorTabla.hidden = expanded;
-    const icono = comparadorToggle.querySelector('.sv-comparador__icono');
-    if (icono) icono.style.transform = expanded ? 'rotate(0deg)' : 'rotate(180deg)';
-  });
-}
-
 // Escuchar todos los cambios
 planInputs.forEach(i    => i.addEventListener('change', actualizarCotizacion));
 extraInputs.forEach(i   => i.addEventListener('change', actualizarCotizacion));
@@ -285,31 +272,64 @@ if (planParam || addonsParam) {
 }
 
 // ── Botón "Agregar al carrito" ──────────────────────────────────────────────
+// Guarda en localStorage y SUMA items (SIN duplicados)
 const btnCarrito = document.getElementById('btnCarrito');
 if (btnCarrito) {
   btnCarrito.addEventListener('click', (e) => {
     e.preventDefault();
 
+    // Leer carrito actual desde localStorage
+    let carrito = JSON.parse(localStorage.getItem('healthcanvasCarrito') || '[]');
+
+    // Función helper: agregar item solo si no existe
+    function agregarSiNoExiste(nombre, precio) {
+      if (!carrito.find(item => item.nombre === nombre)) {
+        carrito.push({ nombre, precio });
+      }
+    }
+
+    // Plan seleccionado
     const planSeleccionado = document.querySelector('input[name="plan"]:checked');
-    const addonSeleccionados = Array.from(extraInputs)
-      .filter(input => input.checked && !input.disabled)
-      .map(input => encodeURIComponent(input.value));
-
-    let url = 'tienda.html';
-    const parametros = [];
-
     if (planSeleccionado) {
-      parametros.push(`plan=${encodeURIComponent(planSeleccionado.value)}`);
+      agregarSiNoExiste(planSeleccionado.value, parseInt(planSeleccionado.dataset.precio));
     }
 
-    if (addonSeleccionados.length > 0) {
-      parametros.push(`addons=${addonSeleccionados.join(',')}`);
-    }
+    // Elementos sueltos seleccionados (checkboxes en paso 2)
+    const elementosSueltos = Array.from(extraInputs)
+      .filter(input => input.checked && !input.disabled);
+    elementosSueltos.forEach(input => {
+      agregarSiNoExiste(input.value, parseInt(input.dataset.precio));
+    });
 
-    if (parametros.length > 0) {
-      url += '?' + parametros.join('&');
-    }
+    // Complementos RADIO buttons (logo, post, tarjeta)
+    const complementosRadios = ['logo', 'post', 'tarjeta'];
+    complementosRadios.forEach(name => {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      if (checked) {
+        agregarSiNoExiste(checked.value, parseInt(checked.dataset.precio));
+      }
+    });
 
-    window.location.href = url;
+    // Complementos CHECKBOXES (gestión dominio, plantilla privacidad, carrusel, galería, QR, Catálogo, Tienda)
+    const complementosCheckboxesSeleccionados = Array.from(document.querySelectorAll(
+      'input[type="checkbox"][value="Gestión de dominio y hosting"]:checked, ' +
+      'input[type="checkbox"][value="Plantilla de política de privacidad"]:checked, ' +
+      'input[type="checkbox"][value="Carrusel de imágenes"]:checked, ' +
+      'input[type="checkbox"][value="Galería de fotos/videos estilo Instagram"]:checked, ' +
+      'input[type="checkbox"][value="QR personalizado"]:checked, ' +
+      'input[type="checkbox"][value="QR de WhatsApp/Instagram"]:checked, ' +
+      'input[type="checkbox"][value="Catálogo con pedidos"]:checked, ' +
+      'input[type="checkbox"][value="Tienda virtual"]:checked'
+    ));
+
+    complementosCheckboxesSeleccionados.forEach(input => {
+      agregarSiNoExiste(input.value, parseInt(input.dataset.precio));
+    });
+
+    // Guardar carrito actualizado
+    localStorage.setItem('healthcanvasCarrito', JSON.stringify(carrito));
+
+    // Redirigir a tienda
+    window.location.href = 'tienda.html';
   });
 }

@@ -215,7 +215,7 @@
 .cotizador__resumen {
   background: var(--gris-fondo);
   border-radius: var(--radius);
-  padding: 36px;
+  padding: 36px 140px;
   border: 2px solid var(--gris-suave);
 }
 .cotizador__resumen-vacio {

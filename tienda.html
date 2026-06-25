@@ -7,6 +7,7 @@
   <meta name="description" content="Revisa tu cotización y procede al pago." />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/tienda.css" />
+  <link rel="stylesheet" href="css/servicios.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -51,7 +52,7 @@
       <div class="container">
         <p class="section__eyebrow">Tu cotización</p>
         <h1 class="section__title">Tu carrito de compras</h1>
-        <p class="ti-hero__sub">Revisa los elementos que seleccionaste, aplica un código de descuento si tienes, y prepárate para completar tu pedido.</p>
+        <p class="ti-hero__sub">Personaliza tu selección, revisa tu carrito y prepárate para completar tu pedido.</p>
       </div>
       <div class="ti-hero__pulse" aria-hidden="true">
         <svg viewBox="0 0 600 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,14 +61,358 @@
       </div>
     </section>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- TOGGLES (FULL WIDTH) -->
+    <section class="ti-toggles-section">
+      <div class="container">
+        <div class="ti-toggles-cotizador">
+          <p class="section__eyebrow">Personaliza aquí</p>
+          <h2 class="section__title">Arma tu cotización</h2>
+          <p class="sv-hero__sub">Selecciona tu plan, elementos y complementos. Deselecciona para remover del carrito.</p>
+
+          <!-- TOGGLE 1: PLANES -->
+          <div class="ti-toggle-group">
+            <button class="ti-toggle-header" onclick="this.nextElementSibling.classList.toggle('open')">
+              <span>1. Elige tu plan base</span>
+              <span class="ti-toggle-icon">▾</span>
+            </button>
+            <div class="ti-toggle-content">
+              <div class="cotizador__opciones" id="ti-planes">
+                <label class="cotizador__opcion">
+                  <input type="radio" name="ti-plan" value="Sitio Esencial Básico" data-precio="525000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Sitio Esencial Básico</strong>
+                    <span>$525.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="radio" name="ti-plan" value="Sitio Esencial Pro" data-precio="915000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Sitio Esencial Pro</strong>
+                    <span>$915.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="radio" name="ti-plan" value="Sitio Profesional Básico" data-precio="1045000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Sitio Profesional Básico</strong>
+                    <span>$1.045.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="radio" name="ti-plan" value="Sitio Profesional Pro" data-precio="1625000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Sitio Profesional Pro</strong>
+                    <span>$1.625.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="radio" name="ti-plan" value="Sitio con Chatbot Básico" data-precio="1675000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Chatbot Básico</strong>
+                    <span>$1.675.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="radio" name="ti-plan" value="Sitio con Chatbot Pro" data-precio="3085000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Chatbot Pro</strong>
+                    <span>$3.085.000</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- TOGGLE 2: ELEMENTOS SUELTOS -->
+          <div class="ti-toggle-group">
+            <button class="ti-toggle-header" onclick="this.nextElementSibling.classList.toggle('open')">
+              <span>2. Elementos sueltos (opcional)</span>
+              <span class="ti-toggle-icon">▾</span>
+            </button>
+            <div class="ti-toggle-content">
+              <div class="cotizador__opciones" id="ti-elementos">
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Formulario de contacto" data-precio="75000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Formulario de contacto</strong>
+                    <span>$75.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Animaciones de desplazamiento" data-precio="55000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Animaciones de desplazamiento</strong>
+                    <span>$55.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Sección de testimonios" data-precio="110000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Sección de testimonios</strong>
+                    <span>$110.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Sección de preguntas frecuentes" data-precio="110000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Sección de preguntas frecuentes</strong>
+                    <span>$110.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Diseño personalizado" data-precio="200000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Diseño personalizado</strong>
+                    <span>$200.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Sección de especialidades detalladas" data-precio="110000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Sección de especialidades detalladas</strong>
+                    <span>$110.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="PDFs descargables" data-precio="130000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>PDFs descargables</strong>
+                    <span>$130.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Agendamiento con Calendly" data-precio="160000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Agendamiento con Calendly</strong>
+                    <span>$160.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Optimización para motores de búsqueda" data-precio="160000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Optimización para motores de búsqueda</strong>
+                    <span>$160.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Buscador de palabras" data-precio="300000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Buscador de palabras</strong>
+                    <span>$300.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Chatbot básico" data-precio="500000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Chatbot básico</strong>
+                    <span>$500.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Chatbot con IA" data-precio="675000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Chatbot con IA</strong>
+                    <span>$675.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Asistente de agendamiento con IA" data-precio="325000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Asistente de agendamiento con IA</strong>
+                    <span>$325.000</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- TOGGLE 3: COMPLEMENTOS -->
+          <div class="ti-toggle-group">
+            <button class="ti-toggle-header" onclick="this.nextElementSibling.classList.toggle('open')">
+              <span>3. Complementos (opcional)</span>
+              <span class="ti-toggle-icon">▾</span>
+            </button>
+            <div class="ti-toggle-content">
+              <div class="cotizador__opciones" id="ti-complementos">
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Gestión de dominio y hosting" data-precio="180000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Gestión de dominio y hosting</strong>
+                    <span>$180.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Plantilla de política de privacidad" data-precio="85000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Plantilla de política de privacidad</strong>
+                    <span>$85.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Catálogo con pedidos" data-precio="480000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Catálogo con pedidos</strong>
+                    <span>$480.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Tienda virtual" data-precio="970000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Tienda virtual</strong>
+                    <span>$970.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Carrusel de imágenes" data-precio="130000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Carrusel de imágenes</strong>
+                    <span>$130.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="Galería de fotos/videos estilo Instagram" data-precio="160000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>Galería de fotos/videos estilo Instagram</strong>
+                    <span>$160.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="QR personalizado" data-precio="45000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>QR personalizado</strong>
+                    <span>$45.000</span>
+                  </div>
+                </label>
+                <label class="cotizador__opcion">
+                  <input type="checkbox" value="QR de WhatsApp/Instagram" data-precio="45000" onchange="tiManejarCambio(this)" />
+                  <div class="cotizador__opcion-card">
+                    <strong>QR de WhatsApp/Instagram</strong>
+                    <span>$45.000</span>
+                  </div>
+                </label>
+
+                <!-- Logo — toggle simple vs. diseñador -->
+                <div class="cotizador__opcion-toggle" id="toggleLogoTienda">
+                  <div class="cotizador__opcion-card cotizador__opcion-card--toggle" id="logoHeaderTienda">
+                    <strong>Logo</strong>
+                    <span>Desde $200.000 ▾</span>
+                  </div>
+                  <div class="cotizador__toggle-opciones" id="logoOpcionesTienda" style="display:none">
+                    <label class="cotizador__opcion">
+                      <input type="radio" name="ti-logo" value="Logo simple (HealthCanvas)" data-precio="200000" onchange="tiManejarCambio(this)" />
+                      <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                        <strong>Simple</strong>
+                        <span>$200.000</span>
+                        <small>Diseñado por HealthCanvas, no por un especialista</small>
+                      </div>
+                    </label>
+                    <label class="cotizador__opcion">
+                      <input type="radio" name="ti-logo" value="Logo profesional (diseñador colaborador)" data-precio="0" onchange="tiManejarCambio(this)" />
+                      <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                        <strong>Profesional</strong>
+                        <span>Cotización directa</span>
+                        <small>Con un diseñador colaborador, según su tarifa</small>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Post de inauguración — toggle -->
+                <div class="cotizador__opcion-toggle" id="togglePostTienda">
+                  <div class="cotizador__opcion-card cotizador__opcion-card--toggle" id="postHeaderTienda">
+                    <strong>Post de inauguración</strong>
+                    <span>$55.000 – $110.000 ▾</span>
+                  </div>
+                  <div class="cotizador__toggle-opciones" id="postOpcionesTienda" style="display:none">
+                    <label class="cotizador__opcion">
+                      <input type="radio" name="ti-post" value="Post de inauguración Básico" data-precio="55000" onchange="tiManejarCambio(this)" />
+                      <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                        <strong>Básico</strong>
+                        <span>$55.000</span>
+                        <small>Diseño sencillo anunciando tu nueva página</small>
+                      </div>
+                    </label>
+                    <label class="cotizador__opcion">
+                      <input type="radio" name="ti-post" value="Post de inauguración Pro" data-precio="110000" onchange="tiManejarCambio(this)" />
+                      <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                        <strong>Pro</strong>
+                        <span>$110.000</span>
+                        <small>Diseño premium, más impacto visual y copy profesional</small>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Tarjeta de presentación — toggle -->
+                <div class="cotizador__opcion-toggle" id="toggleTarjetaTienda">
+                  <div class="cotizador__opcion-card cotizador__opcion-card--toggle" id="tarjetaHeaderTienda">
+                    <strong>Tarjeta de presentación</strong>
+                    <span>$85.000 – $140.000 ▾</span>
+                  </div>
+                  <div class="cotizador__toggle-opciones" id="tarjetaOpcionesTienda" style="display:none">
+                    <label class="cotizador__opcion">
+                      <input type="radio" name="ti-tarjeta" value="Tarjeta de presentación sin QR" data-precio="85000" onchange="tiManejarCambio(this)" />
+                      <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                        <strong>Sin QR</strong>
+                        <span>$85.000</span>
+                        <small>Diseño digital y/o imprimible con tus datos</small>
+                      </div>
+                    </label>
+                    <label class="cotizador__opcion">
+                      <input type="radio" name="ti-tarjeta" value="Tarjeta de presentación con QR" data-precio="140000" onchange="tiManejarCambio(this)" />
+                      <div class="cotizador__opcion-card cotizador__opcion-card--sub">
+                        <strong>Con QR</strong>
+                        <span>$140.000</span>
+                        <small>Incluye QR personalizado o de WhatsApp/Instagram</small>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL: Carrito (izq) + Formulario + Resumen (der sticky) -->
     <section class="ti-main">
       <div class="container ti-main__inner">
 
-        <!-- LADO IZQUIERDO: Formulario cliente + Carrito -->
+        <!-- LADO IZQUIERDO: Carrito (scrolleable) -->
         <div class="ti-left">
 
-          <!-- FORMULARIO CLIENTE -->
+          <!-- CARRITO -->
+          <div class="ti-carrito">
+            <h2 class="ti-carrito__titulo">Tu carrito</h2>
+            
+            <!-- Mensaje carrito vacío -->
+            <div class="ti-carrito__vacio" id="carritoVacio">
+              <p>En este momento tu carrito está vacío.</p>
+              <p>Selecciona planes y elementos arriba para comenzar.</p>
+            </div>
+
+            <!-- Items del carrito -->
+            <div class="ti-carrito__items" id="carritoItems" style="display:none">
+              <div id="itemsList"></div>
+              <div class="ti-carrito__acciones">
+                <button type="button" id="volverCotizador" class="btn btn--outline">
+                  ← Volver al cotizador
+                </button>
+                <button type="button" id="limpiarCarrito" class="btn btn--outline btn--danger">
+                  Limpiar carrito
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- LADO DERECHO: Formulario (sticky) + Resumen (sticky) -->
+        <div class="ti-right">
+
+          <!-- FORMULARIO CLIENTE (STICKY) -->
           <div class="ti-form-wrap">
             <h2 class="ti-form__titulo">Tus datos</h2>
             <p class="ti-form__sub">Completa esta información para procesar tu cotización.</p>
@@ -87,58 +432,18 @@
             </form>
           </div>
 
-          <!-- CARRITO -->
-          <div class="ti-carrito">
-            <h2 class="ti-carrito__titulo">Tu carrito</h2>
-            
-            <!-- Mensaje carrito vacío -->
-            <div class="ti-carrito__vacio" id="carritoVacio">
-              <p>En este momento tu carrito está vacío.</p>
-              <p>Si quieres hacer una compra, ve al <a href="servicios.html">cotizador en la sección de servicios</a> para elegir todos los elementos que desees.</p>
+          <!-- RESUMEN (STICKY) -->
+          <div class="ti-resumen">
+            <!-- Mensaje resumen vacío -->
+            <div class="ti-resumen__vacio" id="resumenVacio">
+              <p>Tu cotización aparecerá aquí cuando selecciones un plan y/o elementos.</p>
             </div>
 
-            <!-- Items del carrito -->
-            <div class="ti-carrito__items" id="carritoItems" style="display:none">
-              <div id="itemsList"></div>
+            <!-- Resumen con contenido -->
+            <div class="ti-resumen__contenido" id="resumenContenido" style="display:none">
+              <h3>Tu cotización</h3>
+              <ul id="resumenLista"></ul>
               
-              <!-- Código de descuento -->
-              <div class="ti-carrito__descuento">
-                <h3 class="ti-carrito__descuento-titulo">Código de descuento</h3>
-                <div class="ti-carrito__descuento-form">
-                  <input type="text" id="codigoInput" placeholder="Ingresa tu código" />
-                  <button type="button" id="aplicarCodigo" class="btn btn--secondary">Aplicar código</button>
-                </div>
-                <p id="codigoMensaje" style="display:none; font-size:0.85rem; margin-top:8px;"></p>
-              </div>
-
-              <!-- Botones de acción -->
-              <div class="ti-carrito__acciones">
-                <button type="button" id="volverCotizador" class="btn btn--outline">
-                  ← Volver al cotizador
-                </button>
-                <button type="button" id="limpiarCarrito" class="btn btn--outline btn--danger">
-                  🗑 Limpiar carrito
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- LADO DERECHO: Resumen -->
-        <aside class="ti-resumen">
-          <h2 class="ti-resumen__titulo">Resumen</h2>
-          
-          <!-- Resumen vacío -->
-          <div class="ti-resumen__vacio" id="resumenVacio">
-            <p>Tu resumen aparecerá cuando agregues elementos.</p>
-          </div>
-
-          <!-- Resumen lleno -->
-          <div class="ti-resumen__contenido" id="resumenContenido" style="display:none">
-            <ul class="ti-resumen__lista" id="resumenLista"></ul>
-            
-            <div class="ti-resumen__totales">
               <div class="ti-resumen__linea">
                 <span>Subtotal</span>
                 <strong id="subtotalValue">$0</strong>
@@ -151,29 +456,35 @@
                 <span>Descuento <span id="descuentoPorc">(0%)</span></span>
                 <strong id="descuentoValue">$0</strong>
               </div>
-              <div class="ti-resumen__total">
+              
+              <div class="ti-resumen__linea ti-resumen__total">
                 <span>Total</span>
                 <strong id="totalValue">$0</strong>
               </div>
-            </div>
 
-            <!-- Mensaje upsell -->
-            <div class="ti-resumen__upsell" id="upsellMessage" style="display:none">
-              <p>¿Necesitas un elemento suelto o un complemento? Recuerda que desde el cotizador puedes agregarlo.</p>
-            </div>
+              <!-- Código de descuento -->
+              <div class="ti-resumen__codigo-wrap">
+                <label for="codigoInput" class="ti-resumen__codigo-label">Código de descuento (opcional)</label>
+                <div class="ti-resumen__codigo-input-group">
+                  <input type="text" id="codigoInput" placeholder="Ingresa tu código" />
+                  <button type="button" id="aplicarCodigo" class="btn btn--secondary">Aplicar</button>
+                </div>
+                <div id="codigoMensaje" style="display:none; margin-top:8px; font-size:0.85rem;"></div>
+              </div>
 
-            <!-- Botones de pago -->
-            <div class="ti-resumen__botones">
-              <button type="button" id="exportarPDF" class="btn btn--secondary btn--full">
-                📄 Exportar como PDF
-              </button>
-              <button type="button" id="procesarPago" class="btn btn--primary btn--full" disabled title="Próximamente disponible (en migración a Vercel)">
-                💳 Proceder al pago
-              </button>
-              <p class="ti-resumen__nota-pago">El pago estará disponible próximamente. Por ahora, puedes exportar tu cotización como PDF.</p>
+              <!-- Botones de acción -->
+              <div class="ti-resumen__botones">
+                <button type="button" id="exportarPDF" class="btn btn--secondary btn--full">
+                  📄 Exportar como PDF
+                </button>
+                <button type="button" id="procesarPago" class="btn btn--primary btn--full" disabled title="Próximamente disponible (en migración a Vercel)">
+                  💳 Proceder al pago
+                </button>
+              </div>
             </div>
           </div>
-        </aside>
+
+        </div>
 
       </div>
     </section>
@@ -191,7 +502,6 @@
     </div>
   </footer>
 
-  <!-- jsPDF para exportar PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/tienda.js"></script>

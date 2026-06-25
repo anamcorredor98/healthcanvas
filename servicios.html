@@ -203,6 +203,18 @@
             <p class="addon__precio">$85.000</p>
           </div>
           <div class="addon__card">
+            <span class="addon__icon">🛍️</span>
+            <h4>Catálogo con pedidos</h4>
+            <p>Muestra productos organizados por categorías y permite generar pedidos de forma sencilla. Incluye carrito de compras, exportación a PDF y envío del pedido por WhatsApp. No procesa pagos en línea.</p>
+            <p class="addon__precio">$480.000</p>
+          </div>
+          <div class="addon__card">
+            <span class="addon__icon">🛒</span>
+            <h4>Tienda virtual</h4>
+            <p>Permite mostrar productos, gestionar pedidos y recibir pagos en línea mediante pasarela de pago integrada. Incluye carrito de compras, checkout y procesamiento de pagos.</p>
+            <p class="addon__precio">$970.000</p>
+          </div>
+          <div class="addon__card">
             <span class="addon__icon">✏️</span>
             <h4>Logo</h4>
             <p>Logo simple diseñado por HealthCanvas, o logo profesional con un diseñador colaborador (cotización directa según su tarifa).<span class="lg-asterisco">*</span></p>
@@ -428,6 +440,24 @@
                 </div>
               </label>
 
+              <!-- Catálogo con pedidos — precio fijo -->
+              <label class="cotizador__opcion">
+                <input type="checkbox" value="Catálogo con pedidos" data-precio="480000" />
+                <div class="cotizador__opcion-card">
+                  <strong>Catálogo con pedidos</strong>
+                  <span>$480.000</span>
+                </div>
+              </label>
+
+              <!-- Tienda virtual — precio fijo -->
+              <label class="cotizador__opcion">
+                <input type="checkbox" value="Tienda virtual" data-precio="970000" />
+                <div class="cotizador__opcion-card">
+                  <strong>Tienda virtual</strong>
+                  <span>$970.000</span>
+                </div>
+              </label>
+              
               <!-- Carrusel — precio fijo -->
               <label class="cotizador__opcion">
                 <input type="checkbox" value="Carrusel de imágenes" data-precio="130000" />
@@ -541,9 +571,6 @@
                   </label>
                 </div>
               </div>
-
-            </div>
-          </div>
 
           <!-- Resumen -->
           <div class="cotizador__resumen" id="cotizadorResumen">
