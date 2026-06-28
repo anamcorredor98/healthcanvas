@@ -1,0 +1,199 @@
+/* ===========================
+   RECURSOS DESCARGABLES — recursos.css
+   Páginas: guia-cotizacion, antes-de-contratar, guia-creacion-cuentas
+   =========================== */
+
+.rc-hero {
+  padding: 120px 0 60px;
+  background: var(--gris-fondo);
+  border-bottom: 1px solid var(--gris-suave);
+  position: relative;
+  overflow: hidden;
+}
+.rc-hero__pulse {
+  position: absolute;
+  bottom: 0;
+  right: 60px;
+  width: 42%;
+  max-width: 600px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+@media (max-width: 1100px) {
+  .rc-hero__pulse { display: none; }
+}
+.rc-hero__sub {
+  font-size: 1rem;
+  color: var(--gris-texto);
+  max-width: 620px;
+  margin-top: 12px;
+  line-height: 1.7;
+}
+.rc-hero__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--azul);
+  margin-bottom: 18px;
+}
+.rc-hero__back:hover { color: var(--azul-claro); }
+
+.rc-acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.rc-contenido {
+  padding: 56px 0 96px;
+  background: var(--blanco);
+}
+.rc-contenido .container {
+  max-width: 760px;
+}
+
+.rc-intro {
+  font-size: 1rem;
+  color: var(--gris-texto);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.rc-seccion {
+  margin: 0 0 34px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--gris-suave);
+}
+.rc-seccion:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.rc-seccion__titulo {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--azul);
+  margin-bottom: 6px;
+}
+.rc-seccion__titulo--small {
+  font-size: 1.15rem;
+}
+.rc-seccion__intro {
+  font-size: 0.92rem;
+  color: var(--gris-texto);
+  font-style: italic;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.rc-seccion p {
+  font-size: 0.95rem;
+  color: var(--gris-texto);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.rc-seccion p:last-child { margin-bottom: 0; }
+.rc-seccion p strong { color: var(--azul); }
+
+.rc-seccion ul {
+  margin: 4px 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.rc-seccion ul li {
+  font-size: 0.93rem;
+  color: var(--negro);
+  line-height: 1.7;
+  padding-left: 22px;
+  position: relative;
+}
+.rc-seccion ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--menta);
+}
+
+/* Pasos numerados (guía de cuentas) */
+.rc-pasos {
+  margin: 10px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  counter-reset: rc-counter;
+  list-style: none;
+  padding-left: 0;
+}
+.rc-pasos li {
+  font-size: 0.93rem;
+  color: var(--negro);
+  line-height: 1.7;
+  padding-left: 30px;
+  position: relative;
+  counter-increment: rc-counter;
+}
+.rc-pasos li::before {
+  content: counter(rc-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--azul);
+  color: var(--blanco);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rc-pasos strong { color: var(--azul); }
+
+/* Callout neutral (tip menta) */
+.rc-callout {
+  background: var(--gris-fondo);
+  border-left: 3px solid var(--menta);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  color: var(--gris-texto);
+  line-height: 1.7;
+}
+.rc-callout + .rc-callout { margin-top: 10px; }
+
+/* Callout de advertencia (borde azul) */
+.rc-callout--warn {
+  border-left-color: var(--azul);
+}
+.rc-callout strong { color: var(--azul); }
+
+.rc-cierre {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: var(--gris-texto);
+  line-height: 1.8;
+}
+.rc-cierre strong { color: var(--azul); }
+
+.rc-footer-nav {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--gris-suave);
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 468px) {
+  .rc-hero { padding: 100px 0 40px; }
+  .rc-seccion__titulo { font-size: 1.15rem; }
+  .rc-acciones { flex-direction: column; }
+  .rc-acciones .btn { width: 100%; justify-content: center; }
+}
