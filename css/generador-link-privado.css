@@ -1,0 +1,251 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   GENERADOR DE LINKS PRIVADOS - CSS (Actualizado)
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Modal de autenticación */
+.glp-modal-auth {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.glp-modal-contenido {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.glp-modal-contenido h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #1B4F72;
+}
+
+.glp-modal-contenido p {
+  margin-bottom: 25px;
+  color: #666;
+}
+
+.glp-form-grupo {
+  margin-bottom: 20px;
+}
+
+.glp-form-grupo label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.glp-form-grupo input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d3d1c7;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.glp-error {
+  color: #e24b4a;
+  font-size: 13px;
+  margin-bottom: 15px;
+  display: none;
+}
+
+/* Sección datos cliente */
+.glp-datos-cliente-section {
+  background: #f9f7f4;
+  padding: 40px 0;
+}
+
+.glp-datos-cliente {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.glp-datos-cliente .section__eyebrow {
+  margin-bottom: 10px;
+}
+
+.glp-datos-cliente .section__title {
+  margin-bottom: 25px;
+}
+
+/* Descuentos */
+.glp-descuentos-contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.glp-descuento-item {
+  padding: 15px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #e8e6e2;
+}
+
+.glp-desc-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.glp-desc-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.glp-desc-check input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.glp-desc-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 300px;
+}
+
+.glp-desc-input-group input,
+.glp-desc-input-group select {
+  padding: 8px 10px;
+  border: 1px solid #d3d1c7;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.glp-desc-input-group select {
+  flex: 1;
+  min-width: 150px;
+}
+
+.glp-acumulacion {
+  padding: 15px;
+  background: #f9f7f4;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.glp-acumulacion label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.glp-acumulacion label:last-child {
+  margin-bottom: 0;
+}
+
+.glp-acumulacion input[type="radio"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* Extras */
+.glp-extras-contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.glp-extra-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #d3d1c7;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+/* Badges */
+.glp-badge-incluido,
+.glp-badge-requisito {
+  display: block;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.glp-badge-incluido {
+  color: #27a745;
+}
+
+.glp-badge-requisito {
+  color: #666;
+}
+
+/* Lista de resumen (scrolleable interna) */
+.ti-resumen__contenido ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  flex-shrink: 0;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+#glp-resumen-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ti-resumen__contenido li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding-bottom: 8px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #d3d1c7;
+  color: #333;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .glp-desc-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .glp-desc-input-group {
+    min-width: 100%;
+    flex-direction: column;
+  }
+
+  .glp-desc-input-group input,
+  .glp-desc-input-group select {
+    width: 100%;
+  }
+
+  .glp-extra-item {
+    flex-direction: column;
+  }
+
+  .glp-extra-item > div {
+    flex-direction: column;
+  }
+
+  .glp-extra-item input {
+    width: 100% !important;
+  }
+}
