@@ -1,0 +1,338 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   GENERADOR DE CÓDIGOS DE PROMOCIÓN - CSS
+   Usa los tokens de styles.css (--azul, --menta, --gris-*, --radius, etc.)
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── MODAL DE AUTENTICACIÓN ────────────────────────────────────────────────── */
+.gcp-modal-auth {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.gcp-modal-contenido {
+  background: var(--blanco);
+  padding: 40px;
+  border-radius: var(--radius);
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.gcp-modal-contenido h2 {
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--azul);
+}
+
+.gcp-modal-contenido p {
+  margin-bottom: 24px;
+  color: var(--gris-texto);
+}
+
+.gcp-form-grupo {
+  margin-bottom: 18px;
+}
+
+.gcp-form-grupo label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--negro);
+}
+
+.gcp-form-grupo input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--gris-suave);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.gcp-form-grupo input:focus {
+  outline: none;
+  border-color: var(--azul);
+}
+
+.gcp-error {
+  color: #e24b4a;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  display: none;
+}
+
+/* ── SECCIONES Y TARJETA CONTENEDORA ───────────────────────────────────────── */
+.gcp-seccion {
+  padding: 40px 0;
+}
+
+.gcp-card {
+  background: var(--blanco);
+  padding: 36px;
+  border-radius: var(--radius);
+  box-shadow: var(--sombra);
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.gcp-card .section__title {
+  margin-bottom: 8px;
+}
+
+.gcp-label-bloque {
+  font-weight: 600;
+  color: var(--azul);
+  margin: 26px 0 12px;
+  font-size: 0.95rem;
+}
+
+/* Selects con el mismo look que los inputs de la tienda */
+.gcp-card select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--gris-suave);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: var(--blanco);
+  color: var(--negro);
+  cursor: pointer;
+}
+
+.gcp-card select:focus {
+  outline: none;
+  border-color: var(--azul);
+}
+
+/* ── GRID Y AYUDAS ─────────────────────────────────────────────────────────── */
+.gcp-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.gcp-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--gris-texto);
+}
+
+/* ── VISTA PREVIA DEL CÓDIGO ───────────────────────────────────────────────── */
+.gcp-preview {
+  margin: 22px 0;
+  padding: 18px 20px;
+  background: var(--gris-fondo);
+  border: 1px dashed var(--menta-oscuro);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.gcp-preview__label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--menta-oscuro);
+  font-weight: 600;
+}
+
+.gcp-preview__valor {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  color: var(--azul);
+  letter-spacing: 0.03em;
+  word-break: break-all;
+}
+
+/* ── APLICA A (casillas) ───────────────────────────────────────────────────── */
+.gcp-aplica {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+
+.gcp-aplica__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  color: var(--negro);
+  cursor: pointer;
+}
+
+.gcp-aplica__item input {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+}
+
+/* ── AVISO / ERROR AL CREAR (cuadro rojo) ──────────────────────────────────── */
+.gcp-aviso {
+  margin: 18px 0;
+  padding: 14px 16px;
+  background: #fdeceb;
+  border-left: 3px solid #e24b4a;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--negro);
+  font-size: 0.9rem;
+}
+
+/* ── RESULTADO ─────────────────────────────────────────────────────────────── */
+.gcp-resultado {
+  margin-top: 22px;
+  padding: 24px;
+  background: var(--gris-fondo);
+  border: 1px solid var(--gris-suave);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.gcp-resultado__titulo {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--menta-oscuro);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.gcp-resultado__codigo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.gcp-resultado__codigo {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--azul);
+  letter-spacing: 0.03em;
+  word-break: break-all;
+}
+
+.gcp-resultado__detalle {
+  margin-top: 12px;
+  color: var(--gris-texto);
+  font-size: 0.9rem;
+}
+
+/* ── TABLA DE HISTORIAL ────────────────────────────────────────────────────── */
+.gcp-lista-vacia {
+  color: var(--gris-texto);
+  font-size: 0.92rem;
+  padding: 8px 0;
+}
+
+.gcp-lista-wrap {
+  overflow-x: auto;
+}
+
+.gcp-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  min-width: 820px;
+}
+
+.gcp-tabla thead th {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 2px solid var(--gris-suave);
+  color: var(--azul);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.gcp-tabla tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gris-suave);
+  color: var(--negro);
+  vertical-align: middle;
+}
+
+.gcp-tabla tbody tr:hover {
+  background: var(--gris-fondo);
+}
+
+/* ── BADGES DE ESTADO ──────────────────────────────────────────────────────── */
+.gcp-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.gcp-badge--activo {
+  background: rgba(106, 171, 137, 0.18);
+  color: #3f7d5c;
+}
+
+.gcp-badge--pausado {
+  background: rgba(230, 168, 60, 0.18);
+  color: #a9781a;
+}
+
+.gcp-badge--vencido {
+  background: #fdeceb;
+  color: #c0392b;
+}
+
+.gcp-badge--programado {
+  background: rgba(46, 134, 193, 0.15);
+  color: var(--azul);
+}
+
+/* ── BOTONES DE ACCIÓN EN LA TABLA ─────────────────────────────────────────── */
+.gcp-acciones-celda {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.gcp-mini-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--azul);
+  background: transparent;
+  color: var(--azul);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.gcp-mini-btn:hover {
+  background: var(--azul);
+  color: var(--blanco);
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .gcp-card {
+    padding: 24px;
+  }
+
+  .gcp-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .gcp-preview__valor,
+  .gcp-resultado__codigo {
+    font-size: 1.6rem;
+  }
+}

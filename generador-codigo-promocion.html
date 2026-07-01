@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Códigos de Promoción - HealthCanvas</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/tienda.css">
+  <link rel="stylesheet" href="css/servicios.css">
+  <link rel="stylesheet" href="css/generador-codigo-promocion.css">
+  <link rel="stylesheet" href="css/iconos.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       MODAL DE AUTENTICACIÓN
+       ══════════════════════════════════════════════════════════════════════ -->
+  <div id="gcp-modal-auth" class="gcp-modal-auth">
+    <div class="gcp-modal-contenido">
+      <h2>Acceso restringido</h2>
+      <p>Generador de códigos de promoción</p>
+      <form id="gcp-form-login" onsubmit="gcpManejarLogin(event)">
+        <div class="gcp-form-grupo">
+          <label for="gcp-usuario">Usuario</label>
+          <input type="text" id="gcp-usuario" autocomplete="username" required>
+        </div>
+        <div class="gcp-form-grupo">
+          <label for="gcp-contrasena">Contraseña</label>
+          <input type="password" id="gcp-contrasena" autocomplete="current-password" required>
+        </div>
+        <div id="gcp-error-login" class="gcp-error"></div>
+        <button type="submit" class="btn btn--primary">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       CONTENIDO PRINCIPAL
+       ══════════════════════════════════════════════════════════════════════ -->
+  <div id="gcp-contenido" style="display: none;">
+
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo">
+          <svg width="36" height="36" viewBox="-85 -105 200 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 60,-80 A 90,90 0 1,0 60,80" fill="none" stroke="#1B4F72" stroke-width="14" stroke-linecap="round"/>
+            <line x1="-18" y1="-52" x2="-18" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+            <line x1="38" y1="-52" x2="38" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+            <polyline points="-18,0 -8,0 -3,-20 4,22 10,-12 17,12 22,4 38,4" fill="none" stroke="#A8D5BA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Health<strong>Canvas</strong></span>
+        </a>
+        <button onclick="gcpCerrarSesion()" class="btn btn--nav" style="margin-left: auto;">Cerrar sesión</button>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- HERO -->
+      <section class="ti-hero">
+        <div class="container">
+          <p class="section__eyebrow">Generador privado</p>
+          <h1 class="section__title">Códigos de promoción</h1>
+          <p class="ti-hero__sub">Crea códigos temporales de descuento y consulta su uso.</p>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           1. CREAR CÓDIGO
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="ti-toggles-section gcp-seccion">
+        <div class="container">
+          <div class="gcp-card">
+            <p class="section__eyebrow">Nuevo</p>
+            <h2 class="section__title">Crear código de promoción</h2>
+
+            <!-- MOTIVO + AÑO -->
+            <p class="gcp-label-bloque">Nombre del código</p>
+            <div class="gcp-grid-2">
+              <div class="ti-form__grupo">
+                <label for="gcp-motivo">Motivo</label>
+                <input type="text" id="gcp-motivo" maxlength="12" placeholder="Ej: NAVIDAD" oninput="gcpActualizarPreview()">
+                <small class="gcp-hint">Máximo 12 letras. Ej: navidad, lanzamiento, aniversario.</small>
+              </div>
+              <div class="ti-form__grupo">
+                <label for="gcp-anio">Año</label>
+                <input type="text" id="gcp-anio" placeholder="Ej: 26 o 2026" oninput="gcpActualizarPreview()">
+                <small class="gcp-hint">Tú decides: “26” o “2026”.</small>
+              </div>
+            </div>
+
+            <!-- VISTA PREVIA -->
+            <div class="gcp-preview">
+              <span class="gcp-preview__label">Así quedará el código</span>
+              <strong class="gcp-preview__valor" id="gcp-preview">—</strong>
+            </div>
+
+            <!-- DESCUENTO -->
+            <p class="gcp-label-bloque">Descuento</p>
+            <div class="gcp-grid-2">
+              <div class="ti-form__grupo">
+                <label for="gcp-desc-tipo">Tipo de descuento</label>
+                <select id="gcp-desc-tipo" onchange="gcpCambiarTipoDescuento()">
+                  <option value="porcentaje">Porcentaje (%)</option>
+                  <option value="valor">Valor fijo (COP)</option>
+                </select>
+              </div>
+              <div class="ti-form__grupo">
+                <label for="gcp-desc-valor" id="gcp-desc-valor-label">Porcentaje de descuento</label>
+                <input type="number" id="gcp-desc-valor" min="0" placeholder="Ej: 10">
+              </div>
+            </div>
+
+            <!-- VIGENCIA -->
+            <p class="gcp-label-bloque">Vigencia</p>
+            <div class="gcp-grid-2">
+              <div class="ti-form__grupo">
+                <label for="gcp-fecha-inicio">Fecha de inicio</label>
+                <input type="date" id="gcp-fecha-inicio">
+              </div>
+              <div class="ti-form__grupo">
+                <label for="gcp-fecha-fin">Fecha de finalización</label>
+                <input type="date" id="gcp-fecha-fin">
+              </div>
+            </div>
+
+            <!-- MÁXIMO DE USOS -->
+            <div class="ti-form__grupo">
+              <label for="gcp-max-usos">Máximo de usos globales</label>
+              <input type="number" id="gcp-max-usos" min="1" placeholder="Ilimitado">
+              <small class="gcp-hint">Déjalo en blanco para usos ilimitados.</small>
+            </div>
+
+            <!-- APLICA A -->
+            <p class="gcp-label-bloque">¿A qué aplica?</p>
+            <div class="gcp-aplica">
+              <label class="gcp-aplica__item">
+                <input type="checkbox" id="gcp-aplica-todo" value="todo" onchange="gcpAplicaChange('todo')"> Toda la compra
+              </label>
+              <label class="gcp-aplica__item">
+                <input type="checkbox" class="gcp-aplica-item" value="plan" onchange="gcpAplicaChange('item')"> Plan
+              </label>
+              <label class="gcp-aplica__item">
+                <input type="checkbox" class="gcp-aplica-item" value="elementos" onchange="gcpAplicaChange('item')"> Elementos sueltos
+              </label>
+              <label class="gcp-aplica__item">
+                <input type="checkbox" class="gcp-aplica-item" value="complementos" onchange="gcpAplicaChange('item')"> Complementos
+              </label>
+              <label class="gcp-aplica__item">
+                <input type="checkbox" class="gcp-aplica-item" value="extras" onchange="gcpAplicaChange('item')"> Extras
+              </label>
+            </div>
+
+            <!-- DESCRIPCIÓN -->
+            <div class="ti-form__grupo">
+              <label for="gcp-descripcion">Descripción (opcional)</label>
+              <input type="text" id="gcp-descripcion" placeholder="Nota para tu referencia">
+            </div>
+
+            <!-- AVISO -->
+            <div id="gcp-crear-aviso" class="gcp-aviso" style="display: none;"></div>
+
+            <button type="button" class="btn btn--primary btn--full" onclick="gcpCrearCodigo()">Crear código</button>
+
+            <!-- RESULTADO -->
+            <div id="gcp-resultado" class="gcp-resultado" style="display: none;">
+              <p class="gcp-resultado__titulo">Código creado</p>
+              <div class="gcp-resultado__codigo-wrap">
+                <strong id="gcp-resultado-codigo" class="gcp-resultado__codigo">—</strong>
+                <button type="button" class="btn btn--outline" onclick="gcpCopiar('gcp-resultado-codigo')">Copiar</button>
+              </div>
+              <p id="gcp-resultado-detalle" class="gcp-resultado__detalle"></p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           2. TODOS LOS CÓDIGOS
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="ti-toggles-section gcp-seccion">
+        <div class="container">
+          <div class="gcp-card">
+            <p class="section__eyebrow">Historial</p>
+            <h2 class="section__title">Todos los códigos de promoción</h2>
+
+            <div id="gcp-lista-vacia" class="gcp-lista-vacia">
+              <p>Todavía no has creado ningún código de promoción.</p>
+            </div>
+
+            <div id="gcp-lista-wrap" class="gcp-lista-wrap" style="display: none;">
+              <table class="gcp-tabla">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Descuento</th>
+                    <th>Vigencia</th>
+                    <th>Aplica a</th>
+                    <th>Usos</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="gcp-lista-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <p>© 2026 HealthCanvas · Bogotá, Colombia</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/generador-codigo-promocion.js"></script>
+</body>
+</html>

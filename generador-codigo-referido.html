@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Códigos de Referido - HealthCanvas</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/tienda.css">
+  <link rel="stylesheet" href="css/servicios.css">
+  <link rel="stylesheet" href="css/generador-codigo-referido.css">
+  <link rel="stylesheet" href="css/iconos.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       MODAL DE AUTENTICACIÓN
+       ══════════════════════════════════════════════════════════════════════ -->
+  <div id="gcr-modal-auth" class="gcr-modal-auth">
+    <div class="gcr-modal-contenido">
+      <h2>Acceso restringido</h2>
+      <p>Generador de códigos de referido</p>
+      <form id="gcr-form-login" onsubmit="gcrManejarLogin(event)">
+        <div class="gcr-form-grupo">
+          <label for="gcr-usuario">Usuario</label>
+          <input type="text" id="gcr-usuario" autocomplete="username" required>
+        </div>
+        <div class="gcr-form-grupo">
+          <label for="gcr-contrasena">Contraseña</label>
+          <input type="password" id="gcr-contrasena" autocomplete="current-password" required>
+        </div>
+        <div id="gcr-error-login" class="gcr-error"></div>
+        <button type="submit" class="btn btn--primary">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       CONTENIDO PRINCIPAL
+       ══════════════════════════════════════════════════════════════════════ -->
+  <div id="gcr-contenido" style="display: none;">
+
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo">
+          <svg width="36" height="36" viewBox="-85 -105 200 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 60,-80 A 90,90 0 1,0 60,80" fill="none" stroke="#1B4F72" stroke-width="14" stroke-linecap="round"/>
+            <line x1="-18" y1="-52" x2="-18" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+            <line x1="38" y1="-52" x2="38" y2="52" stroke="#1B4F72" stroke-width="11" stroke-linecap="round"/>
+            <polyline points="-18,0 -8,0 -3,-20 4,22 10,-12 17,12 22,4 38,4" fill="none" stroke="#A8D5BA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Health<strong>Canvas</strong></span>
+        </a>
+        <button onclick="gcrCerrarSesion()" class="btn btn--nav" style="margin-left: auto;">Cerrar sesión</button>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- HERO -->
+      <section class="ti-hero">
+        <div class="container">
+          <p class="section__eyebrow">Generador privado</p>
+          <h1 class="section__title">Códigos de referido</h1>
+          <p class="ti-hero__sub">Genera, recupera y consulta los códigos de tus clientes.</p>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           1. GENERAR CÓDIGO
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="ti-toggles-section gcr-seccion">
+        <div class="container">
+          <div class="gcr-card">
+            <p class="section__eyebrow">Nuevo</p>
+            <h2 class="section__title">Generar código de referido</h2>
+
+            <!-- Tipo de código -->
+            <p class="gcr-label-bloque">Tipo de código</p>
+            <div class="cotizador__opciones gcr-tipo-opciones">
+              <label class="cotizador__opcion">
+                <input type="radio" name="gcr-tipo" value="automatico" checked onchange="gcrCambiarTipo()">
+                <div class="cotizador__opcion-card">
+                  <strong>Automático</strong>
+                  <span>Se arma con la profesión y el nombre</span>
+                </div>
+              </label>
+              <label class="cotizador__opcion">
+                <input type="radio" name="gcr-tipo" value="personalizado" onchange="gcrCambiarTipo()">
+                <div class="cotizador__opcion-card">
+                  <strong>Personalizado</strong>
+                  <span>Tú escribes el código (influencers, sponsorships)</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- BLOQUE AUTOMÁTICO -->
+            <div id="gcr-bloque-automatico" class="gcr-bloque">
+              <div class="gcr-grid-2">
+                <div class="ti-form__grupo">
+                  <label for="gcr-profesion">Profesión</label>
+                  <select id="gcr-profesion" onchange="gcrCambiarProfesion()">
+                    <option value="DR">Médico(a) — DR</option>
+                    <option value="PSI">Psicólogo(a) — PSI</option>
+                    <option value="PSIQ">Psiquiatra — PSIQ</option>
+                    <option value="OD">Odontólogo(a) — OD</option>
+                    <option value="NUT">Nutricionista — NUT</option>
+                    <option value="FT">Fisioterapeuta — FT</option>
+                    <option value="FON">Fonoaudiólogo(a) — FON</option>
+                    <option value="TO">Terapeuta ocupacional — TO</option>
+                    <option value="OPT">Optómetra — OPT</option>
+                    <option value="ENF">Enfermero(a) — ENF</option>
+                    <option value="VET">Veterinario(a) — VET</option>
+                    <option value="__otro__">Otros (escribir prefijo)</option>
+                    <option value="__sin__">Sin prefijo</option>
+                  </select>
+                </div>
+
+                <div class="ti-form__grupo" id="gcr-prefijo-otro-wrap" style="display: none;">
+                  <label for="gcr-prefijo-otro">Prefijo personalizado</label>
+                  <input type="text" id="gcr-prefijo-otro" placeholder="Ej: SALUD" onchange="gcrActualizarPreview()" oninput="gcrActualizarPreview()">
+                </div>
+              </div>
+
+              <div class="ti-form__grupo">
+                <label for="gcr-nombre-codigo">Nombre para el código</label>
+                <input type="text" id="gcr-nombre-codigo" placeholder="Ej: García" onchange="gcrActualizarPreview()" oninput="gcrActualizarPreview()">
+                <small class="gcr-hint">Escribe solo el nombre, sin “Dr.” ni “Dra.” — el prefijo lo pone la profesión.</small>
+              </div>
+            </div>
+
+            <!-- BLOQUE PERSONALIZADO -->
+            <div id="gcr-bloque-personalizado" class="gcr-bloque" style="display: none;">
+              <div class="ti-form__grupo">
+                <label for="gcr-codigo-personalizado">Código personalizado</label>
+                <input type="text" id="gcr-codigo-personalizado" placeholder="Ej: SALUDCONJUAN" onchange="gcrActualizarPreview()" oninput="gcrActualizarPreview()">
+                <small class="gcr-hint">Solo letras y números. Se guarda en mayúsculas, sin espacios ni tildes. El sufijo “HC” es opcional.</small>
+              </div>
+            </div>
+
+            <!-- VISTA PREVIA -->
+            <div class="gcr-preview">
+              <span class="gcr-preview__label">Así quedará el código</span>
+              <strong class="gcr-preview__valor" id="gcr-preview">—</strong>
+            </div>
+
+            <!-- DATOS DEL PROPIETARIO -->
+            <p class="gcr-label-bloque">Datos del cliente dueño del código</p>
+            <div class="gcr-grid-2">
+              <div class="ti-form__grupo">
+                <label for="gcr-prop-nombre">Nombre completo</label>
+                <input type="text" id="gcr-prop-nombre" placeholder="Nombre y apellido">
+              </div>
+              <div class="ti-form__grupo">
+                <label for="gcr-prop-telefono">Teléfono</label>
+                <input type="tel" id="gcr-prop-telefono" placeholder="Número de celular">
+              </div>
+            </div>
+            <div class="ti-form__grupo">
+              <label for="gcr-prop-email">Correo electrónico</label>
+              <input type="email" id="gcr-prop-email" placeholder="correo@ejemplo.com">
+            </div>
+
+            <!-- MENSAJE DE ERROR/AVISO -->
+            <div id="gcr-generar-aviso" class="gcr-aviso" style="display: none;"></div>
+
+            <button type="button" class="btn btn--primary btn--full" onclick="gcrGenerarCodigo()">Generar código</button>
+
+            <!-- RESULTADO -->
+            <div id="gcr-resultado" class="gcr-resultado" style="display: none;">
+              <p class="gcr-resultado__titulo">Código generado</p>
+              <div class="gcr-resultado__codigo-wrap">
+                <strong id="gcr-resultado-codigo" class="gcr-resultado__codigo">—</strong>
+                <button type="button" class="btn btn--outline" onclick="gcrCopiar('gcr-resultado-codigo')">Copiar</button>
+              </div>
+              <p id="gcr-resultado-detalle" class="gcr-resultado__detalle"></p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           2. BUSCAR O RECUPERAR CÓDIGO
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="ti-toggles-section gcr-seccion">
+        <div class="container">
+          <div class="gcr-card">
+            <p class="section__eyebrow">Recuperar</p>
+            <h2 class="section__title">Buscar código de un cliente</h2>
+            <p class="gcr-card__sub">Busca por nombre, correo o teléfono para ver su código y su cashback, o para generarle un reemplazo si lo perdió.</p>
+
+            <div class="gcr-buscar-row">
+              <input type="text" id="gcr-buscar-input" class="gcr-buscar-input" placeholder="Nombre, correo o teléfono" oninput="gcrBuscar()">
+            </div>
+
+            <div id="gcr-buscar-resultado" class="gcr-buscar-resultado"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           3. TODOS LOS CÓDIGOS
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="ti-toggles-section gcr-seccion">
+        <div class="container">
+          <div class="gcr-card">
+            <p class="section__eyebrow">Historial</p>
+            <h2 class="section__title">Todos los códigos de referido</h2>
+
+            <div id="gcr-lista-vacia" class="gcr-lista-vacia">
+              <p>Todavía no has generado ningún código.</p>
+            </div>
+
+            <div id="gcr-lista-wrap" class="gcr-lista-wrap" style="display: none;">
+              <table class="gcr-tabla">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Estado</th>
+                    <th>Referidos</th>
+                    <th>Cashback disponible</th>
+                    <th>Creado</th>
+                  </tr>
+                </thead>
+                <tbody id="gcr-lista-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <p>© 2026 HealthCanvas · Bogotá, Colombia</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/generador-codigo-referido.js"></script>
+</body>
+</html>
