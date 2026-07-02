@@ -219,15 +219,13 @@ function glpEliminarExtra(id) {
 function glpActualizarExtras() {
   const lista = document.getElementById('glp-extras-lista');
   lista.innerHTML = extras.map(extra => `
-    <div class="glp-extra-item" style="margin-bottom: 15px; padding: 15px; border: 1px solid #d3d1c7; border-radius: 8px;">
-      <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-        <input type="text" placeholder="Ej: Actualización, Consultoría..." value="${extra.descripcion}" 
-               onchange="glpActualizarExtraDescripcion(${extra.id}, this.value)" 
-               style="flex: 1; padding: 8px; border: 1px solid #d3d1c7; border-radius: 4px;">
-        <input type="number" placeholder="Valor" value="${extra.valor}" 
-               onchange="glpActualizarExtraValor(${extra.id}, parseInt(this.value) || 0)" 
-               style="width: 150px; padding: 8px; border: 1px solid #d3d1c7; border-radius: 4px;">
-        <button onclick="glpEliminarExtra(${extra.id})" style="background: #e24b4a; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer;">✕</button>
+    <div class="glp-extra-item">
+      <div class="glp-extra-row">
+        <input type="text" class="glp-extra-input-desc" placeholder="Ej: Actualización, Consultoría..." value="${extra.descripcion}"
+               onchange="glpActualizarExtraDescripcion(${extra.id}, this.value)">
+        <input type="number" class="glp-extra-input-valor" placeholder="Valor" value="${extra.valor}"
+               onchange="glpActualizarExtraValor(${extra.id}, parseInt(this.value) || 0)">
+        <button class="glp-extra-eliminar" onclick="glpEliminarExtra(${extra.id})">✕</button>
       </div>
     </div>
   `).join('');
@@ -272,24 +270,24 @@ function glpActualizarPreview() {
   const itemsHtml = [
     ...carrito.map((item, idx) => {
       const displayNombre = item.nombre;
-const displayPrecio = item.tipo === 'cotizacion' ? 'Cotización directa' : `$${item.precio.toLocaleString('es-CO')}`;
+      const displayPrecio = item.tipo === 'cotizacion' ? 'Cotización directa' : `$${item.precio.toLocaleString('es-CO')}`;
       return `
-        <div class="ti-carrito__item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #d3d1c7;">
+        <div class="ti-carrito__item glp-cart-item">
           <div>
-            <div style="font-weight: 500;">${displayNombre}</div>
-            ${displayPrecio ? `<div style="color: #185fa5; font-weight: 600;">${displayPrecio}</div>` : ''}
+            <div class="glp-cart-item__nombre">${displayNombre}</div>
+            ${displayPrecio ? `<div class="glp-cart-item__precio">${displayPrecio}</div>` : ''}
           </div>
-          <button onclick="glpEliminarDelCarrito(${idx})" style="background: none; border: none; color: #e24b4a; font-size: 18px; cursor: pointer;">✕</button>
+          <button class="glp-cart-item__eliminar" onclick="glpEliminarDelCarrito(${idx})">✕</button>
         </div>
       `;
     }),
     ...extras.map((extra, idx) => `
-      <div class="ti-carrito__item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #d3d1c7;">
+      <div class="ti-carrito__item glp-cart-item">
         <div>
-          <div style="font-weight: 500;">${extra.descripcion || 'Extra sin descripción'}</div>
-          <div style="color: #185fa5; font-weight: 600;">$${extra.valor.toLocaleString('es-CO')}</div>
+          <div class="glp-cart-item__nombre">${extra.descripcion || 'Extra sin descripción'}</div>
+          <div class="glp-cart-item__precio">$${extra.valor.toLocaleString('es-CO')}</div>
         </div>
-        <button onclick="glpEliminarExtra(${extra.id})" style="background: none; border: none; color: #e24b4a; font-size: 18px; cursor: pointer;">✕</button>
+        <button class="glp-cart-item__eliminar" onclick="glpEliminarExtra(${extra.id})">✕</button>
       </div>
     `)
   ].join('');

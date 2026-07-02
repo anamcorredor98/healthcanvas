@@ -171,6 +171,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 15px;
   padding: 15px;
   border: 1px solid #d3d1c7;
   border-radius: 8px;
@@ -391,4 +392,54 @@
 .glp-mini-btn--invalidar:hover {
   background: #e24b4a;
   color: #fff;
+}
+
+/* Extras: fila y controles (antes estaban en línea en el JS) */
+.glp-extra-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.glp-extra-input-desc,
+.glp-extra-input-valor {
+  padding: 8px;
+  border: 1px solid #d3d1c7;
+  border-radius: 4px;
+}
+
+.glp-extra-input-desc { flex: 1; }
+.glp-extra-input-valor { width: 150px; }
+
+.glp-extra-eliminar {
+  background: #e24b4a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* Carrito: filas de items (antes en línea en el JS) */
+.glp-cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #d3d1c7;
+}
+
+.glp-cart-item__nombre { font-weight: 500; }
+
+.glp-cart-item__precio {
+  color: #185fa5;
+  font-weight: 600;
+}
+
+.glp-cart-item__eliminar {
+  background: none;
+  border: none;
+  color: #e24b4a;
+  font-size: 18px;
+  cursor: pointer;
 }
