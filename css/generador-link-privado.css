@@ -177,20 +177,15 @@
   background: #fafafa;
 }
 
-/* Badges */
+/* Badges (gris, igual que la tienda) */
 .glp-badge-incluido,
 .glp-badge-requisito {
   display: block;
-  font-size: 12px;
-  margin-top: 8px;
-}
-
-.glp-badge-incluido {
-  color: #27a745;
-}
-
-.glp-badge-requisito {
-  color: #666;
+  margin-top: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--gris-texto);
 }
 
 /* Lista de resumen (scrolleable interna) */
@@ -296,4 +291,104 @@
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+/* Historial de links */
+.glp-historial-section { padding: 40px 0; }
+
+.glp-historial-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.glp-historial-vacio { color: #666; font-size: 14px; padding: 8px 0; }
+
+.glp-historial-wrap { overflow-x: auto; }
+
+.glp-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 820px;
+}
+
+.glp-tabla thead th {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 2px solid #d3d1c7;
+  color: #1B4F72;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.glp-tabla tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e8e6e2;
+  color: #333;
+  vertical-align: top;
+}
+
+.glp-tabla tbody tr:hover { background: #f9f7f4; }
+
+.glp-hist-cliente { font-weight: 600; color: #333; }
+.glp-hist-dato { font-size: 12px; color: #888; margin-top: 2px; }
+
+.glp-desglose {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #888;
+}
+
+.glp-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.glp-badge--valido { background: rgba(106, 171, 137, 0.18); color: #3f7d5c; }
+.glp-badge--expirado { background: #f0efec; color: #888; }
+.glp-badge--usado { background: rgba(46, 134, 193, 0.15); color: #1B4F72; }
+
+.glp-mini-btn {
+  padding: 6px 12px;
+  border: 1px solid #1B4F72;
+  background: transparent;
+  color: #1B4F72;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.glp-mini-btn:hover { background: #1B4F72; color: #fff; }
+.glp-acciones-celda {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.glp-mini-btn--renovar {
+  border-color: #6aab89;
+  color: #3f7d5c;
+}
+.glp-mini-btn--renovar:hover {
+  background: #6aab89;
+  color: #fff;
+}
+
+.glp-badge--anulado { background: #fdeceb; color: #c0392b; }
+
+.glp-mini-btn--invalidar {
+  border-color: #e24b4a;
+  color: #c0392b;
+}
+.glp-mini-btn--invalidar:hover {
+  background: #e24b4a;
+  color: #fff;
 }

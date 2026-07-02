@@ -3,7 +3,7 @@
 // Solo: Precios siempre visibles + badge pequeño de "Incluido"
 // ════════════════════════════════════════════════════════════════════════════
 
-const CREDENCIALES = { usuario: 'ana-admin', contraseña: 'K9m#Xp2@Lw4$Nq7' };
+const CREDENCIALES = { usuario: 'ana-admin', contrasenas: ['K9m#Xp2@Lw4$Nq7', 'T6v!Hs8&Yj1$Rd5'] };
 
 const INCLUIDOS = {
   'Sitio Esencial Básico': [],
@@ -33,7 +33,7 @@ function glpManejarLogin(event) {
   const contraseña = document.getElementById('glp-contraseña').value;
   const errorDiv = document.getElementById('glp-error-login');
 
-  if (usuario === CREDENCIALES.usuario && contraseña === CREDENCIALES.contraseña) {
+  if (usuario === CREDENCIALES.usuario && CREDENCIALES.contrasenas.includes(contraseña)) {
     localStorage.setItem('glp-autenticado', 'true');
     document.getElementById('glp-modal-auth').style.display = 'none';
     document.getElementById('glp-contenido').style.display = 'block';
@@ -169,30 +169,22 @@ function glpActualizarEstadoOpciones() {
     const faltantes = requisitos.filter(req => !glpEstaDisponible(req));
 
     if (esIncluido) {
-      // INCLUIDO: deshabilitado, opaco, badge verde
+      // INCLUIDO: deshabilitado, opaco, badge gris (estilo en el CSS)
       input.checked = false;
       input.disabled = true;
       label.classList.add('is-incluido');
       const badge = document.createElement('small');
       badge.className = 'glp-badge-incluido';
       badge.textContent = '✓ Incluido en tu plan';
-      badge.style.display = 'block';
-      badge.style.marginTop = '6px';
-      badge.style.fontSize = '11px';
-      badge.style.color = '#27a745';
       opcionCard.appendChild(badge);
     } else if (faltantes.length > 0) {
-      // BLOQUEADO: deshabilitado, muestra faltantes
+      // BLOQUEADO: deshabilitado, muestra faltantes (estilo en el CSS)
       input.checked = false;
       input.disabled = true;
       label.classList.add('is-bloqueado');
       const badge = document.createElement('small');
       badge.className = 'glp-badge-requisito';
       badge.textContent = `Agrega: ${faltantes.join(', ')}`;
-      badge.style.display = 'block';
-      badge.style.marginTop = '6px';
-      badge.style.fontSize = '11px';
-      badge.style.color = '#666';
       opcionCard.appendChild(badge);
     } else {
       // DISPONIBLE: habilitado, sin bloqueos
@@ -319,13 +311,13 @@ const displayPrecio = item.tipo === 'cotizacion' ? 'Cotización directa' : `$${i
 
   if (document.getElementById('glp-desc-porc-activo').checked) {
     const valor = parseInt(document.getElementById('glp-desc-porc-valor').value) || 0;
-    const aplica = document.getElementById('glp-desc-porc-aplica').value;
+    const aplica = glpAplicaSeleccionado('porc');
     if (valor > 0) descuentos.push({ nombre: `Descuento especial ${valor}%`, tipo: 'porcentaje', valor, aplica });
   }
 
   if (document.getElementById('glp-desc-valor-activo').checked) {
     const valor = parseInt(document.getElementById('glp-desc-valor-monto').value) || 0;
-    const aplica = document.getElementById('glp-desc-valor-aplica').value;
+    const aplica = glpAplicaSeleccionado('valor');
     if (valor > 0) descuentos.push({ nombre: `Descuento especial $${valor.toLocaleString('es-CO')}`, tipo: 'valor', valor, aplica });
   }
 
@@ -333,7 +325,7 @@ const displayPrecio = item.tipo === 'cotizacion' ? 'Cotización directa' : `$${i
     const codigo = document.getElementById('glp-desc-codigo').value;
     const tipo = document.getElementById('glp-desc-codigo-tipo').value;
     const valor = parseInt(document.getElementById('glp-desc-codigo-valor').value) || 0;
-    const aplica = document.getElementById('glp-desc-codigo-aplica').value;
+    const aplica = glpAplicaSeleccionado('codigo');
     if (valor > 0 && codigo) descuentos.push({ nombre: `Código ${codigo}`, tipo, valor, aplica });
   }
 
@@ -344,25 +336,14 @@ const displayPrecio = item.tipo === 'cotizacion' ? 'Cotización directa' : `$${i
 
   let totalDescuento = 0;
   let resumenDescuentos = [];
+  const subs = { todo: subtotalTotal, plan: subtotalPlan, elementos: subtotalElementos, complementos: subtotalComplementos, extras: subtotalExtras };
 
   descuentos.forEach(desc => {
-    let base = 0;
-    if (desc.aplica === 'todo') base = subtotalTotal;
-    else if (desc.aplica === 'plan') base = subtotalPlan;
-    else if (desc.aplica === 'elementos') base = subtotalElementos;
-    else if (desc.aplica === 'complementos') base = subtotalComplementos;
-    else if (desc.aplica === 'extras') base = subtotalExtras;
-
-    let descMoneda = 0;
-    if (desc.tipo === 'porcentaje') {
-      descMoneda = Math.round(base * (desc.valor / 100));
-    } else {
-      descMoneda = desc.valor;
-    }
-
+    const base = glpBaseDescuento(desc.aplica, subs);
+    let descMoneda = desc.tipo === 'porcentaje' ? Math.round(base * (desc.valor / 100)) : Math.min(desc.valor, base);
+    if (base <= 0 || descMoneda <= 0) return;
     totalDescuento += descMoneda;
-    const aplicaTexto = desc.aplica === 'todo' ? 'a toda la compra' : `a ${desc.aplica}`;
-    resumenDescuentos.push(`<div class="ti-resumen__linea"><span>${desc.nombre} (${aplicaTexto})</span><strong>-$${descMoneda.toLocaleString('es-CO')}</strong></div>`);
+    resumenDescuentos.push(`<div class="ti-resumen__linea"><span>${desc.nombre} (${glpAplicaTexto(desc.aplica)})</span><strong>-$${descMoneda.toLocaleString('es-CO')}</strong></div>`);
   });
 
   const total = subtotalTotal + iva - totalDescuento;
@@ -435,6 +416,190 @@ function glpGenerarUUID() {
     return v.toString(16);
   });
 }
+// Devuelve las categorías marcadas (array) para un descuento: 'porc' | 'valor' | 'codigo'.
+function glpAplicaSeleccionado(tipo) {
+  return Array.from(document.querySelectorAll('.glp-desc-' + tipo + '-aplica-multi:checked')).map(c => c.value);
+}
+
+// Suma el subtotal de las categorías marcadas.
+function glpBaseDescuento(aplica, subs) {
+  return aplica.reduce((s, cat) => s + (subs[cat] || 0), 0);
+}
+
+// Texto para el desglose: "a toda la compra" si están las cuatro, si no la lista.
+function glpAplicaTexto(aplica) {
+  if (aplica.includes('todo')) return 'a toda la compra';
+  const todas = ['plan', 'elementos', 'complementos', 'extras'];
+  if (todas.every(c => aplica.includes(c))) return 'a toda la compra';
+  return 'a ' + aplica.join(', ');
+}
+
+// Calcula subtotal, IVA, descuentos y total a partir del estado actual.
+function glpCalcularTotales() {
+  const subtotalPlan = carrito.filter(c => c.tipo === 'plan').reduce((s, c) => s + c.precio, 0);
+  const subtotalElementos = carrito.filter(c => c.tipo === 'normal' && !Object.keys(INCLUIDOS).includes(c.nombre)).reduce((s, c) => s + c.precio, 0);
+  const subtotalComplementos = carrito.filter(c => c.tipo === 'normal').reduce((s, c) => s + c.precio, 0) - subtotalElementos;
+  const subtotalExtras = extras.reduce((s, e) => s + e.valor, 0);
+  const subtotal = subtotalPlan + subtotalElementos + subtotalComplementos + subtotalExtras;
+  const iva = Math.round(subtotal * (ivaActual / 100));
+
+  let descuentos = [];
+  const acumula = document.querySelector('input[name="glp-acumula"]:checked')?.value === 'si';
+
+  if (document.getElementById('glp-desc-porc-activo').checked) {
+    const valor = parseInt(document.getElementById('glp-desc-porc-valor').value) || 0;
+    const aplica = glpAplicaSeleccionado('porc');
+    if (valor > 0) descuentos.push({ nombre: `Descuento especial ${valor}%`, tipo: 'porcentaje', valor, aplica });
+  }
+  if (document.getElementById('glp-desc-valor-activo').checked) {
+    const valor = parseInt(document.getElementById('glp-desc-valor-monto').value) || 0;
+    const aplica = glpAplicaSeleccionado('valor');
+    if (valor > 0) descuentos.push({ nombre: `Descuento especial $${valor.toLocaleString('es-CO')}`, tipo: 'valor', valor, aplica });
+  }
+  if (document.getElementById('glp-desc-codigo-activo').checked) {
+    const codigo = document.getElementById('glp-desc-codigo').value;
+    const tipo = document.getElementById('glp-desc-codigo-tipo').value;
+    const valor = parseInt(document.getElementById('glp-desc-codigo-valor').value) || 0;
+    const aplica = glpAplicaSeleccionado('codigo');
+    if (valor > 0 && codigo) descuentos.push({ nombre: `Código ${codigo}`, tipo, valor, aplica });
+  }
+
+  if (!acumula && descuentos.length > 1) descuentos = [descuentos[0]];
+
+  const subs = { todo: subtotal, plan: subtotalPlan, elementos: subtotalElementos, complementos: subtotalComplementos, extras: subtotalExtras };
+
+  let totalDescuento = 0;
+  const desglose = [];
+  descuentos.forEach(desc => {
+    const base = glpBaseDescuento(desc.aplica, subs);
+    let monto = desc.tipo === 'porcentaje' ? Math.round(base * (desc.valor / 100)) : Math.min(desc.valor, base);
+    if (base <= 0 || monto <= 0) return;
+    totalDescuento += monto;
+    desglose.push({ nombre: desc.nombre, aplicaTexto: glpAplicaTexto(desc.aplica), monto });
+  });
+
+  const total = subtotal + iva - totalDescuento;
+  return { subtotal, iva, totalDescuento, total, desglose };
+}
+
+// Exclusividad: "Toda la compra" y las categorías no se marcan juntas. Luego refresca el preview.
+function glpAplicaChange(e) {
+  const cb = e.target;
+  const tipo = ['porc', 'valor', 'codigo'].find(t => cb.classList.contains('glp-desc-' + t + '-aplica-multi'));
+  if (tipo) {
+    const todo = document.querySelector('.glp-desc-' + tipo + '-aplica-multi[value="todo"]');
+    const items = document.querySelectorAll('.glp-desc-' + tipo + '-aplica-multi:not([value="todo"])');
+    if (cb.value === 'todo' && cb.checked) {
+      items.forEach(i => (i.checked = false));
+    } else if (cb.value !== 'todo' && cb.checked && todo) {
+      todo.checked = false;
+    }
+  }
+  glpActualizarPreview();
+}
+
+// Arma el URL de un link a partir de su id.
+function glpUrlDeLink(linkId) {
+  const baseUrl = window.location.origin + window.location.pathname.replace('generador-link-privado.html', '');
+  return `${baseUrl}tienda.html?linkId=${linkId}`;
+}
+
+// Estado a mostrar: usado (viene de la tienda), expirado (por fecha) o válido.
+function glpEstadoLink(link) {
+  if (link.estado === 'anulado') return { texto: 'Anulado', clase: 'anulado' };
+  if (link.estado === 'usado') return { texto: 'Usado', clase: 'usado' };
+  if (new Date(link.fechaExpiracion) < new Date()) return { texto: 'Expirado', clase: 'expirado' };
+  return { texto: 'Válido', clase: 'valido' };
+}
+
+function glpCopiarHistorial(linkId) {
+  const url = glpUrlDeLink(linkId);
+  if (navigator.clipboard) navigator.clipboard.writeText(url).catch(() => {});
+}
+
+// Renueva un link expirado: nuevas 24 horas desde este momento.
+function glpRenovarLink(linkId) {
+  const links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
+  const link = links.find(l => l.linkId === linkId);
+  if (!link) return;
+  // Solo se renuevan los expirados (los válidos aún sirven, los usados ya se pagaron).
+  if (glpEstadoLink(link).clase !== 'expirado') return;
+
+  const ahora = new Date();
+  link.fechaExpiracion = new Date(ahora.getTime() + 24 * 60 * 60 * 1000).toISOString();
+  link.estado = 'válido';
+  localStorage.setItem('healthcanvasLinks', JSON.stringify(links));
+  glpRenderHistorial();
+}
+
+// Invalida un link a mano: pasa a "anulado" (no se borra, queda de registro).
+function glpInvalidarLink(linkId) {
+  const links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
+  const link = links.find(l => l.linkId === linkId);
+  if (!link) return;
+  // No se invalida uno ya usado (ya se pagó).
+  if (link.estado === 'usado') return;
+
+  if (!confirm('¿Seguro que quieres invalidar este link? Ya no se podrá usar para pagar.')) return;
+
+  link.estado = 'anulado';
+  localStorage.setItem('healthcanvasLinks', JSON.stringify(links));
+  glpRenderHistorial();
+}
+
+// Pinta la tabla del historial de links.
+function glpRenderHistorial() {
+  const links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
+  const vacio = document.getElementById('glp-historial-vacio');
+  const wrap = document.getElementById('glp-historial-wrap');
+  const body = document.getElementById('glp-historial-body');
+  if (!vacio || !wrap || !body) return;
+
+  if (links.length === 0) {
+    vacio.style.display = 'block';
+    wrap.style.display = 'none';
+    return;
+  }
+  vacio.style.display = 'none';
+  wrap.style.display = 'block';
+
+  body.innerHTML = links.map(link => {
+    const estado = glpEstadoLink(link);
+    const t = link.totales || { subtotal: 0, iva: 0, totalDescuento: 0, total: 0, desglose: [] };
+    const creado = new Date(link.fechaCreacion).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+    const desgloseHtml = (t.desglose && t.desglose.length)
+      ? `<div class="glp-desglose">${t.desglose.map(d => `<span>${d.nombre} (${d.aplicaTexto}): -$${d.monto.toLocaleString('es-CO')}</span>`).join('')}</div>`
+      : '';
+    const descuentoCelda = t.totalDescuento > 0
+      ? `<strong>-$${t.totalDescuento.toLocaleString('es-CO')}</strong>${desgloseHtml}`
+      : '—';
+
+    return `
+      <tr>
+        <td>
+          <div class="glp-hist-cliente">${link.cliente.nombre}</div>
+          <div class="glp-hist-dato">${link.cliente.email} · ${link.cliente.telefono}</div>
+        </td>
+        <td>${creado}</td>
+        <td><span class="glp-badge glp-badge--${estado.clase}">${estado.texto}</span></td>
+        <td>${link.vistosCount || 0}</td>
+        <td>
+          <strong>$${t.total.toLocaleString('es-CO')}</strong>
+          <div class="glp-hist-dato">Subtotal $${t.subtotal.toLocaleString('es-CO')}</div>
+        </td>
+        <td>${descuentoCelda}</td>
+        <td>
+          <div class="glp-acciones-celda">
+            <button type="button" class="glp-mini-btn" onclick="glpCopiarHistorial('${link.linkId}')">Copiar link</button>
+            ${estado.clase === 'expirado' ? `<button type="button" class="glp-mini-btn glp-mini-btn--renovar" onclick="glpRenovarLink('${link.linkId}')">Renovar</button>` : ''}
+            ${(estado.clase === 'valido' || estado.clase === 'expirado') ? `<button type="button" class="glp-mini-btn glp-mini-btn--invalidar" onclick="glpInvalidarLink('${link.linkId}')">Invalidar</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
 
 function glpGenerarLink() {
   if (carrito.length === 0 && extras.length === 0) {
@@ -454,12 +619,14 @@ function glpGenerarLink() {
   const linkId = glpGenerarUUID();
   const ahora = new Date();
   const expiracion = new Date(ahora.getTime() + 24 * 60 * 60 * 1000);
+  const totales = glpCalcularTotales();
 
   const linkObject = {
     linkId,
     cliente: { nombre, email, telefono },
     carrito: JSON.parse(JSON.stringify(carrito)),
     extras: JSON.parse(JSON.stringify(extras)),
+    totales,
     estado: 'válido',
     fechaCreacion: ahora.toISOString(),
     fechaExpiracion: expiracion.toISOString(),
@@ -469,6 +636,7 @@ function glpGenerarLink() {
   let links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
   links.unshift(linkObject);
   localStorage.setItem('healthcanvasLinks', JSON.stringify(links));
+  glpRenderHistorial();
 
   const baseUrl = window.location.origin + window.location.pathname.replace('generador-link-privado.html', '');
   const linkUrl = `${baseUrl}tienda.html?linkId=${linkId}`;
@@ -503,4 +671,7 @@ document.addEventListener('DOMContentLoaded', function() {
   glpVerificarAutenticacion();
   glpActualizarExtras();
   glpActualizarEstadoOpciones();
+  glpRenderHistorial();
+  document.querySelectorAll('.glp-desc-porc-aplica-multi, .glp-desc-valor-aplica-multi, .glp-desc-codigo-aplica-multi')
+    .forEach(cb => cb.addEventListener('change', glpAplicaChange));
 });

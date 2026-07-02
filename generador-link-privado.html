@@ -325,18 +325,12 @@
                       <label class="glp-desc-check"><input type="checkbox" id="glp-desc-porc-activo" onchange="glpToggleDescuento('porc')"> Descuento por porcentaje</label>
                       <div class="glp-desc-input-group">
                         <input type="number" id="glp-desc-porc-valor" placeholder="%" onchange="glpActualizarPreview()" style="width: 80px;">
-                        <select id="glp-desc-porc-aplica" onchange="glpActualizarPreview()">
-                          <option value="todo">Toda la compra</option>
-                          <option value="plan">Solo plan</option>
-                          <option value="elementos">Solo elementos</option>
-                          <option value="complementos">Solo complementos</option>
-                          <option value="extras">Solo extras</option>
-                        </select>
                       </div>
                     </div>
                     <div id="glp-desc-porc-opciones" style="display: none; margin-top: 10px;">
                       <label style="font-size: 12px; color: #888;">Aplica a:</label>
                       <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <label><input type="checkbox" value="todo" class="glp-desc-porc-aplica-multi"> Toda la compra</label>
                         <label><input type="checkbox" value="plan" class="glp-desc-porc-aplica-multi"> Plan</label>
                         <label><input type="checkbox" value="elementos" class="glp-desc-porc-aplica-multi"> Elementos</label>
                         <label><input type="checkbox" value="complementos" class="glp-desc-porc-aplica-multi"> Complementos</label>
@@ -351,18 +345,12 @@
                       <label class="glp-desc-check"><input type="checkbox" id="glp-desc-valor-activo" onchange="glpToggleDescuento('valor')"> Descuento por valor</label>
                       <div class="glp-desc-input-group">
                         <input type="number" id="glp-desc-valor-monto" placeholder="COP" onchange="glpActualizarPreview()" style="width: 120px;">
-                        <select id="glp-desc-valor-aplica" onchange="glpActualizarPreview()">
-                          <option value="todo">Toda la compra</option>
-                          <option value="plan">Solo plan</option>
-                          <option value="elementos">Solo elementos</option>
-                          <option value="complementos">Solo complementos</option>
-                          <option value="extras">Solo extras</option>
-                        </select>
                       </div>
                     </div>
                     <div id="glp-desc-valor-opciones" style="display: none; margin-top: 10px;">
                       <label style="font-size: 12px; color: #888;">Aplica a:</label>
                       <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <label><input type="checkbox" value="todo" class="glp-desc-valor-aplica-multi"> Toda la compra</label>
                         <label><input type="checkbox" value="plan" class="glp-desc-valor-aplica-multi"> Plan</label>
                         <label><input type="checkbox" value="elementos" class="glp-desc-valor-aplica-multi"> Elementos</label>
                         <label><input type="checkbox" value="complementos" class="glp-desc-valor-aplica-multi"> Complementos</label>
@@ -382,18 +370,12 @@
                           <option value="valor">COP</option>
                         </select>
                         <input type="number" id="glp-desc-codigo-valor" placeholder="Valor" onchange="glpActualizarPreview()" style="width: 100px;">
-                        <select id="glp-desc-codigo-aplica" onchange="glpActualizarPreview()">
-                          <option value="todo">Toda la compra</option>
-                          <option value="plan">Solo plan</option>
-                          <option value="elementos">Solo elementos</option>
-                          <option value="complementos">Solo complementos</option>
-                          <option value="extras">Solo extras</option>
-                        </select>
                       </div>
                     </div>
                     <div id="glp-desc-codigo-opciones" style="display: none; margin-top: 10px;">
                       <label style="font-size: 12px; color: #888;">Aplica a:</label>
                       <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <label><input type="checkbox" value="todo" class="glp-desc-codigo-aplica-multi"> Toda la compra</label>
                         <label><input type="checkbox" value="plan" class="glp-desc-codigo-aplica-multi"> Plan</label>
                         <label><input type="checkbox" value="elementos" class="glp-desc-codigo-aplica-multi"> Elementos</label>
                         <label><input type="checkbox" value="complementos" class="glp-desc-codigo-aplica-multi"> Complementos</label>
@@ -501,6 +483,37 @@
             </div>
           </div>
 
+        </div>
+      </section>
+
+      <!-- HISTORIAL DE LINKS -->
+      <section class="ti-toggles-section glp-historial-section">
+        <div class="container">
+          <div class="glp-historial-card">
+            <p class="section__eyebrow">Historial</p>
+            <h2 class="section__title">Links generados</h2>
+
+            <div id="glp-historial-vacio" class="glp-historial-vacio">
+              <p>Todavía no has generado ningún link.</p>
+            </div>
+
+            <div id="glp-historial-wrap" class="glp-historial-wrap" style="display: none;">
+              <table class="glp-tabla">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Creado</th>
+                    <th>Estado</th>
+                    <th>Vistas</th>
+                    <th>Valor</th>
+                    <th>Descuento</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="glp-historial-body"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </section>
 
