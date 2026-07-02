@@ -258,6 +258,8 @@ function glpActualizarExtraValor(id, valor) {
 // ════════════════════════════════════════════════════════════════════════════
 
 function glpActualizarPreview() {
+  const glpResPrev = document.getElementById('glp-resultado');
+  if (glpResPrev) glpResPrev.style.display = 'none';
   // Actualizar verificar datos
   document.getElementById('glp-verify-nombre').value = document.getElementById('glp-nombre').value;
   document.getElementById('glp-verify-email').value = document.getElementById('glp-email').value;
@@ -471,8 +473,26 @@ function glpGenerarLink() {
   const baseUrl = window.location.origin + window.location.pathname.replace('generador-link-privado.html', '');
   const linkUrl = `${baseUrl}tienda.html?linkId=${linkId}`;
 
-  alert('✓ Link generado exitosamente!\n\nLink: ' + linkUrl + '\n\nVálido por 24 horas');
-  glpLimpiarCarrito();
+  // Mostrar el resultado con botón de copiar (reemplaza el alert)
+  document.getElementById('glp-resultado-url').value = linkUrl;
+  const vence = expiracion.toLocaleString('es-CO', {
+    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+  document.getElementById('glp-resultado-nota').textContent =
+    `Para ${nombre}. Válido hasta el ${vence} (24 horas).`;
+  const glpRes = document.getElementById('glp-resultado');
+  glpRes.style.display = 'block';
+  glpRes.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function glpCopiarLink() {
+  const input = document.getElementById('glp-resultado-url');
+  input.select();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(input.value).catch(() => {});
+  } else {
+    document.execCommand('copy');
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════════════

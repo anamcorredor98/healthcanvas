@@ -249,3 +249,51 @@
     width: 100% !important;
   }
 }
+
+/* Resultado del link generado */
+.glp-resultado {
+  margin-top: 18px;
+  padding: 18px;
+  background: #f9f7f4;
+  border: 1px solid #e8e6e2;
+  border-radius: 10px;
+}
+
+.glp-resultado__titulo {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6aab89;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.glp-resultado__link-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.glp-resultado__url {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #d3d1c7;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  background: #fff;
+}
+
+.glp-resultado__nota {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .glp-resultado__link-wrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

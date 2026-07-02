@@ -487,6 +487,16 @@
                   <button type="button" class="btn btn--primary btn--full" onclick="glpGenerarLink()">✓ Generar Link</button>
                   <button type="button" class="btn btn--secondary btn--full" onclick="glpLimpiarCarrito()">Limpiar y reiniciar</button>
                 </div>
+
+                <!-- RESULTADO DEL LINK GENERADO -->
+                <div id="glp-resultado" class="glp-resultado" style="display: none;">
+                  <p class="glp-resultado__titulo">Link generado</p>
+                  <div class="glp-resultado__link-wrap">
+                    <input type="text" id="glp-resultado-url" class="glp-resultado__url" readonly>
+                    <button type="button" class="btn btn--outline" onclick="glpCopiarLink()">Copiar</button>
+                  </div>
+                  <p class="glp-resultado__nota" id="glp-resultado-nota"></p>
+                </div>
               </div>
             </div>
           </div>
