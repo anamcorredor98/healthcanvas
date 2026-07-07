@@ -407,13 +407,6 @@ function glpLimpiarCarrito() {
 // GENERACIÓN DE LINK
 // ════════════════════════════════════════════════════════════════════════════
 
-function glpGenerarUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
 // Devuelve las categorías marcadas (array) para un descuento: 'porc' | 'valor' | 'codigo'.
 function glpAplicaSeleccionado(tipo) {
   return Array.from(document.querySelectorAll('.glp-desc-' + tipo + '-aplica-multi:checked')).map(c => c.value);
@@ -516,38 +509,50 @@ function glpCopiarHistorial(linkId) {
 }
 
 // Renueva un link expirado: nuevas 24 horas desde este momento.
-function glpRenovarLink(linkId) {
-  const links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
-  const link = links.find(l => l.linkId === linkId);
-  if (!link) return;
-  // Solo se renuevan los expirados (los válidos aún sirven, los usados ya se pagaron).
-  if (glpEstadoLink(link).clase !== 'expirado') return;
-
-  const ahora = new Date();
-  link.fechaExpiracion = new Date(ahora.getTime() + 24 * 60 * 60 * 1000).toISOString();
-  link.estado = 'válido';
-  localStorage.setItem('healthcanvasLinks', JSON.stringify(links));
-  glpRenderHistorial();
+async function glpRenovarLink(linkId) {
+  try {
+    const r = await fetch('/api/links', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ linkId, accion: 'renovar' }),
+    });
+    if (!r.ok) { alert('Hubo un error renovando el link.'); return; }
+  } catch (error) {
+    alert('Hubo un error renovando el link.');
+    return;
+  }
+  await glpRenderHistorial();
 }
 
 // Invalida un link a mano: pasa a "anulado" (no se borra, queda de registro).
-function glpInvalidarLink(linkId) {
-  const links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
-  const link = links.find(l => l.linkId === linkId);
-  if (!link) return;
-  // No se invalida uno ya usado (ya se pagó).
-  if (link.estado === 'usado') return;
-
+async function glpInvalidarLink(linkId) {
   if (!confirm('¿Seguro que quieres invalidar este link? Ya no se podrá usar para pagar.')) return;
 
-  link.estado = 'anulado';
-  localStorage.setItem('healthcanvasLinks', JSON.stringify(links));
-  glpRenderHistorial();
+  try {
+    const r = await fetch('/api/links', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ linkId, accion: 'invalidar' }),
+    });
+    const data = await r.json();
+    if (!r.ok) { alert(data.error || 'Hubo un error invalidando el link.'); return; }
+  } catch (error) {
+    alert('Hubo un error invalidando el link.');
+    return;
+  }
+  await glpRenderHistorial();
 }
 
 // Pinta la tabla del historial de links.
-function glpRenderHistorial() {
-  const links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
+async function glpRenderHistorial() {
+  let links;
+  try {
+    const r = await fetch('/api/links');
+    links = await r.json();
+  } catch (error) {
+    links = [];
+  }
+
   const vacio = document.getElementById('glp-historial-vacio');
   const wrap = document.getElementById('glp-historial-wrap');
   const body = document.getElementById('glp-historial-body');
@@ -562,9 +567,9 @@ function glpRenderHistorial() {
   wrap.style.display = 'block';
 
   body.innerHTML = links.map(link => {
-    const estado = glpEstadoLink(link);
+    const estado = glpEstadoLink({ estado: link.estado, fechaExpiracion: link.fecha_expiracion });
     const t = link.totales || { subtotal: 0, iva: 0, totalDescuento: 0, total: 0, desglose: [] };
-    const creado = new Date(link.fechaCreacion).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const creado = new Date(link.fecha_creacion).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
     const desgloseHtml = (t.desglose && t.desglose.length)
       ? `<div class="glp-desglose">${t.desglose.map(d => `<span>${d.nombre} (${d.aplicaTexto}): -$${d.monto.toLocaleString('es-CO')}</span>`).join('')}</div>`
@@ -576,12 +581,12 @@ function glpRenderHistorial() {
     return `
       <tr>
         <td>
-          <div class="glp-hist-cliente">${link.cliente.nombre}</div>
-          <div class="glp-hist-dato">${link.cliente.email} · ${link.cliente.telefono}</div>
+          <div class="glp-hist-cliente">${link.cliente_nombre}</div>
+          <div class="glp-hist-dato">${link.cliente_email} · ${link.cliente_telefono}</div>
         </td>
         <td>${creado}</td>
         <td><span class="glp-badge glp-badge--${estado.clase}">${estado.texto}</span></td>
-        <td>${link.vistosCount || 0}</td>
+        <td>${link.vistos_count || 0}</td>
         <td>
           <strong>$${t.total.toLocaleString('es-CO')}</strong>
           <div class="glp-hist-dato">Subtotal $${t.subtotal.toLocaleString('es-CO')}</div>
@@ -589,9 +594,9 @@ function glpRenderHistorial() {
         <td>${descuentoCelda}</td>
         <td>
           <div class="glp-acciones-celda">
-            <button type="button" class="glp-mini-btn" onclick="glpCopiarHistorial('${link.linkId}')">Copiar link</button>
-            ${estado.clase === 'expirado' ? `<button type="button" class="glp-mini-btn glp-mini-btn--renovar" onclick="glpRenovarLink('${link.linkId}')">Renovar</button>` : ''}
-            ${(estado.clase === 'valido' || estado.clase === 'expirado') ? `<button type="button" class="glp-mini-btn glp-mini-btn--invalidar" onclick="glpInvalidarLink('${link.linkId}')">Invalidar</button>` : ''}
+            <button type="button" class="glp-mini-btn" onclick="glpCopiarHistorial('${link.link_id}')">Copiar link</button>
+            ${estado.clase === 'expirado' ? `<button type="button" class="glp-mini-btn glp-mini-btn--renovar" onclick="glpRenovarLink('${link.link_id}')">Renovar</button>` : ''}
+            ${(estado.clase === 'valido' || estado.clase === 'expirado') ? `<button type="button" class="glp-mini-btn glp-mini-btn--invalidar" onclick="glpInvalidarLink('${link.link_id}')">Invalidar</button>` : ''}
           </div>
         </td>
       </tr>
@@ -599,7 +604,7 @@ function glpRenderHistorial() {
   }).join('');
 }
 
-function glpGenerarLink() {
+async function glpGenerarLink() {
   if (carrito.length === 0 && extras.length === 0) {
     alert('Selecciona al menos un plan o elemento');
     return;
@@ -614,34 +619,29 @@ function glpGenerarLink() {
     return;
   }
 
-  const linkId = glpGenerarUUID();
-  const ahora = new Date();
-  const expiracion = new Date(ahora.getTime() + 24 * 60 * 60 * 1000);
   const totales = glpCalcularTotales();
+  let creado;
+  try {
+    const r = await fetch('/api/links', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cliente: { nombre, email, telefono }, carrito, extras, totales }),
+    });
+    const data = await r.json();
+    if (!r.ok) { alert(data.error || 'Hubo un error generando el link.'); return; }
+    creado = data;
+  } catch (error) {
+    alert('Hubo un error generando el link. Intenta de nuevo.');
+    return;
+  }
 
-  const linkObject = {
-    linkId,
-    cliente: { nombre, email, telefono },
-    carrito: JSON.parse(JSON.stringify(carrito)),
-    extras: JSON.parse(JSON.stringify(extras)),
-    totales,
-    estado: 'válido',
-    fechaCreacion: ahora.toISOString(),
-    fechaExpiracion: expiracion.toISOString(),
-    vistosCount: 0
-  };
-
-  let links = JSON.parse(localStorage.getItem('healthcanvasLinks') || '[]');
-  links.unshift(linkObject);
-  localStorage.setItem('healthcanvasLinks', JSON.stringify(links));
-  glpRenderHistorial();
+  await glpRenderHistorial();
 
   const baseUrl = window.location.origin + window.location.pathname.replace('generador-link-privado.html', '');
-  const linkUrl = `${baseUrl}tienda.html?linkId=${linkId}`;
+  const linkUrl = `${baseUrl}tienda.html?linkId=${creado.link_id}`;
 
-  // Mostrar el resultado con botón de copiar (reemplaza el alert)
   document.getElementById('glp-resultado-url').value = linkUrl;
-  const vence = expiracion.toLocaleString('es-CO', {
+  const vence = new Date(creado.fecha_expiracion).toLocaleString('es-CO', {
     day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
   });
   document.getElementById('glp-resultado-nota').textContent =
