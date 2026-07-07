@@ -1,9 +1,8 @@
 // ════════════════════════════════════════════════════════════════════════════
 // GENERADOR DE CÓDIGOS DE PROMOCIÓN - JavaScript
-// Guarda en localStorage (clave: healthcanvasCodigosPromo). Listo para Vercel.
+// Ahora usa Supabase (vía /api/promociones) en vez de localStorage.
 // ════════════════════════════════════════════════════════════════════════════
 
-// Credenciales: acepta la contraseña oficial Y la de backup.
 const GCP_CRED = {
   usuario: 'ana-promo',
   contrasenas: ['E5h#Jt2@Sw9$Bm3', 'U7r!Cf4&Pq6$Zn8'],
@@ -53,38 +52,23 @@ function gcpVerificarAutenticacion() {
   }
 }
 
-function gcpMostrarContenido() {
+async function gcpMostrarContenido() {
   document.getElementById('gcp-modal-auth').style.display = 'none';
   document.getElementById('gcp-contenido').style.display = 'block';
-  gcpRenderLista();
+  await gcpRenderLista();
   gcpActualizarPreview();
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// HELPERS DE ALMACENAMIENTO Y FORMATO
+// HELPERS DE FORMATO
 // ════════════════════════════════════════════════════════════════════════════
 
-function gcpLeer() {
-  try {
-    return JSON.parse(localStorage.getItem('healthcanvasCodigosPromo') || '[]');
-  } catch (e) {
-    return [];
-  }
-}
-
-function gcpGuardar(codigos) {
-  localStorage.setItem('healthcanvasCodigosPromo', JSON.stringify(codigos));
-}
-
-// Mayúsculas + sin tildes + sin ñ.
 function gcpLimpiarBase(str) {
   return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
 }
-// Solo letras (para el motivo).
 function gcpLimpiarLetras(str) {
   return gcpLimpiarBase(str).replace(/[^A-Z]/g, '');
 }
-// Letras y números (para el año).
 function gcpLimpiarAnio(str) {
   return gcpLimpiarBase(str).replace(/[^A-Z0-9]/g, '');
 }
@@ -93,47 +77,21 @@ function gcpCOP(n) {
   return '$' + (n || 0).toLocaleString('es-CO');
 }
 
-// Fecha "YYYY-MM-DD" → "DD/MM/YYYY" (sin problemas de zona horaria).
 function gcpFecha(s) {
   if (!s) return '—';
   const [y, m, d] = s.split('-');
   return `${d}/${m}/${y}`;
 }
 
-// Fecha de hoy local en formato "YYYY-MM-DD".
-function gcpHoyISO() {
-  const d = new Date();
-  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-  return local.toISOString().slice(0, 10);
-}
-
 // ════════════════════════════════════════════════════════════════════════════
-// ARMADO DEL CÓDIGO
-// ════════════════════════════════════════════════════════════════════════════
-
-function gcpCodigoExiste(codigo, codigos) {
-  return codigos.some(c => c.codigo === codigo);
-}
-
-// base = MOTIVO + AÑO. Duplicados: guion + número antes de HC (NAVIDAD26-1HC).
-function gcpResolverCodigo(base, codigos) {
-  const candidato = base + 'HC';
-  if (!gcpCodigoExiste(candidato, codigos)) return candidato;
-  let n = 1;
-  while (gcpCodigoExiste(`${base}-${n}HC`, codigos)) n++;
-  return `${base}-${n}HC`;
-}
-
-// ════════════════════════════════════════════════════════════════════════════
-// INTERACCIÓN DEL FORMULARIO
+// VISTA PREVIA (sin revisar duplicados; eso lo hace el servidor al crear)
 // ════════════════════════════════════════════════════════════════════════════
 
 function gcpActualizarPreview() {
   const motivo = gcpLimpiarLetras(document.getElementById('gcp-motivo').value);
   const anio = gcpLimpiarAnio(document.getElementById('gcp-anio').value);
   const el = document.getElementById('gcp-preview');
-  const base = motivo + anio;
-  el.textContent = motivo ? gcpResolverCodigo(base, gcpLeer()) : '—';
+  el.textContent = motivo ? `${motivo}${anio}HC` : '—';
 }
 
 function gcpCambiarTipoDescuento() {
@@ -149,7 +107,6 @@ function gcpCambiarTipoDescuento() {
   }
 }
 
-// "Toda la compra" es excluyente con las categorías específicas.
 function gcpAplicaChange(quien) {
   const todo = document.getElementById('gcp-aplica-todo');
   const items = document.querySelectorAll('.gcp-aplica-item');
@@ -194,8 +151,7 @@ function gcpLimpiarFormulario() {
 // CREAR CÓDIGO
 // ════════════════════════════════════════════════════════════════════════════
 
-function gcpCrearCodigo() {
-  const codigos = gcpLeer();
+async function gcpCrearCodigo() {
   document.getElementById('gcp-crear-aviso').style.display = 'none';
 
   const motivo = gcpLimpiarLetras(document.getElementById('gcp-motivo').value);
@@ -220,75 +176,81 @@ function gcpCrearCodigo() {
   if (aplicaA.length === 0) return gcpMostrarAviso('Selecciona a qué aplica el código.');
 
   const maxRaw = document.getElementById('gcp-max-usos').value.trim();
-  let maxUsos = null;
+  let maxUsosGlobales = null;
   if (maxRaw !== '') {
-    maxUsos = parseInt(maxRaw) || 0;
-    if (maxUsos < 1) return gcpMostrarAviso('El máximo de usos debe ser al menos 1, o déjalo en blanco.');
+    maxUsosGlobales = parseInt(maxRaw) || 0;
+    if (maxUsosGlobales < 1) return gcpMostrarAviso('El máximo de usos debe ser al menos 1, o déjalo en blanco.');
   }
 
-  const base = motivo + anio;
-  const codigo = gcpResolverCodigo(base, codigos);
-
-  const nuevo = {
-    codigo,
-    motivo,
-    anio,
-    descuento: { tipo, valor },
-    fechaInicio: fi,
-    fechaFin: ff,
-    maxUsosGlobales: maxUsos,
-    usosActuales: 0,
-    aplicaA,
-    estado: 'activo',
-    descripcion: document.getElementById('gcp-descripcion').value.trim(),
-    fechaCreacion: new Date().toISOString(),
-  };
-
-  codigos.unshift(nuevo);
-  gcpGuardar(codigos);
+  let creado;
+  try {
+    const r = await fetch('/api/promociones', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        motivo, anio,
+        descuentoTipo: tipo,
+        descuentoValor: valor,
+        fechaInicio: fi,
+        fechaFin: ff,
+        maxUsosGlobales,
+        aplicaA,
+        descripcion: document.getElementById('gcp-descripcion').value.trim(),
+      }),
+    });
+    if (!r.ok) throw new Error('fallo');
+    creado = await r.json();
+  } catch (error) {
+    return gcpMostrarAviso('Hubo un error creando el código. Intenta de nuevo.');
+  }
 
   const descTexto = tipo === 'porcentaje' ? `${valor}%` : gcpCOP(valor);
-  document.getElementById('gcp-resultado-codigo').textContent = codigo;
+  document.getElementById('gcp-resultado-codigo').textContent = creado.codigo;
   document.getElementById('gcp-resultado-detalle').textContent =
     `${descTexto} de descuento · vigente del ${gcpFecha(fi)} al ${gcpFecha(ff)}.`;
   document.getElementById('gcp-resultado').style.display = 'block';
 
   gcpLimpiarFormulario();
-  gcpRenderLista();
+  await gcpRenderLista();
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// ESTADO (activo / pausado / vencido / programado)
+// PAUSAR / ACTIVAR
 // ════════════════════════════════════════════════════════════════════════════
 
-function gcpEstadoDisplay(c) {
-  if (c.estado === 'pausado') return { texto: 'Pausado', clase: 'pausado' };
-  const hoy = gcpHoyISO();
-  if (c.fechaFin < hoy) return { texto: 'Vencido', clase: 'vencido' };
-  if (c.fechaInicio > hoy) return { texto: 'Programado', clase: 'programado' };
-  return { texto: 'Activo', clase: 'activo' };
-}
-
-function gcpTogglePausa(codigo) {
-  const codigos = gcpLeer();
-  const c = codigos.find(x => x.codigo === codigo);
-  if (!c) return;
-  c.estado = c.estado === 'pausado' ? 'activo' : 'pausado';
-  gcpGuardar(codigos);
-  gcpRenderLista();
+async function gcpTogglePausa(codigo, estadoActual) {
+  const nuevoEstado = estadoActual === 'pausado' ? 'activo' : 'pausado';
+  try {
+    await fetch('/api/promociones', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo, estado: nuevoEstado }),
+    });
+  } catch (error) {
+    alert('Hubo un error actualizando el código.');
+    return;
+  }
+  await gcpRenderLista();
 }
 
 // ════════════════════════════════════════════════════════════════════════════
 // TABLA DE TODOS LOS CÓDIGOS
 // ════════════════════════════════════════════════════════════════════════════
 
-function gcpRenderLista() {
-  const codigos = gcpLeer();
+async function gcpRenderLista() {
+  let codigos;
+  try {
+    const r = await fetch('/api/promociones');
+    codigos = await r.json();
+  } catch (error) {
+    codigos = [];
+  }
+
   const vacia = document.getElementById('gcp-lista-vacia');
   const wrap = document.getElementById('gcp-lista-wrap');
   const body = document.getElementById('gcp-lista-body');
 
-  if (codigos.length === 0) {
+  if (!codigos.length) {
     vacia.style.display = 'block';
     wrap.style.display = 'none';
     return;
@@ -298,16 +260,16 @@ function gcpRenderLista() {
   wrap.style.display = 'block';
 
   body.innerHTML = codigos.map(c => {
-    const desc = c.descuento.tipo === 'porcentaje' ? `${c.descuento.valor}%` : gcpCOP(c.descuento.valor);
-    const vigencia = `${gcpFecha(c.fechaInicio)} – ${gcpFecha(c.fechaFin)}`;
-    const aplica = c.aplicaA.map(a => GCP_APLICA_LABEL[a] || a).join(', ');
-    const usos = `${c.usosActuales} / ${c.maxUsosGlobales === null ? '∞' : c.maxUsosGlobales}`;
-    const estado = gcpEstadoDisplay(c);
+    const desc = c.descuento_tipo === 'porcentaje' ? `${c.descuento_valor}%` : gcpCOP(c.descuento_valor);
+    const vigencia = `${gcpFecha(c.fecha_inicio)} – ${gcpFecha(c.fecha_fin)}`;
+    const aplica = c.aplica_a.map(a => GCP_APLICA_LABEL[a] || a).join(', ');
+    const usos = `${c.usos_actuales} / ${c.max_usos_globales === null ? '∞' : c.max_usos_globales}`;
+    const estado = c.estado_mostrado;
 
     let accion = '';
     if (estado.clase !== 'vencido') {
       const texto = c.estado === 'pausado' ? 'Activar' : 'Pausar';
-      accion = `<button type="button" class="gcp-mini-btn" onclick="gcpTogglePausa('${c.codigo}')">${texto}</button>`;
+      accion = `<button type="button" class="gcp-mini-btn" onclick="gcpTogglePausa('${c.codigo}', '${c.estado}')">${texto}</button>`;
     }
     accion += `<button type="button" class="gcp-mini-btn" onclick="gcpCopiar('${c.codigo}')">Copiar</button>`;
 
