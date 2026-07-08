@@ -500,8 +500,11 @@ async function inicializarModoLink(linkId) {
     return;
   }
 
-  // Link válido
+  // Link válido: lo recordamos en este navegador para que, si el cliente navega a otra
+  // parte del sitio y vuelve a "tienda.html" sin el link en la URL, siga viendo lo mismo.
+  // Se recuerda hasta que el propio servidor diga que ya expiró/se usó/se anuló.
   linkData = data;
+  localStorage.setItem('healthcanvasLinkId', linkId);
   activarModoLinkUI();
   renderCarritoModoLink();
   renderResumenModoLink();
@@ -513,7 +516,9 @@ async function inicializarModoLink(linkId) {
 }
 
 // Oculta el cotizador y todo el contenido, mostrando solo el mensaje de estado.
+// También borra el linkId guardado (ya no sirve de nada seguir recordando un link muerto).
 function mostrarEstadoLink(mensaje) {
+  localStorage.removeItem('healthcanvasLinkId');
   document.getElementById('cotizadorSection').style.display = 'none';
   document.getElementById('mainSection').style.display = 'none';
   document.getElementById('linkEstadoSection').style.display = 'block';
@@ -528,6 +533,7 @@ function activarModoLinkUI() {
   document.getElementById('carritoAvisoLink').style.display = 'block';
   document.getElementById('carritoAcciones').style.display = 'none';
   document.getElementById('codigoWrap').style.display = 'none';
+  document.getElementById('volverCotizadorGeneral').style.display = 'block';
 }
 
 // Pinta el carrito (planes/elementos + extras) sin botón de eliminar, todo de solo lectura.
@@ -666,7 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
   inicializarTogglesTienda();
 
   const params = new URLSearchParams(window.location.search);
-  const linkId = params.get('linkId');
+  const linkId = params.get('linkId') || localStorage.getItem('healthcanvasLinkId');
 
   if (linkId) {
     inicializarModoLink(linkId);
@@ -676,6 +682,12 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarUI();
     tiActualizarEstadoOpciones();
   }
+
+  // Sale del modo link a propósito: borra lo guardado y recarga la tienda normal.
+  document.getElementById('volverCotizadorGeneral').addEventListener('click', () => {
+    localStorage.removeItem('healthcanvasLinkId');
+    window.location.href = 'tienda.html';
+  });
 
   // Event listeners
   aplicarCodigo.addEventListener('click', aplicarCodigoDescuento);
