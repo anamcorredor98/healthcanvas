@@ -153,13 +153,13 @@
 
 /* LADO IZQUIERDO: Carrito scrolleable */
 .ti-left {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-width: 0;
 }
 
 /* LADO DERECHO: Formulario + Resumen (sticky block) */
 .ti-right {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-width: 0;
   position: sticky;
   top: 90px;

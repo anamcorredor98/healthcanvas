@@ -404,31 +404,57 @@ function generarPDF() {
   doc.text('Detalles:', 10, y);
   y += 8;
 
-  carrito.forEach(item => {
+  // En modo link, los ítems vienen del link (carrito + extras); si no, del cotizador normal.
+  const items = modoLink
+    ? [
+        ...(linkData.carrito || []).map(i => ({ nombre: i.nombre, precio: i.precio })),
+        ...(linkData.extras || []).map(e => ({ nombre: e.descripcion || 'Adicional', precio: e.valor })),
+      ]
+    : carrito;
+
+  items.forEach(item => {
     doc.setFontSize(10);
     doc.text(`${item.nombre}: $${item.precio.toLocaleString('es-CO')}`, 10, y);
     y += 6;
   });
 
   y += 4;
-  const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
-  const iva = Math.round(subtotal * (ivaActual / 100));
-  const descuento = descuentoAplicado ? Math.round(subtotal * (descuentoPorcentaje / 100)) : 0;
-  const total = subtotal + iva - descuento;
+
+  // En modo link, los totales ya vienen calculados en el link (no se recalculan aquí).
+  const t = modoLink ? (linkData.totales || { subtotal: 0, iva: 0, totalDescuento: 0, total: 0 }) : null;
+  const subtotal = modoLink ? t.subtotal : carrito.reduce((sum, item) => sum + item.precio, 0);
+  const iva = modoLink ? t.iva : Math.round(subtotal * (ivaActual / 100));
+  const descuento = modoLink ? t.totalDescuento : (descuentoAplicado ? Math.round(subtotal * (descuentoPorcentaje / 100)) : 0);
+  const total = modoLink ? t.total : subtotal + iva - descuento;
 
   doc.setFontSize(11);
   doc.text(`Subtotal: $${subtotal.toLocaleString('es-CO')}`, 10, y);
   y += 6;
-  doc.text(`IVA (${ivaActual}%): $${iva.toLocaleString('es-CO')}`, 10, y);
+  doc.text(`IVA: $${iva.toLocaleString('es-CO')}`, 10, y);
   y += 6;
 
-  if (descuentoAplicado && descuentoPorcentaje > 0) {
-    doc.text(`Descuento (${descuentoPorcentaje}%): -$${descuento.toLocaleString('es-CO')}`, 10, y);
+  if (descuento > 0) {
+    doc.text(`Descuento: -$${descuento.toLocaleString('es-CO')}`, 10, y);
+    y += 6;
+  }
+
+  // Líneas de adelanto/saldo o ya-pagado/se-paga-ahora, igual que en pantalla.
+  if (modoLink && linkData.tipo_pago === 'adelanto') {
+    doc.text(`Adelanto: $${linkData.monto_a_pagar.toLocaleString('es-CO')}`, 10, y);
+    y += 6;
+    doc.text(`Saldo pendiente: $${(linkData.monto_pendiente || 0).toLocaleString('es-CO')}`, 10, y);
+    y += 6;
+  } else if (modoLink && linkData.tipo_pago === 'pago_final') {
+    const yaPagado = total - linkData.monto_a_pagar;
+    doc.text(`Ya pagado antes: $${yaPagado.toLocaleString('es-CO')}`, 10, y);
+    y += 6;
+    doc.text(`Se paga ahora: $${linkData.monto_a_pagar.toLocaleString('es-CO')}`, 10, y);
     y += 6;
   }
 
   doc.setFont(undefined, 'bold');
-  doc.text(`Total: $${total.toLocaleString('es-CO')}`, 10, y);
+  const totalAPagar = modoLink ? linkData.monto_a_pagar : total;
+  doc.text(`Total: $${totalAPagar.toLocaleString('es-CO')}`, 10, y);
 
   doc.save('cotizacion-healthcanvas.pdf');
 }
@@ -495,13 +521,13 @@ function mostrarEstadoLink(mensaje) {
 }
 
 // Ajusta la interfaz a modo solo-lectura: sin cotizador, sin acciones de edición, sin código de descuento.
+// El botón de exportar PDF SÍ se mantiene (el cliente puede querer compartirlo).
 function activarModoLinkUI() {
   modoLink = true;
   document.getElementById('cotizadorSection').style.display = 'none';
   document.getElementById('carritoAvisoLink').style.display = 'block';
   document.getElementById('carritoAcciones').style.display = 'none';
   document.getElementById('codigoWrap').style.display = 'none';
-  if (exportarPDF) exportarPDF.style.display = 'none';
 }
 
 // Pinta el carrito (planes/elementos + extras) sin botón de eliminar, todo de solo lectura.
