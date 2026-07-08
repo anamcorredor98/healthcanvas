@@ -840,6 +840,13 @@ document.addEventListener('DOMContentLoaded', () => {
       boldScript.setAttribute('data-description', data.descripcion);
       boldScript.setAttribute('data-customer-data', JSON.stringify(datosPagador));
       boldContainer.appendChild(boldScript);
+
+      // La librería de Bold escanea la página buscando botones SOLO al cargar la página.
+      // Como este botón se creó después (al hacer clic), la librería ya no lo puede ver.
+      // Por eso hay que volver a cargarla aquí, justo después de crear el botón.
+      const boldLibreria = document.createElement('script');
+      boldLibreria.src = 'https://checkout.bold.co/library/boldPaymentButton.js';
+      document.body.appendChild(boldLibreria);
     } catch (error) {
       alert('No pudimos conectar con el servidor, intenta de nuevo.');
       procesarPago.disabled = false;
