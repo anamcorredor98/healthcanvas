@@ -243,6 +243,18 @@ function glpActualizarExtraValor(id, valor) {
   glpActualizarPreview();
 }
 
+function glpCambiarTipoPago() {
+  const tipo = document.querySelector('input[name="glp-tipo-pago"]:checked').value;
+  const wrap = document.getElementById('glp-porcentaje-wrap');
+  wrap.style.display = tipo === 'total' ? 'none' : 'block';
+  if (tipo !== 'total' && glpTipoPagoAnterior === 'total') {
+    document.getElementById('glp-porcentaje').value = 50;
+  }
+  glpTipoPagoAnterior = tipo;
+  glpActualizarPreview();
+}
+let glpTipoPagoAnterior = 'total';
+
 // ════════════════════════════════════════════════════════════════════════════
 // PREVISUALIZACIÓN Y CÁLCULOS
 // ════════════════════════════════════════════════════════════════════════════
@@ -260,6 +272,7 @@ function glpActualizarPreview() {
     document.getElementById('glp-carrito-items').style.display = 'none';
     document.getElementById('glp-resumen-vacio').style.display = 'block';
     document.getElementById('glp-resumen-contenido').style.display = 'none';
+    document.getElementById('glp-pago-detalle').innerHTML = '';
     return;
   }
 
@@ -365,6 +378,28 @@ function glpActualizarPreview() {
   document.getElementById('glp-iva').textContent = `$${iva.toLocaleString('es-CO')}`;
   document.getElementById('glp-resumen-descuentos').innerHTML = resumenDescuentos.join('');
   document.getElementById('glp-total').textContent = `$${total.toLocaleString('es-CO')}`;
+
+  const tipoPago = document.querySelector('input[name="glp-tipo-pago"]:checked')?.value || 'total';
+  const detalleEl = document.getElementById('glp-pago-detalle');
+  const porcentaje = parseInt(document.getElementById('glp-porcentaje').value) || 0;
+
+  if (tipoPago === 'adelanto') {
+    const montoAdelanto = Math.round(total * (porcentaje / 100));
+    const restante = total - montoAdelanto;
+    detalleEl.innerHTML = `
+      <div class="ti-resumen__linea"><span>Adelanto (${porcentaje}%)</span><strong>$${montoAdelanto.toLocaleString('es-CO')}</strong></div>
+      <div class="ti-resumen__linea"><span>Queda pendiente</span><strong>$${restante.toLocaleString('es-CO')}</strong></div>
+    `;
+  } else if (tipoPago === 'pago_final') {
+    const montoAhora = Math.round(total * (porcentaje / 100));
+    const yaPagado = total - montoAhora;
+    detalleEl.innerHTML = `
+      <div class="ti-resumen__linea"><span>Ya pagado antes</span><strong>$${yaPagado.toLocaleString('es-CO')}</strong></div>
+      <div class="ti-resumen__linea"><span>Se paga ahora (${porcentaje}%)</span><strong>$${montoAhora.toLocaleString('es-CO')}</strong></div>
+    `;
+  } else {
+    detalleEl.innerHTML = '';
+  }
 }
 
 function glpEliminarDelCarrito(idx) {
@@ -499,7 +534,8 @@ function glpUrlDeLink(linkId) {
 function glpEstadoLink(link) {
   if (link.estado === 'anulado') return { texto: 'Anulado', clase: 'anulado' };
   if (link.estado === 'usado') return { texto: 'Usado', clase: 'usado' };
-  if (new Date(link.fechaExpiracion) < new Date()) return { texto: 'Expirado', clase: 'expirado' };
+  if (link.estado === 'guardado') return { texto: 'Guardado', clase: 'guardado' };
+  if (link.fechaExpiracion && new Date(link.fechaExpiracion) < new Date()) return { texto: 'Expirado', clase: 'expirado' };
   return { texto: 'Válido', clase: 'valido' };
 }
 
@@ -543,6 +579,48 @@ async function glpInvalidarLink(linkId) {
   await glpRenderHistorial();
 }
 
+async function glpActivarLink(linkId) {
+  try {
+    const r = await fetch('/api/links', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ linkId, accion: 'activar' }),
+    });
+    if (!r.ok) { alert('Hubo un error activando el link.'); return; }
+  } catch (error) {
+    alert('Hubo un error activando el link.');
+    return;
+  }
+  await glpRenderHistorial();
+}
+
+async function glpGenerarPagoFinal(linkIdOrigen, enviarAhora) {
+  const mensaje = enviarAhora
+    ? '¿Generar el link de pago final y dejarlo activo ahora (24 horas)?'
+    : '¿Generar el link de pago final y guardarlo para activarlo después?';
+  if (!confirm(mensaje)) return;
+
+  let creado;
+  try {
+    const r = await fetch('/api/links', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ accion: 'generar_pago_final', linkIdOrigen, enviarAhora }),
+    });
+    const data = await r.json();
+    if (!r.ok) { alert(data.error || 'Hubo un error generando el pago final.'); return; }
+    creado = data;
+  } catch (error) {
+    alert('Hubo un error generando el pago final.');
+    return;
+  }
+
+  await glpRenderHistorial();
+  alert(enviarAhora
+    ? 'Listo, ya puedes copiar el link de pago final desde el historial.'
+    : 'Listo, quedó guardado. Actívalo desde el historial cuando quieras enviarlo.');
+}
+
 // Pinta la tabla del historial de links.
 async function glpRenderHistorial() {
   let links;
@@ -566,6 +644,8 @@ async function glpRenderHistorial() {
   vacio.style.display = 'none';
   wrap.style.display = 'block';
 
+  const yaTienePagoFinal = (link) => links.some(l => l.link_relacionado_id === link.link_id);
+
   body.innerHTML = links.map(link => {
     const estado = glpEstadoLink({ estado: link.estado, fechaExpiracion: link.fecha_expiracion });
     const t = link.totales || { subtotal: 0, iva: 0, totalDescuento: 0, total: 0, desglose: [] };
@@ -578,26 +658,48 @@ async function glpRenderHistorial() {
       ? `<strong>-$${t.totalDescuento.toLocaleString('es-CO')}</strong>${desgloseHtml}`
       : '—';
 
+    const etiquetaTipoPago = link.tipo_pago === 'adelanto' ? 'Adelanto'
+      : link.tipo_pago === 'pago_final' ? 'Pago final' : null;
+
+    const valorPrincipal = link.monto_a_pagar ?? t.total;
+    const valorSecundario = link.tipo_pago && link.tipo_pago !== 'total'
+      ? `<div class="glp-hist-dato">Total proyecto $${t.total.toLocaleString('es-CO')}</div>`
+      : `<div class="glp-hist-dato">Subtotal $${t.subtotal.toLocaleString('es-CO')}</div>`;
+
+    const acciones = [];
+    acciones.push(`<button type="button" class="glp-mini-btn" onclick="glpCopiarHistorial('${link.link_id}')">Copiar link</button>`);
+    if (estado.clase === 'expirado') {
+      acciones.push(`<button type="button" class="glp-mini-btn glp-mini-btn--renovar" onclick="glpRenovarLink('${link.link_id}')">Renovar</button>`);
+    }
+    if (estado.clase === 'guardado') {
+      acciones.push(`<button type="button" class="glp-mini-btn glp-mini-btn--activar" onclick="glpActivarLink('${link.link_id}')">Activar</button>`);
+    }
+    if (['valido', 'expirado', 'guardado'].includes(estado.clase)) {
+      acciones.push(`<button type="button" class="glp-mini-btn glp-mini-btn--invalidar" onclick="glpInvalidarLink('${link.link_id}')">Invalidar</button>`);
+    }
+    if (link.tipo_pago === 'adelanto' && link.monto_pendiente > 0 && !yaTienePagoFinal(link)) {
+      acciones.push(`<button type="button" class="glp-mini-btn" onclick="glpGenerarPagoFinal('${link.link_id}', true)">Pago final: enviar</button>`);
+      acciones.push(`<button type="button" class="glp-mini-btn" onclick="glpGenerarPagoFinal('${link.link_id}', false)">Pago final: guardar</button>`);
+    }
+
     return `
       <tr>
         <td>
           <div class="glp-hist-cliente">${link.cliente_nombre}</div>
+          ${link.nombre_proyecto ? `<div class="glp-hist-dato">${link.nombre_proyecto}</div>` : ''}
           <div class="glp-hist-dato">${link.cliente_email} · ${link.cliente_telefono}</div>
+          ${etiquetaTipoPago ? `<div class="glp-hist-dato">${etiquetaTipoPago}${link.porcentaje_adelanto ? ' (' + link.porcentaje_adelanto + '%)' : ''}</div>` : ''}
         </td>
         <td>${creado}</td>
         <td><span class="glp-badge glp-badge--${estado.clase}">${estado.texto}</span></td>
         <td>${link.vistos_count || 0}</td>
         <td>
-          <strong>$${t.total.toLocaleString('es-CO')}</strong>
-          <div class="glp-hist-dato">Subtotal $${t.subtotal.toLocaleString('es-CO')}</div>
+          <strong>$${valorPrincipal.toLocaleString('es-CO')}</strong>
+          ${valorSecundario}
         </td>
         <td>${descuentoCelda}</td>
         <td>
-          <div class="glp-acciones-celda">
-            <button type="button" class="glp-mini-btn" onclick="glpCopiarHistorial('${link.link_id}')">Copiar link</button>
-            ${estado.clase === 'expirado' ? `<button type="button" class="glp-mini-btn glp-mini-btn--renovar" onclick="glpRenovarLink('${link.link_id}')">Renovar</button>` : ''}
-            ${(estado.clase === 'valido' || estado.clase === 'expirado') ? `<button type="button" class="glp-mini-btn glp-mini-btn--invalidar" onclick="glpInvalidarLink('${link.link_id}')">Invalidar</button>` : ''}
-          </div>
+          <div class="glp-acciones-celda">${acciones.join('')}</div>
         </td>
       </tr>
     `;
@@ -620,12 +722,22 @@ async function glpGenerarLink() {
   }
 
   const totales = glpCalcularTotales();
+  const tipoPago = document.querySelector('input[name="glp-tipo-pago"]:checked')?.value || 'total';
+  const nombreProyecto = document.getElementById('glp-nombre-proyecto').value.trim();
+  const porcentajeAdelanto = tipoPago !== 'total'
+    ? (parseInt(document.getElementById('glp-porcentaje').value) || 50)
+    : null;
+
   let creado;
   try {
     const r = await fetch('/api/links', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cliente: { nombre, email, telefono }, carrito, extras, totales }),
+      body: JSON.stringify({
+        cliente: { nombre, email, telefono }, carrito, extras, totales,
+        nombreProyecto: nombreProyecto || null,
+        tipoPago, porcentajeAdelanto,
+      }),
     });
     const data = await r.json();
     if (!r.ok) { alert(data.error || 'Hubo un error generando el link.'); return; }

@@ -443,3 +443,52 @@
   font-size: 18px;
   cursor: pointer;
 }
+
+.glp-badge--guardado { background: rgba(230, 175, 90, 0.18); color: #b7791f; }
+
+.glp-mini-btn--activar {
+  border-color: #e0a84e;
+  color: #b7791f;
+}
+.glp-mini-btn--activar:hover {
+  background: #e0a84e;
+  color: #fff;
+}
+
+.glp-tipo-pago {
+  margin: 16px 0;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+.glp-tipo-pago__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+.glp-tipo-pago__opciones {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.glp-tipo-pago__opcion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.glp-tipo-pago__porcentaje {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.glp-tipo-pago__porcentaje input {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+.glp-pago-detalle { margin-bottom: 8px; }

@@ -82,6 +82,10 @@
                 <label for="glp-telefono">Teléfono</label>
                 <input type="tel" id="glp-telefono" required onchange="glpActualizarPreview()">
               </div>
+              <div class="ti-form__grupo">
+                <label for="glp-nombre-proyecto">Nombre del proyecto (opcional)</label>
+                <input type="text" id="glp-nombre-proyecto" placeholder="Ej: Sitio Dr. Andrés — Parte 1">
+              </div>
             </form>
           </div>
         </div>
@@ -463,6 +467,30 @@
                 <div class="ti-resumen__linea ti-resumen__total">
                   <span>Total</span>
                   <strong id="glp-total">$0</strong>
+                </div>
+
+                <div class="glp-tipo-pago">
+                  <p class="glp-tipo-pago__label">Tipo de pago</p>
+                  <div class="glp-tipo-pago__opciones">
+                    <label class="glp-tipo-pago__opcion">
+                      <input type="radio" name="glp-tipo-pago" value="total" checked onchange="glpCambiarTipoPago()">
+                      Total
+                    </label>
+                    <label class="glp-tipo-pago__opcion">
+                      <input type="radio" name="glp-tipo-pago" value="adelanto" onchange="glpCambiarTipoPago()">
+                      Adelanto
+                    </label>
+                    <label class="glp-tipo-pago__opcion">
+                      <input type="radio" name="glp-tipo-pago" value="pago_final" onchange="glpCambiarTipoPago()">
+                      Pago final
+                    </label>
+                  </div>
+                  <div class="glp-tipo-pago__porcentaje" id="glp-porcentaje-wrap" style="display:none">
+                    <label for="glp-porcentaje">Porcentaje</label>
+                    <input type="number" id="glp-porcentaje" min="1" max="100" value="50" onchange="glpActualizarPreview()">
+                    <span>%</span>
+                  </div>
+                  <div id="glp-pago-detalle" class="glp-pago-detalle"></div>
                 </div>
 
                 <div class="ti-resumen__botones">
