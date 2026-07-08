@@ -1,9 +1,14 @@
+// js/tienda.js
 // ── ESTADO GLOBAL ───────────────────────────────────────────────────────────
 
 let carrito = [];
 let ivaActual = 0;
 let descuentoPorcentaje = 0;
 let descuentoAplicado = false;
+
+// ── MODO LINK (tienda.html?linkId=XXX) ──────────────────────────────────────
+let modoLink = false;
+let linkData = null;
 
 // ── MAPA DE INCLUIDOS POR PLAN ──────────────────────────────────────────────
 const INCLUIDOS = {
@@ -440,6 +445,157 @@ function actualizarBadgeGlobal() {
   }
 }
 
+// ── MODO LINK: consulta el link real en Supabase y pinta la tienda en modo solo-lectura ─────
+
+async function inicializarModoLink(linkId) {
+  let data;
+  try {
+    const r = await fetch(`/api/link-publico?linkId=${encodeURIComponent(linkId)}`);
+    data = await r.json();
+  } catch (error) {
+    mostrarEstadoLink('No pudimos cargar este link. Intenta de nuevo o comunícate con nosotros.');
+    return;
+  }
+
+  if (!data || data.estado_publico === 'no_encontrado') {
+    mostrarEstadoLink('No encontramos este link, verifica que el enlace esté correcto o comunícate con nosotros.');
+    return;
+  }
+  if (data.estado_publico === 'expirado') {
+    mostrarEstadoLink('Este link ha caducado, si necesitas hacer un pago comunícate con nosotros para reactivarlo.');
+    return;
+  }
+  if (data.estado_publico === 'anulado') {
+    mostrarEstadoLink('Este link se ha anulado, si necesitas hacer un pago comunícate con nosotros para generarte un link nuevo.');
+    return;
+  }
+  if (data.estado_publico === 'usado') {
+    mostrarEstadoLink('Este link ya fue usado, si necesitas hacer un pago comunícate con nosotros para hacer tu cotización o generarte un link nuevo.');
+    return;
+  }
+
+  // Link válido
+  linkData = data;
+  activarModoLinkUI();
+  renderCarritoModoLink();
+  renderResumenModoLink();
+
+  // Prellenar los datos del cliente (siguen siendo editables por si hay algún error)
+  nombreInput.value = linkData.cliente_nombre || '';
+  emailInput.value = linkData.cliente_email || '';
+  telefonoInput.value = linkData.cliente_telefono || '';
+}
+
+// Oculta el cotizador y todo el contenido, mostrando solo el mensaje de estado.
+function mostrarEstadoLink(mensaje) {
+  document.getElementById('cotizadorSection').style.display = 'none';
+  document.getElementById('mainSection').style.display = 'none';
+  document.getElementById('linkEstadoSection').style.display = 'block';
+  document.getElementById('linkEstadoTexto').textContent = mensaje;
+}
+
+// Ajusta la interfaz a modo solo-lectura: sin cotizador, sin acciones de edición, sin código de descuento.
+function activarModoLinkUI() {
+  modoLink = true;
+  document.getElementById('cotizadorSection').style.display = 'none';
+  document.getElementById('carritoAvisoLink').style.display = 'block';
+  document.getElementById('carritoAcciones').style.display = 'none';
+  document.getElementById('codigoWrap').style.display = 'none';
+  if (exportarPDF) exportarPDF.style.display = 'none';
+}
+
+// Pinta el carrito (planes/elementos + extras) sin botón de eliminar, todo de solo lectura.
+function renderCarritoModoLink() {
+  const items = [
+    ...(linkData.carrito || []).map(i => ({ nombre: i.nombre, precio: i.precio })),
+    ...(linkData.extras || []).map(e => ({ nombre: e.descripcion || 'Adicional', precio: e.valor })),
+  ];
+
+  itemsList.innerHTML = '';
+
+  if (items.length === 0) {
+    carritoVacio.style.display = 'block';
+    carritoItems.style.display = 'none';
+    return;
+  }
+
+  carritoVacio.style.display = 'none';
+  carritoItems.style.display = 'block';
+
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'ti-item';
+    div.innerHTML = `
+      <div class="ti-item__info">
+        <div class="ti-item__nombre">${item.nombre}</div>
+        <div class="ti-item__precio">$${item.precio.toLocaleString('es-CO')}</div>
+      </div>
+    `;
+    itemsList.appendChild(div);
+  });
+}
+
+// Pinta el resumen a partir de los totales YA guardados en el link (no se recalculan),
+// más las líneas de adelanto/saldo o ya pagado antes/se paga ahora según tipo_pago.
+function renderResumenModoLink() {
+  const t = linkData.totales || { subtotal: 0, iva: 0, totalDescuento: 0, total: 0, desglose: [] };
+
+  resumenVacio.style.display = 'none';
+  resumenContenido.style.display = 'block';
+
+  resumenLista.innerHTML = '';
+  const items = [
+    ...(linkData.carrito || []).map(i => ({ nombre: i.nombre, precio: i.precio })),
+    ...(linkData.extras || []).map(e => ({ nombre: e.descripcion || 'Adicional', precio: e.valor })),
+  ];
+  items.forEach(item => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${item.nombre}</span><span>$${item.precio.toLocaleString('es-CO')}</span>`;
+    resumenLista.appendChild(li);
+  });
+
+  subtotalValue.textContent = `$${t.subtotal.toLocaleString('es-CO')}`;
+  ivaValue.textContent = `$${t.iva.toLocaleString('es-CO')}`;
+  document.getElementById('ivaPorc').textContent = t.subtotal > 0 ? `(${Math.round((t.iva / t.subtotal) * 100)}%)` : '(0%)';
+
+  if (t.totalDescuento > 0) {
+    descuentoLinea.style.display = 'flex';
+    descuentoValue.textContent = `$${t.totalDescuento.toLocaleString('es-CO')}`;
+    document.getElementById('descuentoPorc').textContent = `(${Math.round((t.totalDescuento / t.subtotal) * 100)}%)`;
+  } else {
+    descuentoLinea.style.display = 'none';
+  }
+
+  // Líneas especiales (adelanto/saldo pendiente, o ya pagado antes/se paga ahora)
+  let contenedor = document.getElementById('lineasEspecialesResumen');
+  if (!contenedor) {
+    contenedor = document.createElement('div');
+    contenedor.id = 'lineasEspecialesResumen';
+    const totalDiv = document.querySelector('.ti-resumen__total');
+    totalDiv.parentNode.insertBefore(contenedor, totalDiv);
+  }
+  contenedor.innerHTML = '';
+
+  const pct = linkData.porcentaje_adelanto != null
+    ? linkData.porcentaje_adelanto
+    : (t.total > 0 ? Math.round((linkData.monto_a_pagar / t.total) * 100) : 0);
+
+  if (linkData.tipo_pago === 'adelanto') {
+    contenedor.innerHTML = `
+      <div class="ti-resumen__linea"><span>Adelanto (${pct}%)</span><strong>$${linkData.monto_a_pagar.toLocaleString('es-CO')}</strong></div>
+      <div class="ti-resumen__linea"><span>Saldo pendiente</span><strong>$${(linkData.monto_pendiente || 0).toLocaleString('es-CO')}</strong></div>
+    `;
+  } else if (linkData.tipo_pago === 'pago_final') {
+    const yaPagado = t.total - linkData.monto_a_pagar;
+    contenedor.innerHTML = `
+      <div class="ti-resumen__linea"><span>Ya pagado antes</span><strong>$${yaPagado.toLocaleString('es-CO')}</strong></div>
+      <div class="ti-resumen__linea"><span>Se paga ahora (${pct}%)</span><strong>$${linkData.monto_a_pagar.toLocaleString('es-CO')}</strong></div>
+    `;
+  }
+
+  totalValue.textContent = `$${linkData.monto_a_pagar.toLocaleString('es-CO')}`;
+}
+
 // ── EVENT LISTENERS PARA TOGGLES ────────────────────────────────────────────
 
 function inicializarTogglesTienda() {
@@ -480,12 +636,20 @@ function inicializarTogglesTienda() {
 // ── EVENT LISTENERS ─────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
-  cargarCarritoDesdeLocalStorage();
-  cargarClienteDesdeLocalStorage();
-  actualizarUI();
   actualizarBadgeGlobal();
-  tiActualizarEstadoOpciones();
   inicializarTogglesTienda();
+
+  const params = new URLSearchParams(window.location.search);
+  const linkId = params.get('linkId');
+
+  if (linkId) {
+    inicializarModoLink(linkId);
+  } else {
+    cargarCarritoDesdeLocalStorage();
+    cargarClienteDesdeLocalStorage();
+    actualizarUI();
+    tiActualizarEstadoOpciones();
+  }
 
   // Event listeners
   aplicarCodigo.addEventListener('click', aplicarCodigoDescuento);
@@ -507,6 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Sincronizar carrito entre pestañas
 window.addEventListener('storage', (e) => {
+  if (modoLink) return;
   if (e.key === 'healthcanvasCarrito') {
     cargarCarritoDesdeLocalStorage();
     actualizarUI();

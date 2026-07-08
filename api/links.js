@@ -1,4 +1,12 @@
+// api/links.js
+
 module.exports = async (req, res) => {
+  // Este endpoint es exclusivo del panel de administración (generador de links).
+  // El acceso público de un cliente a su propio link pasa por /api/link-publico, no por aquí.
+  if (req.headers['x-admin-secret'] !== process.env.ADMIN_SECRET) {
+    return res.status(401).json({ error: 'No autorizado.' });
+  }
+
   const headers = {
     apikey: process.env.SUPABASE_SECRET_KEY,
     Authorization: `Bearer ${process.env.SUPABASE_SECRET_KEY}`,
@@ -137,6 +145,11 @@ async function generarPagoFinal(req, res, base, headers) {
   const estado = enviarAhora ? 'valido' : 'guardado';
   const expiracion = enviarAhora ? new Date(ahora.getTime() + 24 * 60 * 60 * 1000).toISOString() : null;
 
+  // porcentaje_adelanto guarda, para CUALQUIER tipo de link, el % del total que se paga en ESE link.
+  // Para el pago final: monto_a_pagar (= lo pendiente) ÷ total del proyecto × 100.
+  const totalProyecto = origen.totales?.total || (origen.monto_a_pagar + origen.monto_pendiente);
+  const porcentajePagoFinal = totalProyecto > 0 ? Math.round((origen.monto_pendiente / totalProyecto) * 100) : null;
+
   const nuevo = {
     link_id: generarUUID(),
     nombre_proyecto: origen.nombre_proyecto,
@@ -147,7 +160,7 @@ async function generarPagoFinal(req, res, base, headers) {
     extras: origen.extras,
     totales: origen.totales,
     tipo_pago: 'pago_final',
-    porcentaje_adelanto: null,
+    porcentaje_adelanto: porcentajePagoFinal,
     monto_a_pagar: origen.monto_pendiente,
     monto_pendiente: 0,
     link_relacionado_id: origen.link_id,

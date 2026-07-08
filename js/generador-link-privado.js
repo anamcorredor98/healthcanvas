@@ -5,6 +5,10 @@
 
 const CREDENCIALES = { usuario: 'ana-admin', contrasenas: ['K9m#Xp2@Lw4$Nq7', 'T6v!Hs8&Yj1$Rd5'] };
 
+// Se envía en cada llamada a /api/links para que el servidor la acepte (ver nota de seguridad en links.js).
+// IMPORTANTE: reemplázalo por un valor propio y pon ese MISMO valor en Vercel como variable de entorno ADMIN_SECRET.
+const ADMIN_SECRET = 'Fo25kAr8vNi6nc5YF742igt3sLYgUP9Z';
+const glpHeadersAdmin = { 'Content-Type': 'application/json', 'x-admin-secret': ADMIN_SECRET };
 const INCLUIDOS = {
   'Sitio Esencial Básico': [],
   'Sitio Esencial Pro': ['Formulario de contacto', 'Animaciones de desplazamiento', 'Sección de testimonios', 'Diseño personalizado'],
@@ -549,7 +553,7 @@ async function glpRenovarLink(linkId) {
   try {
     const r = await fetch('/api/links', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: glpHeadersAdmin,
       body: JSON.stringify({ linkId, accion: 'renovar' }),
     });
     if (!r.ok) { alert('Hubo un error renovando el link.'); return; }
@@ -567,7 +571,7 @@ async function glpInvalidarLink(linkId) {
   try {
     const r = await fetch('/api/links', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: glpHeadersAdmin,
       body: JSON.stringify({ linkId, accion: 'invalidar' }),
     });
     const data = await r.json();
@@ -583,7 +587,7 @@ async function glpActivarLink(linkId) {
   try {
     const r = await fetch('/api/links', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: glpHeadersAdmin,
       body: JSON.stringify({ linkId, accion: 'activar' }),
     });
     if (!r.ok) { alert('Hubo un error activando el link.'); return; }
@@ -604,7 +608,7 @@ async function glpGenerarPagoFinal(linkIdOrigen, enviarAhora) {
   try {
     const r = await fetch('/api/links', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: glpHeadersAdmin,
       body: JSON.stringify({ accion: 'generar_pago_final', linkIdOrigen, enviarAhora }),
     });
     const data = await r.json();
@@ -625,7 +629,7 @@ async function glpGenerarPagoFinal(linkIdOrigen, enviarAhora) {
 async function glpRenderHistorial() {
   let links;
   try {
-    const r = await fetch('/api/links');
+    const r = await fetch('/api/links', { headers: glpHeadersAdmin });
     links = await r.json();
   } catch (error) {
     links = [];
@@ -661,6 +665,11 @@ async function glpRenderHistorial() {
     const etiquetaTipoPago = link.tipo_pago === 'adelanto' ? 'Adelanto'
       : link.tipo_pago === 'pago_final' ? 'Pago final' : null;
 
+    // Porcentaje complementario: para adelanto es lo que queda pendiente; para pago final, lo que ya se había pagado.
+    const porcentajeComplementario = link.porcentaje_adelanto != null ? 100 - link.porcentaje_adelanto : null;
+    const etiquetaComplementaria = link.tipo_pago === 'adelanto' ? 'Saldo restante'
+      : link.tipo_pago === 'pago_final' ? 'Ya pagado antes' : null;
+
     const valorPrincipal = link.monto_a_pagar ?? t.total;
     const valorSecundario = link.tipo_pago && link.tipo_pago !== 'total'
       ? `<div class="glp-hist-dato">Total proyecto $${t.total.toLocaleString('es-CO')}</div>`
@@ -688,7 +697,8 @@ async function glpRenderHistorial() {
           <div class="glp-hist-cliente">${link.cliente_nombre}</div>
           ${link.nombre_proyecto ? `<div class="glp-hist-dato">${link.nombre_proyecto}</div>` : ''}
           <div class="glp-hist-dato">${link.cliente_email} · ${link.cliente_telefono}</div>
-          ${etiquetaTipoPago ? `<div class="glp-hist-dato">${etiquetaTipoPago}${link.porcentaje_adelanto ? ' (' + link.porcentaje_adelanto + '%)' : ''}</div>` : ''}
+          ${etiquetaTipoPago ? `<div class="glp-hist-dato">${etiquetaTipoPago}${link.porcentaje_adelanto != null ? ' (' + link.porcentaje_adelanto + '%)' : ''}</div>` : ''}
+          ${etiquetaComplementaria && porcentajeComplementario != null ? `<div class="glp-hist-dato">${etiquetaComplementaria} (${porcentajeComplementario}%)</div>` : ''}
         </td>
         <td>${creado}</td>
         <td><span class="glp-badge glp-badge--${estado.clase}">${estado.texto}</span></td>
@@ -732,7 +742,7 @@ async function glpGenerarLink() {
   try {
     const r = await fetch('/api/links', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: glpHeadersAdmin,
       body: JSON.stringify({
         cliente: { nombre, email, telefono }, carrito, extras, totales,
         nombreProyecto: nombreProyecto || null,

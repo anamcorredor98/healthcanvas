@@ -62,8 +62,19 @@
       </div>
     </section>
 
+    <!-- MENSAJE DE ESTADO DE LINK (expirado, anulado, usado o no encontrado) — oculto por defecto -->
+    <section class="ti-toggles-section" id="linkEstadoSection" style="display:none">
+      <div class="container">
+        <div class="ti-carrito">
+          <div class="ti-carrito__vacio">
+            <p id="linkEstadoTexto"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- TOGGLES (FULL WIDTH) -->
-    <section class="ti-toggles-section">
+    <section class="ti-toggles-section" id="cotizadorSection">
       <div class="container">
         <div class="ti-toggles-cotizador">
           <p class="section__eyebrow">Personaliza aquí</p>
@@ -378,7 +389,7 @@
     </section>
 
     <!-- CONTENIDO PRINCIPAL: Carrito (izq) + Formulario + Resumen (der sticky) -->
-    <section class="ti-main">
+    <section class="ti-main" id="mainSection">
       <div class="container ti-main__inner">
 
         <!-- LADO IZQUIERDO: Carrito (scrolleable) -->
@@ -387,7 +398,8 @@
           <!-- CARRITO -->
           <div class="ti-carrito">
             <h2 class="ti-carrito__titulo">Tu carrito</h2>
-            
+            <p id="carritoAvisoLink" style="display:none; color: var(--gris-texto); font-size:0.85rem; margin-top:-16px; margin-bottom:16px;">Este carrito fue preparado especialmente para ti y no se puede modificar. Si necesitas algún cambio, contáctanos.</p>
+
             <!-- Mensaje carrito vacío -->
             <div class="ti-carrito__vacio" id="carritoVacio">
               <p>En este momento tu carrito está vacío.</p>
@@ -397,7 +409,7 @@
             <!-- Items del carrito -->
             <div class="ti-carrito__items" id="carritoItems" style="display:none">
               <div id="itemsList"></div>
-              <div class="ti-carrito__acciones">
+              <div class="ti-carrito__acciones" id="carritoAcciones">
                 <button type="button" id="volverCotizador" class="btn btn--outline">
                   ← Volver al cotizador
                 </button>
@@ -464,7 +476,7 @@
               </div>
 
               <!-- Código de descuento -->
-              <div class="ti-resumen__codigo-wrap">
+              <div class="ti-resumen__codigo-wrap" id="codigoWrap">
                 <label for="codigoInput" class="ti-resumen__codigo-label">Código de descuento (opcional)</label>
                 <div class="ti-resumen__codigo-input-group">
                   <input type="text" id="codigoInput" placeholder="Ingresa tu código" />
