@@ -1,7 +1,5 @@
 // api/crear-orden.js
-// Crea el registro de una compra "pendiente" en Supabase con el monto YA validado en
-// el servidor. El orden_id y el monto que devuelve son los que se usan para armar
-// el pago con Bold — nunca se confía en el total calculado en el navegador.
+const crypto = require('crypto');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -50,27 +48,18 @@ module.exports = async (req, res) => {
     });
     const creada = (await rCrear.json())[0];
 
-    // ============================================================
-    // 🔶 AQUÍ VA LA INTEGRACIÓN CON BOLD (pendiente hasta tu reunión)
-    //
-    // Cuando Bold te confirme el formato exacto de su firma de integridad,
-    // esto es lo que casi seguro vas a necesitar armar aquí mismo:
-    //
-    //   const crypto = require('crypto');
-    //   const cadena = `${creada.orden_id}${creada.monto_a_pagar}COP${process.env.BOLD_SECRET_KEY}`;
-    //   const firmaIntegridad = crypto.createHash('sha256').update(cadena).digest('hex');
-    //
-    // Y terminarías devolviendo algo como:
-    //   { ordenId: creada.orden_id, monto: creada.monto_a_pagar, moneda: 'COP',
-    //     firma: firmaIntegridad, llavePublica: process.env.BOLD_API_KEY }
-    // que tienda.js usa para redirigir o abrir el checkout de Bold.
-    // ============================================================
+    // Firma de integridad según la documentación de Bold:
+    // SHA256 de {identificador}{monto}{divisa}{llave_secreta}, en ese orden exacto.
+    const cadena = `${creada.orden_id}${creada.monto_a_pagar}COP${process.env.BOLD_LLAVE_SECRETA}`;
+    const firmaIntegridad = crypto.createHash('sha256').update(cadena).digest('hex');
 
     return res.status(201).json({
       ordenId: creada.orden_id,
       monto: creada.monto_a_pagar,
       moneda: 'COP',
       descripcion: 'Compra HealthCanvas',
+      firma: firmaIntegridad,
+      llavePublica: process.env.BOLD_LLAVE_IDENTIDAD,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -116,7 +105,7 @@ async function construirDesdeDirecto(body, headers) {
   }
 
   const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
-  const iva = 0; // Ana no está registrada para IVA aún — igual que en el resto del sitio
+  const iva = 0;
 
   let descuento = 0;
   let codigoAplicado = null;

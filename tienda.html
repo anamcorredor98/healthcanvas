@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/servicios.css" />
   <link rel="stylesheet" href="css/iconos.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://checkout.bold.co/library/boldPaymentButton.js"></script>
 </head>
 <body>
 
@@ -510,8 +511,10 @@
                 <button type="button" id="exportarPDF" class="btn btn--secondary btn--full">
                   📄 Exportar como PDF
                 </button>
-                <button type="button" id="procesarPago" class="btn btn--primary btn--full" title="Procesar pago">                  💳 Proceder al pago
+                <button type="button" id="procesarPago" class="btn btn--primary btn--full" title="Procesar pago">
+                  💳 Proceder al pago
                 </button>
+                <div id="boldBotonContainer" style="display:none; margin-top:12px;"></div>
                 <button type="button" id="volverCotizadorGeneral" class="btn btn--ghost btn--full" style="display:none;">
                   Volver al cotizador general
                 </button>

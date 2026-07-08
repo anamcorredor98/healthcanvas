@@ -734,10 +734,24 @@ function inicializarTogglesTienda() {
 }
 
 // ── EVENT LISTENERS ─────────────────────────────────────────────────────────
+function verificarRegresoDeBold() {
+  const params = new URLSearchParams(window.location.search);
+  const boldOrderId = params.get('bold-order-id');
+  const boldTxStatus = params.get('bold-tx-status');
+  if (!boldOrderId) return;
+
+  if (boldTxStatus === 'approved') {
+    alert('¡Tu pago fue aprobado! En breve recibirás la confirmación por correo.');
+  } else if (boldTxStatus === 'rejected') {
+    alert('Tu pago fue rechazado. Puedes intentar de nuevo.');
+  } else {
+    alert('Estamos confirmando el estado de tu pago, dale un momento.');
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+  verificarRegresoDeBold();
   actualizarBadgeGlobal();
-  inicializarTogglesTienda();
 
   const params = new URLSearchParams(window.location.search);
   const linkId = params.get('linkId') || localStorage.getItem('healthcanvasLinkId');
@@ -766,58 +780,72 @@ document.addEventListener('DOMContentLoaded', () => {
   limpiarCarrito.addEventListener('click', limpiarCarritoCompleto);
   exportarPDF.addEventListener('click', generarPDF);
   procesarPago.addEventListener('click', async () => {
-  procesarPago.disabled = true;
-  procesarPago.textContent = 'Procesando...';
+    procesarPago.disabled = true;
+    procesarPago.textContent = 'Procesando...';
 
-  try {
-    const pagador = {
-      esDiferente: pagadorDiferenteCheckbox.checked,
-      nombre: pagadorDiferenteCheckbox.checked ? pagadorNombreInput.value.trim() : null,
-      email: pagadorDiferenteCheckbox.checked ? pagadorEmailInput.value.trim() : null,
-      telefono: pagadorDiferenteCheckbox.checked ? pagadorTelefonoInput.value.trim() : null,
-    };
+    try {
+      const pagador = {
+        esDiferente: pagadorDiferenteCheckbox.checked,
+        nombre: pagadorDiferenteCheckbox.checked ? pagadorNombreInput.value.trim() : null,
+        email: pagadorDiferenteCheckbox.checked ? pagadorEmailInput.value.trim() : null,
+        telefono: pagadorDiferenteCheckbox.checked ? pagadorTelefonoInput.value.trim() : null,
+      };
 
-    const body = modoLink
-      ? { modo: 'link', linkId: linkData.link_id, pagador }
-      : {
-          modo: 'directo',
-          cliente: {
-            nombre: nombreInput.value.trim(),
-            email: emailInput.value.trim(),
-            telefono: telefonoInput.value.trim(),
-          },
-          carrito,
-          codigo: descuentoAplicado ? codigoInput.value.trim() : null,
-          pagador,
-        };
+      const body = modoLink
+        ? { modo: 'link', linkId: linkData.link_id, pagador }
+        : {
+            modo: 'directo',
+            cliente: {
+              nombre: nombreInput.value.trim(),
+              email: emailInput.value.trim(),
+              telefono: telefonoInput.value.trim(),
+            },
+            carrito,
+            codigo: descuentoAplicado ? codigoInput.value.trim() : null,
+            pagador,
+          };
 
-    const r = await fetch('/api/crear-orden', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    const data = await r.json();
+      const r = await fetch('/api/crear-orden', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await r.json();
 
-    if (!r.ok) {
-      alert(data.error || 'No pudimos procesar el pago, intenta de nuevo.');
+      if (!r.ok) {
+        alert(data.error || 'No pudimos procesar el pago, intenta de nuevo.');
+        procesarPago.disabled = false;
+        procesarPago.textContent = 'Pagar ahora';
+        return;
+      }
+
+      // Quien paga es el pagador (si es diferente) o el cliente
+      const datosPagador = pagador.esDiferente
+        ? { email: pagador.email, fullName: pagador.nombre, phone: pagador.telefono }
+        : { email: emailInput.value.trim(), fullName: nombreInput.value.trim(), phone: telefonoInput.value.trim() };
+
+      const boldContainer = document.getElementById('boldBotonContainer');
+      procesarPago.style.display = 'none';
+      boldContainer.style.display = 'block';
+      boldContainer.innerHTML = '';
+
+      const boldScript = document.createElement('script');
+      boldScript.setAttribute('data-bold-button', 'dark-L');
+      boldScript.setAttribute('data-order-id', data.ordenId);
+      boldScript.setAttribute('data-currency', data.moneda);
+      boldScript.setAttribute('data-amount', data.monto);
+      boldScript.setAttribute('data-api-key', data.llavePublica);
+      boldScript.setAttribute('data-integrity-signature', data.firma);
+      boldScript.setAttribute('data-redirection-url', 'https://healthcanvas.fyi/tienda.html');
+      boldScript.setAttribute('data-description', data.descripcion);
+      boldScript.setAttribute('data-customer-data', JSON.stringify(datosPagador));
+      boldContainer.appendChild(boldScript);
+    } catch (error) {
+      alert('No pudimos conectar con el servidor, intenta de nuevo.');
       procesarPago.disabled = false;
       procesarPago.textContent = 'Pagar ahora';
-      return;
     }
-
-    // ============================================================
-    // 🔶 AQUÍ VA LA REDIRECCIÓN AL CHECKOUT DE BOLD (esto es lo único
-    // que falta después de la reunión). Ya tienes disponibles:
-    //   data.ordenId, data.monto, data.moneda, data.descripcion
-    // Con eso armas la URL/botón que Bold te indique.
-    // ============================================================
-    alert(`Orden creada correctamente (${data.ordenId}). Aquí conectaremos el checkout de Bold.`);
-  } catch (error) {
-    alert('No pudimos conectar con el servidor, intenta de nuevo.');
-    procesarPago.disabled = false;
-    procesarPago.textContent = 'Pagar ahora';
-  }
-});
+  });
 
   // Guardar cliente en localStorage cuando escriba
   nombreInput.addEventListener('blur', guardarClienteEnLocalStorage);
