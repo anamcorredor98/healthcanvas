@@ -93,8 +93,20 @@ const codigoInput = document.getElementById('codigoInput');
 const codigoMensaje = document.getElementById('codigoMensaje');
 const exportarPDF = document.getElementById('exportarPDF');
 const procesarPago = document.getElementById('procesarPago');
+const pagadorDiferenteCheckbox = document.getElementById('ti-pagador-diferente');
+const pagadorCampos = document.getElementById('ti-pagador-campos');
+const pagadorNombreInput = document.getElementById('ti-pagador-nombre');
+const pagadorEmailInput = document.getElementById('ti-pagador-email');
+const pagadorTelefonoInput = document.getElementById('ti-pagador-telefono');
 
 // ── FUNCIONES DE CARRITO ────────────────────────────────────────────────────
+
+function tiObtenerCategoria(input) {
+  if (input.name === 'ti-plan') return 'plan';
+  if (input.closest('#ti-elementos')) return 'elementos';
+  if (input.closest('#ti-complementos')) return 'complementos';
+  return 'elementos';
+}
 
 function tiManejarCambio(input) {
   const nombre = input.value;
@@ -105,7 +117,7 @@ function tiManejarCambio(input) {
     if (input.checked) {
       // Deseleccionar plan anterior y reemplazarlo
       carrito = carrito.filter(item => !Object.keys(INCLUIDOS).includes(item.nombre));
-      carrito.push({ nombre, precio });
+      carrito.push({ nombre, precio, categoria: tiObtenerCategoria(input) });
       
       // Eliminar automáticamente elementos sueltos que ahora están incluidos en el nuevo plan
       tiEliminarElementosIncluidos(nombre);
@@ -119,14 +131,14 @@ function tiManejarCambio(input) {
       // Remover el valor anterior del mismo grupo (si existe)
       carrito = carrito.filter(item => item.nombre !== tiObtenerValorPrevioDelGrupo(input.name));
       // Agregar el nuevo
-      carrito.push({ nombre, precio });
+      carrito.push({ nombre, precio, categoria: tiObtenerCategoria(input) });
     }
   } else if (input.type === 'checkbox') {
     // ELEMENTOS Y COMPLEMENTOS: checkboxes
     if (input.checked) {
       // Agregar si no existe
       if (!carrito.find(item => item.nombre === nombre)) {
-        carrito.push({ nombre, precio });
+        carrito.push({ nombre, precio, categoria: tiObtenerCategoria(input) });
       }
     } else {
       // Remover si se destilda
@@ -233,6 +245,10 @@ function guardarClienteEnLocalStorage() {
     nombre: nombreInput.value,
     email: emailInput.value,
     telefono: telefonoInput.value,
+    pagadorEsDiferente: pagadorDiferenteCheckbox.checked,
+    pagadorNombre: pagadorNombreInput.value,
+    pagadorEmail: pagadorEmailInput.value,
+    pagadorTelefono: pagadorTelefonoInput.value,
   };
   localStorage.setItem('healthcanvasCliente', JSON.stringify(cliente));
 }
@@ -244,6 +260,11 @@ function cargarClienteDesdeLocalStorage() {
     nombreInput.value = cliente.nombre || '';
     emailInput.value = cliente.email || '';
     telefonoInput.value = cliente.telefono || '';
+    pagadorDiferenteCheckbox.checked = cliente.pagadorEsDiferente || false;
+    pagadorNombreInput.value = cliente.pagadorNombre || '';
+    pagadorEmailInput.value = cliente.pagadorEmail || '';
+    pagadorTelefonoInput.value = cliente.pagadorTelefono || '';
+    pagadorCampos.style.display = pagadorDiferenteCheckbox.checked ? 'block' : 'none';
   }
 }
 
@@ -348,38 +369,80 @@ function limpiarCarritoCompleto() {
   }
 }
 
-function aplicarCodigoDescuento() {
+let tipoCodigoAplicado = null;
+
+async function aplicarCodigoDescuento() {
   const codigo = codigoInput.value.trim().toUpperCase();
   const mensajeDiv = codigoMensaje;
-
-  const CODIGOS = {
-    'AMIGO2026': 20,
-    'REFERRAL': 5,
-    'PROMO2026': 10,
-  };
 
   if (!codigo) {
     mensajeDiv.style.display = 'none';
     descuentoAplicado = false;
     descuentoPorcentaje = 0;
+    tipoCodigoAplicado = null;
     actualizarResumenUI();
     return;
   }
 
-  if (CODIGOS[codigo]) {
-    descuentoPorcentaje = CODIGOS[codigo];
-    descuentoAplicado = true;
-    mensajeDiv.style.display = 'block';
-    mensajeDiv.style.color = 'var(--verde)';
-    mensajeDiv.textContent = `✓ Código aplicado: ${descuentoPorcentaje}% de descuento`;
-    actualizarResumenUI();
-  } else {
-    descuentoAplicado = false;
-    descuentoPorcentaje = 0;
+  if (!emailInput.value.trim() || !telefonoInput.value.trim()) {
     mensajeDiv.style.display = 'block';
     mensajeDiv.style.color = 'var(--rojo)';
-    mensajeDiv.textContent = '✗ Código no válido';
+    mensajeDiv.textContent = 'Completa tu correo y teléfono antes de aplicar un código.';
+    return;
+  }
+
+  mensajeDiv.style.display = 'block';
+  mensajeDiv.style.color = 'var(--texto-suave)';
+  mensajeDiv.textContent = 'Validando código...';
+
+  try {
+    const r = await fetch('/api/validar-codigo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        codigo,
+        email: emailInput.value.trim(),
+        telefono: telefonoInput.value.trim(),
+        carrito,
+      }),
+    });
+    const data = await r.json();
+
+    if (!data.valido) {
+      descuentoAplicado = false;
+      descuentoPorcentaje = 0;
+      tipoCodigoAplicado = null;
+      mensajeDiv.style.color = 'var(--rojo)';
+      mensajeDiv.textContent = `✗ ${data.mensaje}`;
+      actualizarResumenUI();
+      return;
+    }
+
+    tipoCodigoAplicado = data.tipo;
+
+    if (data.tipo === 'referido') {
+      descuentoPorcentaje = data.descuentoPorcentaje;
+    } else {
+      // Promocional: puede aplicar solo a parte del carrito. Para pintar el
+      // resumen convertimos esto a un "% efectivo sobre el subtotal total".
+      // El monto REAL y definitivo lo vuelve a calcular el servidor en crear-orden.js.
+      const subtotalTotal = carrito.reduce((sum, item) => sum + item.precio, 0);
+      const baseDescuento = data.aplicaA.includes('todo')
+        ? subtotalTotal
+        : carrito.filter(i => data.aplicaA.includes(i.categoria)).reduce((sum, i) => sum + i.precio, 0);
+      const montoDescuento = data.descuentoTipo === 'porcentaje'
+        ? Math.round(baseDescuento * (data.descuentoValor / 100))
+        : Math.min(data.descuentoValor, baseDescuento);
+      descuentoPorcentaje = subtotalTotal > 0 ? Math.round((montoDescuento / subtotalTotal) * 100) : 0;
+    }
+
+    descuentoAplicado = true;
+    mensajeDiv.style.color = 'var(--verde)';
+    mensajeDiv.textContent = data.mensaje;
     actualizarResumenUI();
+  } catch (error) {
+    mensajeDiv.style.color = 'var(--rojo)';
+    mensajeDiv.textContent = 'No pudimos validar el código, intenta de nuevo.';
   }
 }
 
@@ -513,6 +576,11 @@ async function inicializarModoLink(linkId) {
   nombreInput.value = linkData.cliente_nombre || '';
   emailInput.value = linkData.cliente_email || '';
   telefonoInput.value = linkData.cliente_telefono || '';
+  pagadorDiferenteCheckbox.checked = linkData.pagador_es_diferente || false;
+  pagadorNombreInput.value = linkData.pagador_nombre || '';
+  pagadorEmailInput.value = linkData.pagador_email || '';
+  pagadorTelefonoInput.value = linkData.pagador_telefono || '';
+  pagadorCampos.style.display = pagadorDiferenteCheckbox.checked ? 'block' : 'none';
 }
 
 // Oculta el cotizador y todo el contenido, mostrando solo el mensaje de estado.
@@ -697,14 +765,73 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   limpiarCarrito.addEventListener('click', limpiarCarritoCompleto);
   exportarPDF.addEventListener('click', generarPDF);
-  procesarPago.addEventListener('click', () => {
-    alert('La funcionalidad de pago estará disponible próximamente.');
-  });
+  procesarPago.addEventListener('click', async () => {
+  procesarPago.disabled = true;
+  procesarPago.textContent = 'Procesando...';
+
+  try {
+    const pagador = {
+      esDiferente: pagadorDiferenteCheckbox.checked,
+      nombre: pagadorDiferenteCheckbox.checked ? pagadorNombreInput.value.trim() : null,
+      email: pagadorDiferenteCheckbox.checked ? pagadorEmailInput.value.trim() : null,
+      telefono: pagadorDiferenteCheckbox.checked ? pagadorTelefonoInput.value.trim() : null,
+    };
+
+    const body = modoLink
+      ? { modo: 'link', linkId: linkData.link_id, pagador }
+      : {
+          modo: 'directo',
+          cliente: {
+            nombre: nombreInput.value.trim(),
+            email: emailInput.value.trim(),
+            telefono: telefonoInput.value.trim(),
+          },
+          carrito,
+          codigo: descuentoAplicado ? codigoInput.value.trim() : null,
+          pagador,
+        };
+
+    const r = await fetch('/api/crear-orden', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await r.json();
+
+    if (!r.ok) {
+      alert(data.error || 'No pudimos procesar el pago, intenta de nuevo.');
+      procesarPago.disabled = false;
+      procesarPago.textContent = 'Pagar ahora';
+      return;
+    }
+
+    // ============================================================
+    // 🔶 AQUÍ VA LA REDIRECCIÓN AL CHECKOUT DE BOLD (esto es lo único
+    // que falta después de la reunión). Ya tienes disponibles:
+    //   data.ordenId, data.monto, data.moneda, data.descripcion
+    // Con eso armas la URL/botón que Bold te indique.
+    // ============================================================
+    alert(`Orden creada correctamente (${data.ordenId}). Aquí conectaremos el checkout de Bold.`);
+  } catch (error) {
+    alert('No pudimos conectar con el servidor, intenta de nuevo.');
+    procesarPago.disabled = false;
+    procesarPago.textContent = 'Pagar ahora';
+  }
+});
 
   // Guardar cliente en localStorage cuando escriba
   nombreInput.addEventListener('blur', guardarClienteEnLocalStorage);
   emailInput.addEventListener('blur', guardarClienteEnLocalStorage);
   telefonoInput.addEventListener('blur', guardarClienteEnLocalStorage);
+
+  // Pagador diferente al cliente
+  pagadorDiferenteCheckbox.addEventListener('change', () => {
+    pagadorCampos.style.display = pagadorDiferenteCheckbox.checked ? 'block' : 'none';
+    guardarClienteEnLocalStorage();
+  });
+  pagadorNombreInput.addEventListener('blur', guardarClienteEnLocalStorage);
+  pagadorEmailInput.addEventListener('blur', guardarClienteEnLocalStorage);
+  pagadorTelefonoInput.addEventListener('blur', guardarClienteEnLocalStorage);
 });
 
 // Sincronizar carrito entre pestañas
