@@ -482,6 +482,8 @@
   border-radius: var(--radius);
   padding: 36px;
   border: 1px solid var(--gris-suave);
+  max-width: 1050px;
+  margin: 0 auto;
 }
 .detalle__sueltos-titulo {
   font-family: var(--font-display);
@@ -530,6 +532,14 @@
 }
 .detalle__suelta-option.is-incluido .detalle__suelta {
   border-style: dashed;
+}
+.detalle__suelta-option.is-bloqueado {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.detalle__suelta-option.is-bloqueado .detalle__suelta {
+  border-style: dotted;
 }
 
 .detalle__continuar {
