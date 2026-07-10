@@ -67,12 +67,21 @@ function initializeToggles() {
 // ── BADGE DINÁMICO (ACTUALIZAR EN TIEMPO REAL) ──────────────────────────────
 
 function actualizarBadgeCarrito() {
-  const carrito = JSON.parse(localStorage.getItem('healthcanvasCarrito') || '[]');
+  const linkId = localStorage.getItem('healthcanvasLinkId');
+  let totalItems;
+
+  if (linkId) {
+    totalItems = parseInt(localStorage.getItem('healthcanvasLinkItemCount') || '0', 10);
+  } else {
+    const carrito = JSON.parse(localStorage.getItem('healthcanvasCarrito') || '[]');
+    totalItems = carrito.length;
+  }
+
   const badges = document.querySelectorAll('.nav__carrito-badge');
 
   badges.forEach(badge => {
-    if (carrito.length > 0) {
-      badge.textContent = carrito.length;
+    if (totalItems > 0) {
+      badge.textContent = totalItems;
       badge.style.display = 'flex';
     } else {
       badge.style.display = 'none';

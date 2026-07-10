@@ -568,6 +568,8 @@ async function inicializarModoLink(linkId) {
   // Se recuerda hasta que el propio servidor diga que ya expiró/se usó/se anuló.
   linkData = data;
   localStorage.setItem('healthcanvasLinkId', linkId);
+  const totalItemsLink = (linkData.carrito || []).length + (linkData.extras || []).length;
+  localStorage.setItem('healthcanvasLinkItemCount', totalItemsLink);
   activarModoLinkUI();
   renderCarritoModoLink();
   renderResumenModoLink();
@@ -752,6 +754,7 @@ function verificarRegresoDeBold() {
 document.addEventListener('DOMContentLoaded', () => {
   verificarRegresoDeBold();
   actualizarBadgeGlobal();
+  inicializarTogglesTienda();
 
   const params = new URLSearchParams(window.location.search);
   const linkId = params.get('linkId') || localStorage.getItem('healthcanvasLinkId');
@@ -768,6 +771,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sale del modo link a propósito: borra lo guardado y recarga la tienda normal.
   document.getElementById('volverCotizadorGeneral').addEventListener('click', () => {
     localStorage.removeItem('healthcanvasLinkId');
+    localStorage.removeItem('healthcanvasLinkItemCount');
     window.location.href = 'tienda.html';
   });
 
