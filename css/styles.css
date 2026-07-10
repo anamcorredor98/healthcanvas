@@ -271,7 +271,7 @@ ul { list-style: none; }
 .contacto__inner { text-align: center; }
 .contacto .section__eyebrow { color: var(--menta); }
 .contacto .section__title { color: var(--blanco); }
-.contacto__sub { color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto 40px; font-size: 1rem; }
+.contacto__sub { color: rgba(255,255,255,0.75); max-width: 900px; margin: 0 auto 40px; font-size: 1rem; }
 .contacto__opciones { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .contacto .btn--outline { color: var(--blanco); border-color: rgba(255,255,255,0.4); }
 .contacto .btn--outline:hover { background: rgba(255,255,255,0.1); border-color: var(--blanco); }
