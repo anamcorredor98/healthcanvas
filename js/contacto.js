@@ -49,7 +49,7 @@ form.addEventListener('submit', async (e) => {
         (mensaje ? `*Mensaje:* ${mensaje}` : '');
 
       setTimeout(() => {
-        window.open(`https://wa.me/573167904921?text=${wpTexto}`, '_blank');
+        window.open(`https://wa.me/573004809305?text=${wpTexto}`, '_blank');
         form.reset();
         setTimeout(() => { nota.style.display = 'none'; }, 4000);
       }, 1500);

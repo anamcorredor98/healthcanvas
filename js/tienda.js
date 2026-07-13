@@ -450,21 +450,71 @@ function generarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  const nombre = nombreInput.value || 'Cliente';
-  const email = emailInput.value || 'N/A';
+  // ── Paleta de marca (misma de styles.css) ─────────────────────────────
+  const AZUL        = [27, 79, 114];
+  const AZUL_OSCURO = [18, 58, 84];
+  const MENTA       = [168, 213, 186];
+  const MENTA_OSC   = [106, 171, 137];
+  const GRIS_FONDO  = [247, 249, 251];
+  const GRIS_TEXTO  = [74, 85, 104];
+  const GRIS_SUAVE  = [232, 238, 244];
+  const NEGRO       = [26, 32, 44];
+  const BLANCO      = [255, 255, 255];
+
+  const pageWidth    = doc.internal.pageSize.getWidth();
+  const marginX      = 15;
+  const contentWidth = pageWidth - marginX * 2;
+
+  const nombre   = nombreInput.value || 'Cliente';
+  const email    = emailInput.value || 'N/A';
   const telefono = telefonoInput.value || 'N/A';
+  const fecha    = new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  doc.setFontSize(16);
-  doc.text('Cotización HealthCanvas', 10, 10);
+  // ── Encabezado ───────────────────────────────────────────────────────
+  doc.setFillColor(...AZUL);
+  doc.rect(0, 0, pageWidth, 38, 'F');
 
+  doc.setFont('times', 'bold');
+  doc.setFontSize(22);
+  doc.setTextColor(...BLANCO);
+  doc.text('HealthCanvas', marginX, 20);
+
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
-  doc.text(`Cliente: ${nombre}`, 10, 20);
-  doc.text(`Email: ${email}`, 10, 26);
-  doc.text(`Teléfono: ${telefono}`, 10, 32);
+  doc.setTextColor(...MENTA);
+  doc.text('Cotización de servicios', marginX, 28);
 
-  let y = 42;
+  doc.setFontSize(9);
+  doc.setTextColor(...BLANCO);
+  doc.text(fecha, pageWidth - marginX, 20, { align: 'right' });
+
+  // ── Datos del cliente ──────────────────────────────────────────────────
+  let y = 50;
+  doc.setFillColor(...GRIS_FONDO);
+  doc.setDrawColor(...GRIS_SUAVE);
+  doc.roundedRect(marginX, y, contentWidth, 26, 2, 2, 'FD');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.setTextColor(...AZUL);
+  doc.text('Cotización para:', marginX + 6, y + 9);
+
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(11);
-  doc.text('Detalles:', 10, y);
+  doc.setTextColor(...NEGRO);
+  doc.text(nombre, marginX + 6, y + 16);
+
+  doc.setFontSize(9);
+  doc.setTextColor(...GRIS_TEXTO);
+  doc.text(`${email}  ·  ${telefono}`, marginX + 6, y + 22);
+
+  y += 38;
+
+  // ── Detalle de la cotización ──────────────────────────────────────────
+  doc.setFont('times', 'bold');
+  doc.setFontSize(13);
+  doc.setTextColor(...AZUL);
+  doc.text('Detalle de tu cotización', marginX, y);
   y += 8;
 
   // En modo link, los ítems vienen del link (carrito + extras); si no, del cotizador normal.
@@ -475,13 +525,52 @@ function generarPDF() {
       ]
     : carrito;
 
-  items.forEach(item => {
+  const filaAltura = 9;
+
+  function dibujarEncabezadoTabla() {
+    doc.setFillColor(...AZUL_OSCURO);
+    doc.rect(marginX, y, contentWidth, 8, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(...BLANCO);
+    doc.text('Concepto', marginX + 4, y + 5.5);
+    doc.text('Valor', pageWidth - marginX - 4, y + 5.5, { align: 'right' });
+    y += 8;
+  }
+
+  function nuevaPaginaSiNecesario() {
+    if (y > 265) {
+      doc.addPage();
+      y = 20;
+      dibujarEncabezadoTabla();
+    }
+  }
+
+  dibujarEncabezadoTabla();
+
+  items.forEach((item, i) => {
+    nuevaPaginaSiNecesario();
+
+    if (i % 2 === 0) {
+      doc.setFillColor(...GRIS_FONDO);
+      doc.rect(marginX, y, contentWidth, filaAltura, 'F');
+    }
+
+    doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
-    doc.text(`${item.nombre}: $${item.precio.toLocaleString('es-CO')}`, 10, y);
-    y += 6;
+    doc.setTextColor(...NEGRO);
+    doc.text(item.nombre, marginX + 4, y + 6);
+    doc.text(`$${item.precio.toLocaleString('es-CO')}`, pageWidth - marginX - 4, y + 6, { align: 'right' });
+
+    y += filaAltura;
   });
 
-  y += 4;
+  doc.setDrawColor(...GRIS_SUAVE);
+  doc.line(marginX, y, pageWidth - marginX, y);
+  y += 10;
+
+  // ── Totales ────────────────────────────────────────────────────────────
+  nuevaPaginaSiNecesario();
 
   // En modo link, los totales ya vienen calculados en el link (no se recalculan aquí).
   const t = modoLink ? (linkData.totales || { subtotal: 0, iva: 0, totalDescuento: 0, total: 0 }) : null;
@@ -490,34 +579,57 @@ function generarPDF() {
   const descuento = modoLink ? t.totalDescuento : (descuentoAplicado ? Math.round(subtotal * (descuentoPorcentaje / 100)) : 0);
   const total = modoLink ? t.total : subtotal + iva - descuento;
 
-  doc.setFontSize(11);
-  doc.text(`Subtotal: $${subtotal.toLocaleString('es-CO')}`, 10, y);
-  y += 6;
-  doc.text(`IVA: $${iva.toLocaleString('es-CO')}`, 10, y);
-  y += 6;
+  function lineaTotal(etiqueta, valor, color) {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...(color || GRIS_TEXTO));
+    doc.text(etiqueta, pageWidth - marginX - 70, y);
+    doc.text(valor, pageWidth - marginX - 4, y, { align: 'right' });
+    y += 7;
+  }
+
+  lineaTotal('Subtotal', `$${subtotal.toLocaleString('es-CO')}`);
+  lineaTotal('IVA', `$${iva.toLocaleString('es-CO')}`);
 
   if (descuento > 0) {
-    doc.text(`Descuento: -$${descuento.toLocaleString('es-CO')}`, 10, y);
-    y += 6;
+    lineaTotal('Descuento', `-$${descuento.toLocaleString('es-CO')}`, MENTA_OSC);
   }
 
   // Líneas de adelanto/saldo o ya-pagado/se-paga-ahora, igual que en pantalla.
   if (modoLink && linkData.tipo_pago === 'adelanto') {
-    doc.text(`Adelanto: $${linkData.monto_a_pagar.toLocaleString('es-CO')}`, 10, y);
-    y += 6;
-    doc.text(`Saldo pendiente: $${(linkData.monto_pendiente || 0).toLocaleString('es-CO')}`, 10, y);
-    y += 6;
+    lineaTotal('Adelanto', `$${linkData.monto_a_pagar.toLocaleString('es-CO')}`);
+    lineaTotal('Saldo pendiente', `$${(linkData.monto_pendiente || 0).toLocaleString('es-CO')}`);
   } else if (modoLink && linkData.tipo_pago === 'pago_final') {
     const yaPagado = total - linkData.monto_a_pagar;
-    doc.text(`Ya pagado antes: $${yaPagado.toLocaleString('es-CO')}`, 10, y);
-    y += 6;
-    doc.text(`Se paga ahora: $${linkData.monto_a_pagar.toLocaleString('es-CO')}`, 10, y);
-    y += 6;
+    lineaTotal('Ya pagado antes', `$${yaPagado.toLocaleString('es-CO')}`);
+    lineaTotal('Se paga ahora', `$${linkData.monto_a_pagar.toLocaleString('es-CO')}`);
   }
 
-  doc.setFont(undefined, 'bold');
+  y += 3;
+
+  // ── Total a pagar (destacado) ───────────────────────────────────────────
   const totalAPagar = modoLink ? linkData.monto_a_pagar : total;
-  doc.text(`Total: $${totalAPagar.toLocaleString('es-CO')}`, 10, y);
+
+  doc.setFillColor(...AZUL);
+  doc.roundedRect(pageWidth - marginX - 82, y - 6, 82, 16, 2, 2, 'F');
+  doc.setFont('times', 'bold');
+  doc.setFontSize(13);
+  doc.setTextColor(...BLANCO);
+  doc.text('Total a pagar', pageWidth - marginX - 78, y + 3);
+  doc.text(`$${totalAPagar.toLocaleString('es-CO')}`, pageWidth - marginX - 4, y + 3, { align: 'right' });
+
+  // ── Pie de página (todas las hojas) ─────────────────────────────────────
+  const totalPaginas = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= totalPaginas; p++) {
+    doc.setPage(p);
+    doc.setDrawColor(...GRIS_SUAVE);
+    doc.line(marginX, 285, pageWidth - marginX, 285);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(...GRIS_TEXTO);
+    doc.text('HealthCanvas  ·  hola@healthcanvas.fyi  ·  healthcanvas.fyi', marginX, 291);
+    doc.text(`Página ${p} de ${totalPaginas}`, pageWidth - marginX, 291, { align: 'right' });
+  }
 
   doc.save('cotizacion-healthcanvas.pdf');
 }

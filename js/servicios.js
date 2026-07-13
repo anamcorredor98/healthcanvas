@@ -209,7 +209,7 @@ function actualizarCotizacion() {
     `Total estimado: ${formatCOP(total)}%0A%0A` +
     `Quedo atento/a para continuar con el proceso. ¡Gracias!`;
 
-  btnWhatsapp.href = `https://wa.me/573167904921?text=${mensaje}`;
+  btnWhatsapp.href = `https://wa.me/573004809305?text=${mensaje}`;
 }
 
 // Toggles tarjeta, post y logo
