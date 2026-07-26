@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/asi-se-ve.css" />
   <link rel="stylesheet" href="css/iconos.css" />
+  <link rel="stylesheet" href="css/chatbot.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="alternate icon" href="favicon.ico" />
@@ -173,15 +174,9 @@
             <div class="proyecto__mockup-bar">
               <span></span><span></span><span></span>
             </div>
-            <div class="proyecto__mockup-screen proyecto__mockup-screen--fijo asv-chatbot-wrap asv-chatbot-placeholder">
-              <div class="asv-chatbot-placeholder__inner">
-                <div class="asv-chatbot-placeholder__icono">🤖</div>
-                <p class="asv-chatbot-placeholder__titulo">Próximamente</p>
-                <p class="asv-chatbot-placeholder__texto">El chatbot con IA de esta página se está entrenando. Pronto podrás preguntarle directamente sobre los planes de HealthCanvas.</p>
-              </div>
-            </div>
+            <div class="proyecto__mockup-screen proyecto__mockup-screen--fijo asv-chatbot-wrap" id="asvChatbotProDemo"></div>
           </div>
-          <p class="asv-item__nota">👉 Disponible próximamente en esta misma página</p>
+          <p class="asv-item__nota">👉 Interactúa con él directamente aquí mismo, está entrenado con la información real de HealthCanvas.</p>
         </div>
 
       </div>
@@ -398,9 +393,14 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
   <script src="js/asi-se-ve.js"></script>
-</body>
-</html>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.HCChatbot) window.HCChatbot.montarInline('asvChatbotProDemo');
+    });
+  </script>
 </body>
 </html>
