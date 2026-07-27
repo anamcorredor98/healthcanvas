@@ -628,3 +628,12 @@
   letter-spacing: 0.01em;
   line-height: 1.4;
 }
+
+/* Alternar color de íconos en complementos */
+.addon__card:nth-of-type(odd) .addon__icon {
+  color: var(--menta);
+}
+
+.addon__card:nth-of-type(even) .addon__icon {
+  color: var(--menta-oscuro);
+}

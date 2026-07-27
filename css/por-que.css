@@ -119,3 +119,12 @@
     padding: 40px 20px;
   }
 }
+
+/* Alternar color de íconos en razones */
+.pq-razon:nth-of-type(odd) .pq-razon__icono {
+  color: var(--menta-oscuro);
+}
+
+.pq-razon:nth-of-type(even) .pq-razon__icono {
+  color: var(--azul);
+}

@@ -34,13 +34,13 @@ form.addEventListener('submit', async (e) => {
 
     if (response.ok) {
       // Confirmación
-      nota.textContent = '✅ Mensaje enviado. Te redirigimos a WhatsApp para continuar la conversación...';
+      nota.innerHTML = '<svg class="icono"><use href="iconos.svg#ico-check-circulo"></use></svg> Mensaje enviado. Te redirigimos a WhatsApp para continuar la conversación...';
       nota.className = 'ct-form__nota ct-form__nota--ok';
 
       // Armar mensaje WhatsApp
       const planTexto = plan ? `Plan de interés: ${plan}` : 'Plan: Por definir';
       const wpTexto =
-        `Hola Ana María, acabo de enviarte un formulario desde HealthCanvas 👋%0A%0A` +
+        `Hola Ana María, acabo de enviarte un formulario desde HealthCanvas%0A%0A` +
         `*Nombre:* ${nombre}%0A` +
         `*Especialidad:* ${especialidad}%0A` +
         `*Email:* ${email}%0A` +
@@ -59,7 +59,7 @@ form.addEventListener('submit', async (e) => {
     }
 
   } catch (err) {
-    nota.textContent = '❌ Hubo un error al enviar. Por favor escríbeme directo por WhatsApp.';
+    nota.innerHTML = '<svg class="icono"><use href="iconos.svg#ico-equis-circulo"></use></svg> Hubo un error al enviar. Por favor escríbeme directo por WhatsApp.';
     nota.className = 'ct-form__nota ct-form__nota--error';
   }
 });
