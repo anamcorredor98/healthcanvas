@@ -245,13 +245,30 @@
   // ---------- Lógica principal por instancia ----------
 
   function activarInteracciones(ui, estadoApi, inline) {
+    function abrirPanel() {
+      ui.panel.classList.add('hc-chat-panel--abierto');
+    }
+    function cerrarPanel() {
+      ui.panel.classList.remove('hc-chat-panel--abierto');
+    }
     function alternarPanel() {
-      ui.panel.classList.toggle('hc-chat-panel--abierto');
+      if (ui.panel.classList.contains('hc-chat-panel--abierto')) cerrarPanel();
+      else abrirPanel();
     }
 
     if (!inline) {
-      ui.bubble.addEventListener('click', alternarPanel);
-      ui.cerrar.addEventListener('click', alternarPanel);
+      ui.bubble.addEventListener('click', function (e) {
+        e.stopPropagation();
+        alternarPanel();
+      });
+      ui.cerrar.addEventListener('click', function (e) {
+        e.stopPropagation();
+        cerrarPanel();
+      });
+      ui.panel.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+      document.addEventListener('click', cerrarPanel);
     }
 
     async function procesarEnvio(texto) {

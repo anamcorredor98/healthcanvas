@@ -1,0 +1,237 @@
+/* ===========================================================
+   BUSCADOR DE PALABRAS — buscador.css
+   Ícono de lupa en el nav + panel de búsqueda + resaltado.
+   Usa las variables de marca definidas en styles.css (:root).
+   =========================================================== */
+
+.nav__buscador {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav__buscador-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--azul);
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav__buscador-btn:hover,
+.nav__buscador-btn.active {
+  background: var(--gris-suave);
+  color: var(--menta-oscuro);
+}
+
+.nav__buscador-btn svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* Panel desplegable */
+.buscador__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  background: var(--blanco);
+  border-radius: var(--radius);
+  box-shadow: var(--sombra);
+  border: 1px solid var(--gris-suave);
+  padding: 14px;
+  z-index: 200;
+  font-family: var(--font-body);
+}
+
+.buscador__panel[hidden] {
+  display: none;
+}
+
+.buscador__input-row {
+  display: flex;
+  align-items: center;
+}
+
+.buscador__input {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--gris-suave);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--negro);
+  background: var(--gris-fondo);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.buscador__input:focus {
+  border-color: var(--menta-oscuro);
+  box-shadow: 0 0 0 3px rgba(168, 213, 186, 0.35);
+}
+
+/* Historial de búsquedas recientes (24h) */
+.buscador__historial {
+  margin-top: 10px;
+}
+
+.buscador__historial[hidden] {
+  display: none;
+}
+
+.buscador__historial-titulo {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gris-texto);
+  opacity: 0.7;
+  margin: 2px 0 8px;
+}
+
+.buscador__historial-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.buscador__historial-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 8px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--gris-texto);
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.buscador__historial-item:hover {
+  background: var(--gris-fondo);
+  color: var(--azul);
+}
+
+.buscador__historial-item svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+/* Pastilla de resultado — contador + flechas, estilo "1 de 10" */
+.buscador__resultado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 10px;
+  background: rgba(168, 213, 186, 0.25);
+  border: 1px solid var(--menta);
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.buscador__resultado[hidden] {
+  display: none;
+}
+
+.buscador__check {
+  color: var(--menta-oscuro);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.buscador__contador {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+  white-space: nowrap;
+}
+
+.buscador__flecha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--menta);
+  background: var(--blanco);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--menta-oscuro);
+  font-size: 0.7rem;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.buscador__flecha:hover {
+  background: var(--menta);
+  color: var(--azul-oscuro);
+}
+
+.buscador__flecha:active {
+  transform: scale(0.92);
+}
+
+.buscador__flecha:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Sin resultados */
+.buscador__vacio {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--gris-texto);
+  opacity: 0.8;
+}
+
+.buscador__vacio[hidden] {
+  display: none;
+}
+
+/* Resaltado tipo marcador en la página destino */
+mark.hc-resaltado {
+  background: var(--menta);
+  color: var(--azul-oscuro);
+  padding: 0 2px;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@media (max-width: 480px) {
+  .buscador__panel {
+    position: fixed;
+    top: 68px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+}
+
+/* Envoltorio de menú + buscador, alineado a la derecha del nav */
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .nav__right { gap: 14px; }
+}

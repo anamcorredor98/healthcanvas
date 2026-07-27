@@ -7,7 +7,7 @@
   position: fixed;
   right: 20px;
   bottom: 20px;
-  z-index: 9999;
+  z-index: 40;
   font-family: var(--font-body);
 }
 
@@ -182,6 +182,7 @@
 /* ---- Variante embebida (placeholder de "Así se ve") ---- */
 .hc-chat-wrap--inline {
   position: static;
+  z-index: auto;
   width: 100%;
   height: 100%;
   display: block;

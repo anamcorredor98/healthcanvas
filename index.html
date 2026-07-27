@@ -6,6 +6,7 @@
   <title>HealthCanvas — Páginas web para médicos y consultorios</title>
   <meta name="description" content="Diseño web especializado para médicos y consultorios. Hecho por una estudiante de medicina que también programa." />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/buscador.css" />
   <link rel="stylesheet" href="css/iconos.css" />
   <link rel="stylesheet" href="css/chatbot.css" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -27,6 +28,7 @@
       </svg>
       <span>Health<strong>Canvas</strong></span>
     </a>
+    <div class="nav__right">
     <button class="nav__toggle" id="navToggle" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
@@ -46,6 +48,28 @@
           <span class="nav__carrito-badge" id="carritoBadge"></span>
         </a></li>
       </ul>
+      <div class="nav__buscador">
+        <button type="button" class="nav__buscador-btn" id="buscadorBtn" aria-label="Buscar en el sitio" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        <div class="buscador__panel" id="buscadorPanel" hidden>
+          <div class="buscador__input-row">
+            <input type="text" id="buscadorInput" class="buscador__input" placeholder="Buscar en HealthCanvas..." autocomplete="off" />
+          </div>
+          <div class="buscador__historial" id="buscadorHistorial" hidden>
+            <p class="buscador__historial-titulo">Búsquedas recientes</p>
+            <div class="buscador__historial-lista" id="buscadorHistorialLista"></div>
+          </div>
+          <div class="buscador__resultado" id="buscadorResultado" hidden>
+            <span class="buscador__check">&check;</span>
+            <span class="buscador__contador" id="buscadorContador"></span>
+            <button type="button" class="buscador__flecha" id="buscadorAnterior" aria-label="Resultado anterior">&#9664;</button>
+            <button type="button" class="buscador__flecha" id="buscadorSiguiente" aria-label="Resultado siguiente">&#9654;</button>
+          </div>
+          <p class="buscador__vacio" id="buscadorVacio" hidden>No se encontraron resultados.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -259,5 +283,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/chatbot.js"></script>
+  <script src="js/indice-busqueda.js"></script>
+  <script src="js/buscador.js"></script>
 </body>
 </html>
