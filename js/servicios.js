@@ -319,7 +319,8 @@ if (btnCarrito) {
       'input[type="checkbox"][value="QR personalizado"]:checked, ' +
       'input[type="checkbox"][value="QR de WhatsApp/Instagram"]:checked, ' +
       'input[type="checkbox"][value="Catálogo con pedidos"]:checked, ' +
-      'input[type="checkbox"][value="Tienda virtual"]:checked'
+      'input[type="checkbox"][value="Tienda virtual"]:checked, ' +
+      'input[type="checkbox"][value="Blog"]:checked'
     ));
 
     complementosCheckboxesSeleccionados.forEach(input => {
